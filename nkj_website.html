@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NKJ Development Ltd | Advanced Supply Chain Optimization Solutions</title>
+    <meta name="description" content="Enterprise-grade supply chain optimization for European retailers and manufacturers. SQL-based solutions, inventory management, and predictive analytics.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --midnight-grove: #0A1A0F;
+            --forest-deep: #1B4332;
+            --emerald-core: #2D5A3D;
+            --verdant-active: #40916C;
+            --sage-bright: #52B788;
+            --mint-accent: #74C69D;
+            --pearl-primary: #F8F9FA;
+            --charcoal-text: #212529;
+            --gold-highlight: #FFB800;
+            --success-green: #10B981;
+            --warning-amber: #F59E0B;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--pearl-primary);
+            background: linear-gradient(135deg, var(--midnight-grove) 0%, var(--forest-deep) 100%);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 26, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--sage-bright);
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-menu a {
+            color: var(--pearl-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--sage-bright);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--sage-bright);
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(64, 145, 108, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(45, 90, 61, 0.1) 0%, transparent 60%),
+                linear-gradient(135deg, rgba(27, 67, 50, 0.3) 0%, transparent 70%);
+            z-index: -1;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .hero-text h1 {
+            font-size: clamp(2.5rem, 4vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--pearl-primary) 0%, var(--sage-bright) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            color: var(--mint-accent);
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+        
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--pearl-primary);
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+        
+        .cta-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.2rem 2.5rem;
+            background: linear-gradient(135deg, var(--verdant-active), var(--sage-bright));
+            color: var(--pearl-primary);
+            text-decoration: none;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(64, 145, 108, 0.3);
+        }
+        
+        .cta-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .cta-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(64, 145, 108, 0.4);
+        }
+        
+        .cta-primary:hover::before {
+            left: 100%;
+        }
+        
+        /* Statistics */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--verdant-active), var(--sage-bright));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--sage-bright);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--mint-accent);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Services */
+        .services-section {
+            padding: 8rem 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(27, 67, 50, 0.2) 100%);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+        
+        .section-title {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--pearl-primary), var(--sage-bright));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--mint-accent);
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 3rem;
+        }
+        
+        .service-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--verdant-active), var(--sage-bright));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-12px);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+        }
+        
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--verdant-active), var(--sage-bright));
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            box-shadow: 0 10px 25px rgba(64, 145, 108, 0.3);
+        }
+        
+        .service-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--pearl-primary);
+        }
+        
+        .service-description {
+            color: var(--mint-accent);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            opacity: 0.9;
+        }
+        
+        /* Market Section */
+        .market-section {
+            padding: 8rem 0;
+            background: linear-gradient(135deg, rgba(10, 26, 15, 0.8) 0%, rgba(27, 67, 50, 0.6) 100%);
+        }
+        
+        .market-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .market-content h2 {
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--pearl-primary);
+        }
+        
+        .market-features {
+            list-style: none;
+            margin-top: 2rem;
+        }
+        
+        .market-features li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--mint-accent);
+        }
+        
+        .market-features .icon {
+            width: 24px;
+            height: 24px;
+            background: var(--sage-bright);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--midnight-grove);
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        
+        .market-visual {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 3rem;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            padding: 8rem 0;
+            background: linear-gradient(135deg, var(--forest-deep) 0%, var(--midnight-grove) 100%);
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        
+        .contact-info h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--pearl-primary);
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(10px);
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--verdant-active), var(--sage-bright));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .contact-details h3 {
+            color: var(--sage-bright);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-details p {
+            color: var(--mint-accent);
+            line-height: 1.6;
+        }
+        
+        .contact-details a {
+            color: var(--sage-bright);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-details a:hover {
+            color: var(--pearl-primary);
+        }
+        
+        /* Contact Form */
+        .contact-form {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 3rem;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .contact-form h3 {
+            color: var(--pearl-primary);
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--sage-bright);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: var(--pearl-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--sage-bright);
+            box-shadow: 0 0 0 2px rgba(82, 183, 136, 0.2);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--verdant-active), var(--sage-bright));
+            color: var(--pearl-primary);
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(64, 145, 108, 0.3);
+        }
+        
+        .form-status {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .form-status.success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success-green);
+            border: 1px solid var(--success-green);
+        }
+        
+        .form-status.error {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning-amber);
+            border: 1px solid var(--warning-amber);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--midnight-grove);
+            padding: 4rem 0 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-section h4 {
+            color: var(--sage-bright);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-section p,
+        .footer-section li {
+            color: var(--mint-accent);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section a {
+            color: var(--mint-accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: var(--sage-bright);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--mint-accent);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero-content,
+            .market-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .nav-container {
+                padding: 1rem;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero {
+                padding-top: 100px;
+                min-height: 90vh;
+            }
+            
+            .service-card,
+            .contact-form {
+                padding: 2rem;
+            }
+            
+            .services-section,
+            .market-section,
+            .contact-section {
+                padding: 4rem 0;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        a:focus,
+        button:focus {
+            outline: 2px solid var(--sage-bright);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navigation">
+        <div class="nav-container">
+            <a href="#" class="logo">NKJ Development</a>
+            <ul class="nav-menu">
+                <li><a href="#services">Solutions</a></li>
+                <li><a href="#market">Markets</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Advanced Supply Chain Optimization</h1>
+                    <p class="hero-subtitle">SQL-Powered Solutions for European Excellence</p>
+                    <p class="hero-description">
+                        Transforming supply chain efficiency for European retailers and manufacturers through 
+                        sophisticated database architecture, predictive analytics, and data-driven optimization 
+                        strategies that deliver measurable operational excellence.
+                    </p>
+                    <a href="#contact" class="cta-primary">
+                        Start Optimization
+                        <span>→</span>
+                    </a>
+                </div>
+                
+                <div class="stats-section">
+                    <div class="stat-card">
+                        <span class="stat-number">60%</span>
+                        <span class="stat-label">Cost Reduction</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">99.5%</span>
+                        <span class="stat-label">Accuracy Rate</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">40%</span>
+                        <span class="stat-label">Efficiency Gain</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">EU+</span>
+                        <span class="stat-label">Compliance</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Comprehensive Supply Chain Solutions</h2>
+                <p class="section-subtitle">
+                    Data-driven optimization strategies designed to streamline operations, reduce costs, 
+                    and enhance efficiency through cutting-edge SQL-based technology.
+                </p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">📊</div>
+                    <h3 class="service-title">Inventory Optimization</h3>
+                    <p class="service-description">
+                        Maintaining accurate inventory levels through intelligent demand forecasting, 
+                        material requirement planning, and optimization of reorder points to minimize 
+                        stockouts while reducing excess inventory costs.
+                    </p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🤖</div>
+                    <h3 class="service-title">Predictive Analytics</h3>
+                    <p class="service-description">
+                        Leveraging historical data and advanced predictive analytics to optimize 
+                        production planning and commodity purchases with AI-powered insights that 
+                        anticipate market fluctuations and demand patterns.
+                    </p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🔗</div>
+                    <h3 class="service-title">Supplier Integration</h3>
+                    <p class="service-description">
+                        Streamlining communication channels with suppliers, managing customer 
+                        relationships, and optimizing procurement processes through integrated 
+                        platforms that enhance collaboration and transparency.
+                    </p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🏭</div>
+                    <h3 class="service-title">Manufacturing Logistics</h3>
+                    <p class="service-description">
+                        Specialized expertise in vehicle manufacturing logistics, optimizing production 
+                        workflows, quality control processes, and supply chain coordination for 
+                        automotive and industrial sectors.
+                    </p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🔒</div>
+                    <h3 class="service-title">Enterprise Security</h3>
+                    <p class="service-description">
+                        All integrations include enterprise-grade security protocols, comprehensive 
+                        data encryption, and full compliance with EU data protection regulations 
+                        ensuring secure, reliable operations.
+                    </p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">📈</div>
+                    <h3 class="service-title">Performance Analytics</h3>
+                    <p class="service-description">
+                        Real-time monitoring and comprehensive reporting systems that provide 
+                        actionable insights into supply chain performance, identifying optimization 
+                        opportunities and measuring ROI across all operations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="market-section" id="market">
+        <div class="container">
+            <div class="market-grid">
+                <div class="market-content">
+                    <h2>European Market Excellence</h2>
+                    <p>
+                        Our unique approach and industry expertise set us apart in the supply chain 
+                        optimization landscape, delivering measurable results for clients across Europe 
+                        through tailored solutions that address unique challenges and drive business success.
+                    </p>
+                    
+                    <ul class="market-features">
+                        <li>
+                            <span class="icon">✓</span>
+                            EU Regulatory Compliance & Data Protection
+                        </li>
+                        <li>
+                            <span class="icon">✓</span>
+                            Multi-Language Support & Local Expertise
+                        </li>
+                        <li>
+                            <span class="icon">✓</span>
+                            Cross-Border Logistics Optimization
+                        </li>
+                        <li>
+                            <span class="icon">✓</span>
+                            Industry-Specific Solutions for Retailers
+                        </li>
+                        <li>
+                            <span class="icon">✓</span>
+                            Manufacturing Excellence for Automotive
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="market-visual">
+                    <div class="stat-card">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">European Clients</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">15+</span>
+                        <span class="stat-label">EU Countries</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">€2M+</span>
+                        <span class="stat-label">Cost Savings</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>Ready to Optimize Your Operations?</h2>
+                    <p style="color: var(--mint-accent); font-size: 1.1rem; margin-bottom: 3rem;">
+                        Contact us today for a comprehensive consultation and discover how our 
+                        advanced solutions can transform your supply chain efficiency and drive 
+                        measurable business results.
+                    </p>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <p><a href="mailto:njelacic@nkjdevelopment.com">njelacic@nkjdevelopment.com</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-details">
+                            <h3>Phone</h3>
+                            <p><a href="tel:+38169337359">+381 69 337 0359</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h3>Address</h3>
+                            <p>39 Orchard Brow<br>Rixton, Warrington<br>WA3 6JL, United Kingdom</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Get Started Today</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="company">Company Name</label>
+                            <input type="text" id="company" name="company">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="industry">Industry Focus</label>
+                            <select id="industry" name="industry">
+                                <option value="">Select Industry</option>
+                                <option value="retail">Retail & E-commerce</option>
+                                <option value="automotive">Automotive Manufacturing</option>
+                                <option value="industrial">Industrial Manufacturing</option>
+                                <option value="logistics">Logistics & Distribution</option>
+                                <option value="food">Food & Beverage</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Project Requirements *</label>
+                            <textarea id="message" name="message" placeholder="Describe your supply chain optimization needs..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-submit">Request Consultation</button>
+                        <div class="form-status" id="formStatus"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>NKJ Development Ltd</h4>
+                    <p>Advanced supply chain optimization solutions for European enterprises. Specializing in SQL-based systems, predictive analytics, and operational excellence.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Solutions</h4>
+                    <ul>
+                        <li><a href="#services">Inventory Optimization</a></li>
+                        <li><a href="#services">Predictive Analytics</a></li>
+                        <li><a href="#services">Supplier Integration</a></li>
+                        <li><a href="#services">Manufacturing Logistics</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Industries</h4>
+                    <ul>
+                        <li>Retail & E-commerce</li>
+                        <li>Automotive Manufacturing</li>
+                        <li>Industrial Production</li>
+                        <li>Logistics & Distribution</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li><a href="mailto:njelacic@nkjdevelopment.com">njelacic@nkjdevelopment.com</a></li>
+                        <li><a href="tel:+38169337359">+381 69 337 0359</a></li>
+                        <li>Rixton, Warrington, UK</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 NKJ Development Ltd. All rights reserved. | EU GDPR Compliant</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navigation background on scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.navigation');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(10, 26, 15, 0.98)';
+            } else {
+                nav.style.background = 'rgba(10, 26, 15, 0.95)';
+            }
+        });
+
+        // Contact form handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const statusDiv = document.getElementById('formStatus');
+            const submitBtn = this.querySelector('.btn-submit');
+            
+            // Simulate form submission
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                statusDiv.className = 'form-status success';
+                statusDiv.style.display = 'block';
+                statusDiv.textContent = 'Thank you! Your consultation request has been received. We will contact you within 24 hours.';
+                
+                // Reset form
+                this.reset();
+                submitBtn.textContent = 'Request Consultation';
+                submitBtn.disabled = false;
+                
+                // Hide status after 5 seconds
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 5000);
+            }, 1500);
+        });
+
+        // Enhanced stat card animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all stat cards and service cards
+        document.querySelectorAll('.stat-card, .service-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Performance monitoring
+        window.addEventListener('load', function() {
+            console.log('NKJ Development website loaded successfully');
+            
+            // Track page load time
+            const loadTime = performance.now();
+            if (loadTime > 3000) {
+                console.warn('Page load time exceeded 3 seconds:', loadTime + 'ms');
+            }
+        });
+
+        // Error handling
+        window.addEventListener('error', function(e) {
+            console.error('JavaScript error:', e.message);
+        });
+
+        // Accessibility enhancements
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+            }
+        });
+
+        document.addEventListener('mousedown', function() {
+            document.body.classList.remove('keyboard-navigation');
+        });
+    </script>
+</body>
+</html>
