@@ -29,11 +29,11 @@ export default function KPICard({
   const getTrendColor = () => {
     switch (trend) {
       case 'up':
-        return 'text-automotive-success';
+        return 'text-green-400';
       case 'down':
-        return 'text-automotive-danger';
+        return 'text-red-400';
       default:
-        return 'text-automotive-steel';
+        return 'text-gray-400';
     }
   };
 
@@ -50,18 +50,18 @@ export default function KPICard({
 
   return (
     <motion.div
-      className={`bg-white rounded-lg shadow-lg p-6 border border-automotive-chrome hover:shadow-xl transition-shadow duration-300 ${className}`}
+      className={`bg-gray-900 border border-green-500/30 rounded-lg shadow-xl p-6 hover:shadow-2xl hover:border-green-400/50 transition-all duration-300 ${className}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
       whileHover={{ scale: 1.02 }}
     >
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-medium text-automotive-steel uppercase tracking-wide">
+        <h3 className="text-sm font-medium text-gray-300 uppercase tracking-wide">
           {title}
         </h3>
         {icon && (
-          <div className="text-primary-500 text-2xl">
+          <div className="text-green-400 text-2xl">
             {icon}
           </div>
         )}
@@ -73,7 +73,7 @@ export default function KPICard({
           prefix={prefix}
           suffix={suffix}
           decimals={decimals}
-          className="text-3xl font-bold text-automotive-carbon"
+          className="text-3xl font-bold text-white"
         />
       </div>
       

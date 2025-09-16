@@ -59,6 +59,7 @@ export default function PerformanceChart({
         labels: {
           usePointStyle: true,
           padding: 20,
+          color: '#ffffff',
           font: {
             size: 12,
             family: 'Inter, system-ui, sans-serif',
@@ -81,26 +82,26 @@ export default function PerformanceChart({
     scales: {
       x: {
         grid: {
-          color: 'rgba(113, 113, 122, 0.1)',
+          color: 'rgba(74, 222, 128, 0.1)',
         },
         ticks: {
           font: {
             size: 11,
             family: 'Inter, system-ui, sans-serif',
           },
-          color: '#71717a',
+          color: '#9ca3af',
         },
       },
       y: {
         grid: {
-          color: 'rgba(113, 113, 122, 0.1)',
+          color: 'rgba(74, 222, 128, 0.1)',
         },
         ticks: {
           font: {
             size: 11,
             family: 'Inter, system-ui, sans-serif',
           },
-          color: '#71717a',
+          color: '#9ca3af',
         },
       },
     },
@@ -121,12 +122,12 @@ export default function PerformanceChart({
 
   return (
     <motion.div
-      className={`bg-white rounded-lg shadow-lg p-6 border border-automotive-chrome ${className}`}
+      className={`bg-gray-900 border border-green-500/30 rounded-lg shadow-xl p-6 hover:border-green-400/50 transition-all duration-300 ${className}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      <h3 className="text-lg font-semibold text-automotive-carbon mb-4">
+      <h3 className="text-lg font-semibold text-white mb-4">
         {title}
       </h3>
       <div style={{ height: `${height}px` }}>

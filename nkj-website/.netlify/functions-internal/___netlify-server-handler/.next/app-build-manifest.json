@@ -2,7 +2,7 @@
   "pages": {
     "/_not-found/page": [
       "static/chunks/e362675f67e4402c.js",
-      "static/chunks/ad665db381aee78d.css",
+      "static/chunks/6e8c5ebb77e58a68.css",
       "static/chunks/fd2be76e6b40ca47.js",
       "static/chunks/ccea56ff4877ec54.js",
       "static/chunks/608fe1b10d5bb59e.js",
@@ -10,8 +10,8 @@
     ],
     "/page": [
       "static/chunks/e362675f67e4402c.js",
-      "static/chunks/ad665db381aee78d.css",
-      "static/chunks/4499e9d2e559eb41.js",
+      "static/chunks/6e8c5ebb77e58a68.css",
+      "static/chunks/68ef13759c0d16d8.js",
       "static/chunks/fd2be76e6b40ca47.js",
       "static/chunks/ccea56ff4877ec54.js",
       "static/chunks/608fe1b10d5bb59e.js",

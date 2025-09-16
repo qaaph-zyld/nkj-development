@@ -140,12 +140,12 @@ export default function MLShowcase() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Model Selection */}
           <motion.div
-            className="bg-white rounded-lg shadow-xl p-6"
+            className="bg-gray-900 border border-green-500/30 rounded-lg shadow-xl p-6"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h3 className="text-xl font-semibold text-automotive-carbon mb-6">
+            <h3 className="text-xl font-semibold text-white mb-6">
               ML Models Portfolio
             </h3>
             
@@ -155,36 +155,36 @@ export default function MLShowcase() {
                   key={model.name}
                   className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
                     selectedModel.name === model.name
-                      ? 'border-primary-500 bg-primary-50'
-                      : 'border-automotive-chrome hover:border-primary-300'
+                      ? 'border-green-500 bg-green-900/30'
+                      : 'border-gray-700 hover:border-green-400/50 bg-gray-800'
                   }`}
                   onClick={() => setSelectedModel(model)}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-automotive-carbon">
+                    <h4 className="font-semibold text-white">
                       {model.name}
                     </h4>
                     <div className="flex items-center space-x-2">
                       <div className={`w-3 h-3 rounded-full ${getStatusColor(model.status)}`}></div>
-                      <span className="text-sm text-automotive-steel capitalize">
+                      <span className="text-sm text-gray-300 capitalize">
                         {model.status}
                       </span>
                     </div>
                   </div>
                   
-                  <p className="text-sm text-automotive-steel mb-3">
+                  <p className="text-sm text-gray-300 mb-3">
                     {model.description}
                   </p>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-automotive-carbon">
+                    <span className="text-sm font-medium text-white">
                       Accuracy: {model.accuracy}%
                     </span>
-                    <div className="w-24 bg-automotive-chrome rounded-full h-2">
+                    <div className="w-24 bg-gray-700 rounded-full h-2">
                       <div
-                        className="bg-automotive-success h-2 rounded-full transition-all duration-300"
+                        className="bg-green-400 h-2 rounded-full transition-all duration-300"
                         style={{ width: `${model.accuracy}%` }}
                       ></div>
                     </div>
@@ -196,20 +196,20 @@ export default function MLShowcase() {
 
           {/* Prediction Interface */}
           <motion.div
-            className="bg-white rounded-lg shadow-xl p-6"
+            className="bg-gray-900 border border-green-500/30 rounded-lg shadow-xl p-6"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h3 className="text-xl font-semibold text-automotive-carbon mb-6">
+            <h3 className="text-xl font-semibold text-white mb-6">
               Live Prediction Engine
             </h3>
             
             <div className="mb-6">
-              <h4 className="font-semibold text-automotive-carbon mb-2">
+              <h4 className="font-semibold text-white mb-2">
                 Selected Model: {selectedModel.name}
               </h4>
-              <p className="text-sm text-automotive-steel">
+              <p className="text-sm text-gray-300">
                 {selectedModel.description}
               </p>
             </div>
@@ -217,8 +217,8 @@ export default function MLShowcase() {
             <motion.button
               className={`w-full py-3 px-6 rounded-lg font-semibold transition-all duration-300 ${
                 isLoading || !tfReady
-                  ? 'bg-automotive-steel text-white cursor-not-allowed'
-                  : 'bg-primary-500 hover:bg-primary-600 text-white shadow-lg hover:shadow-xl'
+                  ? 'bg-gray-600 text-gray-300 cursor-not-allowed'
+                  : 'bg-green-500 hover:bg-green-600 text-black shadow-lg hover:shadow-xl'
               }`}
               onClick={runPrediction}
               disabled={isLoading || !tfReady}
@@ -231,10 +231,10 @@ export default function MLShowcase() {
             </motion.button>
 
             {/* TensorFlow Status */}
-            <div className="mt-4 p-3 bg-slate-50 rounded-lg">
+            <div className="mt-4 p-3 bg-gray-800 border border-green-500/30 rounded-lg">
               <div className="flex items-center space-x-2">
-                <div className={`w-2 h-2 rounded-full ${tfReady ? 'bg-automotive-success' : 'bg-automotive-warning'}`}></div>
-                <span className="text-sm text-automotive-steel">
+                <div className={`w-2 h-2 rounded-full ${tfReady ? 'bg-green-400' : 'bg-yellow-400'}`}></div>
+                <span className="text-sm text-gray-300">
                   TensorFlow.js: {tfReady ? 'Ready' : 'Loading...'}
                 </span>
               </div>
@@ -243,30 +243,30 @@ export default function MLShowcase() {
             {/* Prediction Results */}
             {prediction && (
               <motion.div
-                className="mt-6 p-4 bg-gradient-to-r from-primary-50 to-blue-50 rounded-lg"
+                className="mt-6 p-4 bg-gradient-to-r from-green-900/30 to-gray-800 border border-green-500/30 rounded-lg"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <h4 className="font-semibold text-automotive-carbon mb-4">
+                <h4 className="font-semibold text-white mb-4">
                   Prediction Results
                 </h4>
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-primary-600">
+                    <div className="text-2xl font-bold text-green-400">
                       {prediction.demand.toLocaleString()}
                     </div>
-                    <div className="text-sm text-automotive-steel">
+                    <div className="text-sm text-gray-300">
                       Units Demand
                     </div>
                   </div>
                   
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-automotive-success">
+                    <div className="text-2xl font-bold text-green-400">
                       {prediction.confidence}%
                     </div>
-                    <div className="text-sm text-automotive-steel">
+                    <div className="text-sm text-gray-300">
                       Confidence
                     </div>
                   </div>
@@ -274,7 +274,7 @@ export default function MLShowcase() {
                 
                 <div className="mt-4 flex items-center justify-center space-x-2">
                   <span className="text-2xl">{getTrendIcon(prediction.trend)}</span>
-                  <span className="text-sm font-medium text-automotive-carbon capitalize">
+                  <span className="text-sm font-medium text-white capitalize">
                     {prediction.trend} Trend Detected
                   </span>
                 </div>
@@ -285,48 +285,48 @@ export default function MLShowcase() {
 
         {/* Technical Specifications */}
         <motion.div
-          className="mt-12 bg-white rounded-lg shadow-xl p-6"
+          className="mt-12 bg-gray-900 border border-green-500/30 rounded-lg shadow-xl p-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <h3 className="text-xl font-semibold text-automotive-carbon mb-6">
+          <h3 className="text-xl font-semibold text-white mb-6">
             Technical Architecture
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-green-900/30 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">🧠</span>
               </div>
-              <h4 className="font-semibold text-automotive-carbon mb-2">
+              <h4 className="font-semibold text-white mb-2">
                 TensorFlow.js
               </h4>
-              <p className="text-sm text-automotive-steel">
+              <p className="text-sm text-gray-300">
                 Client-side machine learning with WebGL acceleration
               </p>
             </div>
             
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-green-900/30 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">⚡</span>
               </div>
-              <h4 className="font-semibold text-automotive-carbon mb-2">
+              <h4 className="font-semibold text-white mb-2">
                 Real-time Processing
               </h4>
-              <p className="text-sm text-automotive-steel">
+              <p className="text-sm text-gray-300">
                 Instant predictions without server round-trips
               </p>
             </div>
             
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-green-900/30 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">🔒</span>
               </div>
-              <h4 className="font-semibold text-automotive-carbon mb-2">
+              <h4 className="font-semibold text-white mb-2">
                 Privacy First
               </h4>
-              <p className="text-sm text-automotive-steel">
+              <p className="text-sm text-gray-300">
                 All processing happens locally in the browser
               </p>
             </div>

@@ -93,7 +93,7 @@ export default function SolutionNavigator() {
   const activeSolution = automotiveSolutions.find(s => s.id === activeTab) || automotiveSolutions[0];
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-gradient-to-br from-gray-900 via-black to-green-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-12"
@@ -101,10 +101,12 @@ export default function SolutionNavigator() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl font-bold text-automotive-carbon mb-4">
-            Automotive Solutions Portfolio
+          <h2 className="text-3xl font-bold text-white mb-4">
+            <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
+              Automotive Solutions Portfolio
+            </span>
           </h2>
-          <p className="text-lg text-automotive-steel max-w-3xl mx-auto">
+          <p className="text-lg text-gray-300 max-w-3xl mx-auto">
             Comprehensive supply chain management solutions tailored for the automotive industry
           </p>
         </motion.div>
@@ -118,8 +120,8 @@ export default function SolutionNavigator() {
                 onClick={() => setActiveTab(solution.id)}
                 className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 ${
                   activeTab === solution.id
-                    ? 'bg-primary-500 text-white shadow-lg'
-                    : 'bg-gray-100 text-automotive-steel hover:bg-gray-200'
+                    ? 'bg-green-500 text-black shadow-lg'
+                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-green-500/30'
                 }`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -138,7 +140,7 @@ export default function SolutionNavigator() {
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
-            className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl p-8 shadow-lg"
+            className="bg-gray-900 border border-green-500/30 rounded-2xl p-8 shadow-xl"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
@@ -152,31 +154,31 @@ export default function SolutionNavigator() {
                     {activeSolution.icon}
                   </div>
                   <div className="ml-4">
-                    <h3 className="text-2xl font-bold text-automotive-carbon">
+                    <h3 className="text-2xl font-bold text-white">
                       {activeSolution.title}
                     </h3>
                   </div>
                 </div>
                 
-                <p className="text-automotive-steel text-lg mb-6 leading-relaxed">
+                <p className="text-gray-300 text-lg mb-6 leading-relaxed">
                   {activeSolution.description}
                 </p>
 
                 {/* Key Benefits */}
                 <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-automotive-carbon mb-3">
+                  <h4 className="text-lg font-semibold text-white mb-3">
                     Key Benefits
                   </h4>
                   <div className="space-y-2">
                     {activeSolution.benefits.map((benefit, index) => (
                       <motion.div
                         key={benefit}
-                        className="flex items-center text-automotive-steel"
+                        className="flex items-center text-gray-300"
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.3, delay: index * 0.1 }}
                       >
-                        <div className="w-2 h-2 bg-automotive-success rounded-full mr-3"></div>
+                        <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
                         {benefit}
                       </motion.div>
                     ))}
@@ -186,14 +188,14 @@ export default function SolutionNavigator() {
 
               {/* Features List */}
               <div>
-                <h4 className="text-lg font-semibold text-automotive-carbon mb-4">
+                <h4 className="text-lg font-semibold text-white mb-4">
                   Core Features
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {activeSolution.features.map((feature, index) => (
                     <motion.div
                       key={feature}
-                      className="bg-white rounded-lg p-4 shadow-sm border border-automotive-chrome"
+                      className="bg-gray-800 border border-green-500/30 rounded-lg p-4 shadow-sm hover:border-green-400/50"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -203,7 +205,7 @@ export default function SolutionNavigator() {
                         <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${activeSolution.color} flex items-center justify-center mr-3`}>
                           <div className="w-2 h-2 bg-white rounded-full"></div>
                         </div>
-                        <span className="font-medium text-automotive-carbon text-sm">
+                        <span className="font-medium text-white text-sm">
                           {feature}
                         </span>
                       </div>
@@ -218,7 +220,7 @@ export default function SolutionNavigator() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: 0.5 }}
                 >
-                  <button className="w-full bg-primary-500 hover:bg-primary-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl">
+                  <button className="w-full bg-green-500 hover:bg-green-600 text-black font-semibold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl">
                     Learn More About {activeSolution.title}
                   </button>
                 </motion.div>
