@@ -159,7 +159,7 @@ export default function FacilityVisualization() {
 
         {/* View Controls */}
         <div className="flex justify-center mb-8">
-          <div className="bg-white rounded-lg p-1 shadow-lg">
+          <div className="nkj-card p-1">
             {[
               { id: 'overview', label: 'Facility Overview', icon: '🏭' },
               { id: 'production', label: 'Production Lines', icon: '⚙️' },
@@ -172,7 +172,7 @@ export default function FacilityVisualization() {
                 className={`px-6 py-3 rounded-md font-medium transition-all duration-300 ${
                   selectedView === view.id
                     ? 'bg-primary-500 text-white shadow-md'
-                    : 'text-automotive-steel hover:bg-gray-50'
+                    : 'text-gray-300 hover:bg-gray-700'
                 }`}
               >
                 <span className="mr-2">{view.icon}</span>
@@ -185,9 +185,9 @@ export default function FacilityVisualization() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* 3D Visualization Placeholder */}
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-xl shadow-xl overflow-hidden">
-              <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-                <h3 className="text-xl font-semibold text-automotive-carbon">
+            <div className="nkj-card overflow-hidden">
+              <div className="p-4 border-b border-gray-600 flex justify-between items-center">
+                <h3 className="text-xl font-semibold text-white">
                   Interactive 3D Factory Layout
                 </h3>
                 <div className="flex space-x-2">
@@ -209,24 +209,24 @@ export default function FacilityVisualization() {
               <div className="w-full h-96 lg:h-[600px] bg-gradient-to-br from-slate-100 to-blue-100 flex items-center justify-center">
                 <div className="text-center">
                   <div className="text-6xl mb-4">🏭</div>
-                  <h4 className="text-2xl font-bold text-automotive-carbon mb-2">3D Factory Visualization</h4>
-                  <p className="text-automotive-steel mb-4">Interactive WebGL-based facility layout with real-time monitoring</p>
+                  <h4 className="text-2xl font-bold text-gray-800 mb-2">3D Factory Visualization</h4>
+                  <p className="text-gray-600 mb-4">Interactive WebGL-based facility layout with real-time monitoring</p>
                   <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-                    <div className="bg-white rounded-lg p-3 shadow">
+                    <div className="bg-gray-800 rounded-lg p-3 shadow">
                       <div className="text-2xl mb-1">⚙️</div>
-                      <div className="text-sm font-medium">Production Lines</div>
+                      <div className="text-sm font-medium text-white">Production Lines</div>
                     </div>
-                    <div className="bg-white rounded-lg p-3 shadow">
+                    <div className="bg-gray-800 rounded-lg p-3 shadow">
                       <div className="text-2xl mb-1">📦</div>
-                      <div className="text-sm font-medium">Warehouses</div>
+                      <div className="text-sm font-medium text-white">Warehouses</div>
                     </div>
-                    <div className="bg-white rounded-lg p-3 shadow">
+                    <div className="bg-gray-800 rounded-lg p-3 shadow">
                       <div className="text-2xl mb-1">🔍</div>
-                      <div className="text-sm font-medium">Quality Control</div>
+                      <div className="text-sm font-medium text-white">Quality Control</div>
                     </div>
-                    <div className="bg-white rounded-lg p-3 shadow">
+                    <div className="bg-gray-800 rounded-lg p-3 shadow">
                       <div className="text-2xl mb-1">🏢</div>
-                      <div className="text-sm font-medium">Administration</div>
+                      <div className="text-sm font-medium text-white">Administration</div>
                     </div>
                   </div>
                 </div>
@@ -236,20 +236,20 @@ export default function FacilityVisualization() {
 
           {/* Facility Information Panel */}
           <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-xl p-6">
-              <h4 className="text-lg font-semibold text-automotive-carbon mb-4">
+            <div className="nkj-card p-6">
+              <h4 className="text-lg font-semibold text-white mb-4">
                 Facility Status
               </h4>
               <div className="space-y-4">
                 {mockFacilityLayouts.slice(0, 4).map((facility) => (
                   <motion.div
                     key={facility.id}
-                    className="p-3 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50"
+                    className="p-3 rounded-lg border border-gray-600 cursor-pointer hover:bg-gray-700"
                     whileHover={{ scale: 1.02 }}
                     onClick={() => console.log('Selected facility:', facility.name)}
                   >
                     <div className="flex justify-between items-start mb-2">
-                      <h5 className="font-medium text-automotive-carbon text-sm">
+                      <h5 className="font-medium text-white text-sm">
                         {facility.name}
                       </h5>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(facility.status)}`}>
@@ -257,8 +257,8 @@ export default function FacilityVisualization() {
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-automotive-steel">Utilization:</span>
-                      <span className="font-medium">{facility.utilization}%</span>
+                      <span className="text-gray-300">Utilization:</span>
+                      <span className="font-medium text-white">{facility.utilization}%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
                       <div
@@ -271,22 +271,22 @@ export default function FacilityVisualization() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-xl p-6">
-              <h4 className="text-lg font-semibold text-automotive-carbon mb-4">
+            <div className="nkj-card p-6">
+              <h4 className="text-lg font-semibold text-white mb-4">
                 Active Workflows
               </h4>
               <div className="space-y-3">
                 {mockWorkflowSteps.map((step) => (
-                  <div key={step.id} className="p-3 rounded-lg bg-gray-50">
-                    <div className="text-sm font-medium text-automotive-carbon mb-1">
+                  <div key={step.id} className="p-3 rounded-lg bg-gray-800">
+                    <div className="text-sm font-medium text-white mb-1">
                       {step.name}
                     </div>
-                    <div className="text-xs text-automotive-steel mb-2">
+                    <div className="text-xs text-gray-300 mb-2">
                       {step.duration} min duration
                     </div>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-automotive-steel">Progress:</span>
-                      <span className="font-medium">{step.progress}%</span>
+                      <span className="text-gray-300">Progress:</span>
+                      <span className="font-medium text-white">{step.progress}%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-1">
                       <div

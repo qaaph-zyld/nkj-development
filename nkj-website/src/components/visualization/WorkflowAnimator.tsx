@@ -134,9 +134,9 @@ export default function WorkflowAnimator() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* 3D Animation Viewport Placeholder */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-xl overflow-hidden">
-              <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-                <h3 className="text-xl font-semibold text-automotive-carbon">
+            <div className="nkj-card overflow-hidden">
+              <div className="p-4 border-b border-gray-600 flex justify-between items-center">
+                <h3 className="text-xl font-semibold text-white">
                   3D Workflow Animation
                 </h3>
                 <div className="flex space-x-2">
@@ -158,20 +158,20 @@ export default function WorkflowAnimator() {
               <div className="w-full h-96 lg:h-[500px] bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
                 <div className="text-center">
                   <div className="text-6xl mb-4">🔄</div>
-                  <h4 className="text-2xl font-bold text-automotive-carbon mb-2">Manufacturing Workflow Animation</h4>
-                  <p className="text-automotive-steel mb-4">Real-time 3D visualization of production processes</p>
+                  <h4 className="text-2xl font-bold text-gray-800 mb-2">Manufacturing Workflow Animation</h4>
+                  <p className="text-gray-600 mb-4">Real-time 3D visualization of production processes</p>
                   <div className="flex justify-center space-x-4">
-                    <div className="bg-white rounded-lg p-3 shadow">
-                      <div className="text-lg font-semibold text-green-600">2 Active</div>
-                      <div className="text-sm text-gray-600">Processes</div>
+                    <div className="bg-gray-800 rounded-lg p-3 shadow">
+                      <div className="text-lg font-semibold text-green-400">2 Active</div>
+                      <div className="text-sm text-gray-300">Processes</div>
                     </div>
-                    <div className="bg-white rounded-lg p-3 shadow">
-                      <div className="text-lg font-semibold text-blue-600">65%</div>
-                      <div className="text-sm text-gray-600">Progress</div>
+                    <div className="bg-gray-800 rounded-lg p-3 shadow">
+                      <div className="text-lg font-semibold text-blue-400">65%</div>
+                      <div className="text-sm text-gray-300">Progress</div>
                     </div>
-                    <div className="bg-white rounded-lg p-3 shadow">
-                      <div className="text-lg font-semibold text-purple-600">7</div>
-                      <div className="text-sm text-gray-600">Steps</div>
+                    <div className="bg-gray-800 rounded-lg p-3 shadow">
+                      <div className="text-lg font-semibold text-purple-400">7</div>
+                      <div className="text-sm text-gray-300">Steps</div>
                     </div>
                   </div>
                 </div>
@@ -181,8 +181,8 @@ export default function WorkflowAnimator() {
 
           {/* Animation Controls */}
           <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-xl p-6">
-              <h4 className="text-lg font-semibold text-automotive-carbon mb-4">
+            <div className="nkj-card p-6">
+              <h4 className="text-lg font-semibold text-white mb-4">
                 Animation Controls
               </h4>
               <div className="space-y-4">
@@ -251,8 +251,8 @@ export default function WorkflowAnimator() {
             </div>
 
             {/* Step Details */}
-            <div className="bg-white rounded-xl shadow-xl p-6">
-              <h4 className="text-lg font-semibold text-automotive-carbon mb-4">
+            <div className="nkj-card p-6">
+              <h4 className="text-lg font-semibold text-white mb-4">
                 Workflow Steps
               </h4>
               <div className="space-y-3">

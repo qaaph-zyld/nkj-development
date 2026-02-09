@@ -351,7 +351,7 @@ export default function AdvancedDashboard() {
           {dashboardWidgets.map((widget, index) => (
             <motion.div
               key={widget.id}
-              className={`bg-white rounded-lg shadow-lg p-6 border-2 transition-all duration-300 ${
+              className={`nkj-card p-6 border-2 transition-all duration-300 ${
                 selectedWidget === widget.id
                   ? 'border-primary-500 shadow-xl'
                   : 'border-automotive-chrome hover:border-primary-300'
@@ -363,7 +363,7 @@ export default function AdvancedDashboard() {
               whileHover={{ scale: 1.02 }}
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-automotive-carbon">
+                <h3 className="text-lg font-semibold text-white">
                   {widget.title}
                 </h3>
                 <div className="flex items-center space-x-2">
@@ -371,7 +371,7 @@ export default function AdvancedDashboard() {
                     className="w-4 h-4 rounded-full"
                     style={{ backgroundColor: widget.color }}
                   ></div>
-                  <span className="text-sm text-automotive-steel">
+                  <span className="text-sm text-gray-300">
                     {widget.type.toUpperCase()}
                   </span>
                 </div>
@@ -441,24 +441,24 @@ export default function AdvancedDashboard() {
 
         {/* Technical Info */}
         <motion.div
-          className="mt-12 bg-white rounded-lg shadow-lg p-6"
+          className="mt-12 nkj-card p-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
         >
-          <h3 className="text-xl font-semibold text-automotive-carbon mb-4">
+          <h3 className="text-xl font-semibold text-white mb-4">
             D3.js Visualization Features
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="text-center">
-              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <div className="w-12 h-12 bg-primary-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
                 <span className="text-xl">📊</span>
               </div>
-              <h4 className="font-semibold text-automotive-carbon mb-2">
+              <h4 className="font-semibold text-white mb-2">
                 Interactive Charts
               </h4>
-              <p className="text-sm text-automotive-steel">
+              <p className="text-sm text-gray-300">
                 Click and hover interactions
               </p>
             </div>

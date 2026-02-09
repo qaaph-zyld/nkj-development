@@ -45,8 +45,8 @@ export default function Hero() {
             </div>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-            <span className="block bg-gradient-to-r from-green-400 via-green-500 to-green-600 bg-clip-text text-transparent">
+          <h1 className="nkj-heading-xl text-white mb-6">
+            <span className="block nkj-text-gradient">
               NKJ Development
             </span>
           </h1>
@@ -70,43 +70,46 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <button className="geometric-accent bg-green-500 hover:bg-green-600 text-black font-semibold py-4 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+            <button className="nkj-button-primary text-lg px-8 py-4">
               Explore Solutions
             </button>
-            <button className="border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-black font-semibold py-4 px-8 rounded-lg transition-all duration-300">
+            <button className="nkj-button-secondary text-lg px-8 py-4">
               Schedule Consultation
             </button>
           </motion.div>
 
           {/* Key Stats */}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <div className="text-center p-6 rounded-lg bg-black/20 border border-green-500/20">
-              <div className="text-3xl md:text-4xl font-bold text-green-400 mb-2">
+            <div className="nkj-card text-center p-8 group">
+              <div className="text-4xl md:text-5xl font-bold nkj-text-gradient mb-3">
                 150+
               </div>
-              <div className="text-gray-300">Projects Delivered</div>
+              <div className="text-gray-300 text-lg font-medium">Projects Delivered</div>
+              <div className="text-sm text-gray-400 mt-2">Automotive Excellence</div>
             </div>
-            <div className="text-center p-6 rounded-lg bg-black/20 border border-green-500/20">
-              <div className="text-3xl md:text-4xl font-bold text-green-400 mb-2">
+            <div className="nkj-card text-center p-8 group pulse-glow">
+              <div className="text-4xl md:text-5xl font-bold nkj-text-gradient mb-3">
                 98.5%
               </div>
-              <div className="text-gray-300">Client Satisfaction</div>
+              <div className="text-gray-300 text-lg font-medium">Client Satisfaction</div>
+              <div className="text-sm text-gray-400 mt-2">Industry Leading</div>
             </div>
-            <div className="text-center p-6 rounded-lg bg-black/20 border border-green-500/20">
-              <div className="text-3xl md:text-4xl font-bold text-green-400 mb-2">
+            <div className="nkj-card text-center p-8 group">
+              <div className="text-4xl md:text-5xl font-bold nkj-text-gradient mb-3">
                 24/7
               </div>
-              <div className="text-gray-300">Technical Support</div>
+              <div className="text-gray-300 text-lg font-medium">Technical Support</div>
+              <div className="text-sm text-gray-400 mt-2">Always Available</div>
             </div>
           </motion.div>
         </motion.div>

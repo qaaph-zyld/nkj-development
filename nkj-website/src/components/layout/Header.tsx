@@ -27,7 +27,7 @@ export default function Header() {
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-gray-900/95 backdrop-blur-md border-b border-green-500/30' 
+          ? 'glass-effect border-b border-green-500/30' 
           : 'bg-transparent'
       }`}
       initial={{ y: -100 }}
@@ -35,16 +35,16 @@ export default function Header() {
       transition={{ duration: 0.6 }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <motion.div 
             className="flex items-center space-x-3"
             whileHover={{ scale: 1.05 }}
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-lg rotate-45 flex items-center justify-center">
-              <span className="text-black font-bold text-sm -rotate-45">NKJ</span>
+            <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-xl rotate-45 flex items-center justify-center shadow-lg">
+              <span className="text-black font-bold text-base -rotate-45">NKJ</span>
             </div>
-            <span className="text-white font-bold text-xl">NKJ Development</span>
+            <span className="text-white font-bold text-xl tracking-tight">NKJ Development</span>
           </motion.div>
 
           {/* Navigation */}
@@ -66,7 +66,7 @@ export default function Header() {
 
           {/* CTA Button */}
           <motion.button
-            className="bg-green-500 hover:bg-green-600 text-black font-semibold px-6 py-2 rounded-lg transition-colors duration-300"
+            className="nkj-button-primary"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.5 }}

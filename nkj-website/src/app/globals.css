@@ -10,10 +10,24 @@
   
   /* Sophisticated Neutrals */
   --nkj-black: #000000;
-  --nkj-dark: #1a1a1a;
+  --nkj-dark: #0f0f0f;
   --nkj-background: #0a4a3a;
   --nkj-light: #ffffff;
   --nkj-gray: #6b7280;
+  --nkj-surface: #1a1a1a;
+  --nkj-border: #2a2a2a;
+  
+  /* Enhanced Design System */
+  --nkj-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --nkj-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --nkj-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --nkj-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --nkj-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
+  /* Animation Timing */
+  --nkj-transition-fast: 150ms;
+  --nkj-transition-normal: 300ms;
+  --nkj-transition-slow: 500ms;
   
   /* Legacy variables for compatibility */
   --background: var(--nkj-dark);
@@ -35,9 +49,12 @@
 body {
   background: linear-gradient(135deg, var(--nkj-dark) 0%, var(--nkj-background) 100%);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   font-weight: 400;
   line-height: 1.6;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Network Animation Background */
@@ -51,6 +68,62 @@ body {
   background: radial-gradient(circle at 20% 50%, rgba(74, 222, 128, 0.1) 0%, transparent 50%),
               radial-gradient(circle at 80% 20%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
               radial-gradient(circle at 40% 80%, rgba(110, 231, 183, 0.1) 0%, transparent 50%);
+}
+
+/* Enhanced Design System Classes */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nkj-card {
+  background: linear-gradient(145deg, rgba(26, 26, 26, 0.8), rgba(15, 15, 15, 0.9));
+  border: 1px solid var(--nkj-border);
+  border-radius: 12px;
+  box-shadow: var(--nkj-shadow-lg);
+  transition: all var(--nkj-transition-normal) ease;
+}
+
+.nkj-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--nkj-shadow-xl);
+  border-color: var(--nkj-primary);
+}
+
+.nkj-button-primary {
+  background: linear-gradient(135deg, var(--nkj-primary), var(--nkj-secondary));
+  color: var(--nkj-black);
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--nkj-transition-normal) ease;
+  box-shadow: var(--nkj-shadow);
+}
+
+.nkj-button-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--nkj-shadow-lg);
+  filter: brightness(1.1);
+}
+
+.nkj-button-secondary {
+  background: transparent;
+  color: var(--nkj-primary);
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: 2px solid var(--nkj-primary);
+  cursor: pointer;
+  transition: all var(--nkj-transition-normal) ease;
+}
+
+.nkj-button-secondary:hover {
+  background: var(--nkj-primary);
+  color: var(--nkj-black);
+  transform: translateY(-1px);
 }
 
 /* Geometric accent elements */
@@ -69,4 +142,55 @@ body {
   border-radius: inherit;
   z-index: -1;
   opacity: 0.1;
+}
+
+/* Enhanced Typography */
+.nkj-heading-xl {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.nkj-heading-lg {
+  font-size: clamp(1.875rem, 3vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.nkj-text-gradient {
+  background: linear-gradient(135deg, var(--nkj-primary), var(--nkj-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Enhanced Animations */
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(74, 222, 128, 0.6);
+  }
 }

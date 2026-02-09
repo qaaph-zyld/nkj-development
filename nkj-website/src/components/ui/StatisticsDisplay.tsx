@@ -134,26 +134,26 @@ export default function StatisticsDisplay() {
 
         {/* Real-time Status Indicators */}
         <motion.div
-          className="mt-12 bg-white rounded-lg shadow-lg p-6 border border-automotive-chrome"
+          className="mt-12 nkj-card p-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.8 }}
         >
-          <h3 className="text-xl font-semibold text-automotive-carbon mb-6">
+          <h3 className="text-xl font-semibold text-white mb-6">
             System Status
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-center space-x-3">
               <div className="w-3 h-3 bg-automotive-success rounded-full animate-pulse-slow"></div>
-              <span className="text-automotive-steel">Production Lines: Online</span>
+              <span className="text-gray-300">Production Lines: Online</span>
             </div>
             <div className="flex items-center space-x-3">
               <div className="w-3 h-3 bg-automotive-success rounded-full animate-pulse-slow"></div>
-              <span className="text-automotive-steel">Quality Control: Active</span>
+              <span className="text-gray-300">Quality Control: Active</span>
             </div>
             <div className="flex items-center space-x-3">
               <div className="w-3 h-3 bg-automotive-electric rounded-full animate-pulse-slow"></div>
-              <span className="text-automotive-steel">AI Models: Processing</span>
+              <span className="text-gray-300">AI Models: Processing</span>
             </div>
           </div>
         </motion.div>

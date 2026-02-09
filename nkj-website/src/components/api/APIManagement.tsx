@@ -100,7 +100,7 @@ export default function APIManagement() {
   };
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-12"
@@ -108,10 +108,10 @@ export default function APIManagement() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl font-bold text-automotive-carbon mb-4">
+          <h2 className="text-3xl font-bold text-white mb-4">
             API Management Platform
           </h2>
-          <p className="text-lg text-automotive-steel max-w-3xl mx-auto">
+          <p className="text-lg text-gray-300 max-w-3xl mx-auto">
             Comprehensive API integration hub for automotive systems and third-party connectors
           </p>
         </motion.div>
@@ -119,12 +119,12 @@ export default function APIManagement() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* API Endpoints List */}
           <motion.div
-            className="bg-slate-50 rounded-lg p-6"
+            className="nkj-card p-6"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h3 className="text-xl font-semibold text-automotive-carbon mb-6">
+            <h3 className="text-xl font-semibold text-white mb-6">
               Available Endpoints
             </h3>
             
@@ -132,7 +132,7 @@ export default function APIManagement() {
               {apiEndpoints.map((endpoint) => (
                 <motion.div
                   key={endpoint.id}
-                  className={`p-4 bg-white rounded-lg border-2 cursor-pointer transition-all duration-300 ${
+                  className={`p-4 bg-gray-800 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
                     selectedEndpoint?.id === endpoint.id
                       ? 'border-primary-500 shadow-lg'
                       : 'border-automotive-chrome hover:border-primary-300'
@@ -145,7 +145,7 @@ export default function APIManagement() {
                       <span className={`px-2 py-1 rounded text-xs font-semibold ${getMethodColor(endpoint.method)}`}>
                         {endpoint.method}
                       </span>
-                      <span className="font-semibold text-automotive-carbon">
+                      <span className="font-semibold text-white">
                         {endpoint.name}
                       </span>
                     </div>
@@ -154,11 +154,11 @@ export default function APIManagement() {
                     </span>
                   </div>
                   
-                  <p className="text-sm text-automotive-steel mb-3">
+                  <p className="text-sm text-gray-300 mb-3">
                     {endpoint.description}
                   </p>
                   
-                  <div className="flex items-center justify-between text-xs text-automotive-steel">
+                  <div className="flex items-center justify-between text-xs text-gray-400">
                     <span>{endpoint.path}</span>
                     <div className="flex space-x-4">
                       <span>{endpoint.responseTime}ms</span>
@@ -172,22 +172,22 @@ export default function APIManagement() {
 
           {/* API Testing Interface */}
           <motion.div
-            className="bg-slate-50 rounded-lg p-6"
+            className="nkj-card p-6"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h3 className="text-xl font-semibold text-automotive-carbon mb-6">
+            <h3 className="text-xl font-semibold text-white mb-6">
               API Testing Console
             </h3>
             
             {selectedEndpoint ? (
               <div>
-                <div className="mb-4 p-4 bg-white rounded-lg">
-                  <h4 className="font-semibold text-automotive-carbon mb-2">
+                <div className="mb-4 p-4 bg-gray-800 rounded-lg">
+                  <h4 className="font-semibold text-white mb-2">
                     {selectedEndpoint.name}
                   </h4>
-                  <p className="text-sm text-automotive-steel mb-3">
+                  <p className="text-sm text-gray-300 mb-3">
                     {selectedEndpoint.description}
                   </p>
                   
@@ -195,7 +195,7 @@ export default function APIManagement() {
                     <span className={`px-2 py-1 rounded text-xs font-semibold ${getMethodColor(selectedEndpoint.method)}`}>
                       {selectedEndpoint.method}
                     </span>
-                    <code className="text-sm bg-slate-100 px-2 py-1 rounded">
+                    <code className="text-sm bg-gray-700 text-green-400 px-2 py-1 rounded">
                       {selectedEndpoint.path}
                     </code>
                   </div>

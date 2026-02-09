@@ -25,11 +25,11 @@ export default function Section({
   const getBackgroundClass = () => {
     switch (background) {
       case 'gradient':
-        return 'bg-gradient-to-br from-slate-900 to-blue-900';
+        return 'bg-gradient-to-br from-slate-900 via-gray-900 to-green-900/20';
       case 'network':
         return 'bg-gradient-to-br from-gray-900 to-black relative overflow-hidden';
       default:
-        return 'bg-gray-900';
+        return 'bg-gradient-to-b from-gray-900/50 to-black/50';
     }
   };
 
@@ -67,12 +67,12 @@ export default function Section({
             transition={{ duration: 0.6 }}
           >
             {title && (
-              <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+              <h2 className="nkj-heading-lg text-white mb-6">
                 {title}
               </h2>
             )}
             {subtitle && (
-              <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+              <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
                 {subtitle}
               </p>
             )}
