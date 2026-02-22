@@ -39,7 +39,8 @@ const generateTimeSeriesData = (days: number, baseValue: number, volatility: num
   return data;
 };
 
-const dashboardWidgets: DashboardWidget[] = [
+// Generate initial data outside component to avoid recreation, but we'll use state inside
+const initialWidgets: DashboardWidget[] = [
   {
     id: 'production-efficiency',
     title: 'Production Efficiency Trend',
@@ -209,7 +210,7 @@ const GaugeChart = ({ value, color, width = 200, height = 200 }: {
     const backgroundPath = backgroundArc(backgroundData);
     g.append("path")
       .attr("d", backgroundPath)
-      .attr("fill", "#e5e7eb");
+      .attr("fill", "#1e293b"); // slate-800
 
     // Value arc
     const valueArc = d3.arc()
@@ -276,7 +277,7 @@ const HeatmapChart = ({ data, color, width = 400, height = 200 }: {
         .attr("width", cellWidth - 1)
         .attr("height", cellHeight - 1)
         .attr("fill", colorScale(d.value))
-        .attr("stroke", "#fff")
+        .attr("stroke", "#1e293b")
         .attr("stroke-width", 1);
 
       // Add value text
@@ -287,7 +288,7 @@ const HeatmapChart = ({ data, color, width = 400, height = 200 }: {
           .attr("text-anchor", "middle")
           .attr("dy", "0.35em")
           .attr("font-size", "10px")
-          .attr("fill", d.value > 95 ? "#fff" : "#000")
+          .attr("fill", d.value > 95 ? "#fff" : "#94a3b8")
           .text(d.value.toFixed(0));
       }
     });
@@ -300,21 +301,44 @@ const HeatmapChart = ({ data, color, width = 400, height = 200 }: {
 export default function AdvancedDashboard() {
   const [selectedWidget, setSelectedWidget] = useState<string | null>(null);
   const [isRealTime, setIsRealTime] = useState(true);
+  const [widgets, setWidgets] = useState<DashboardWidget[]>([]);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!isRealTime) return;
+    setMounted(true);
+    setWidgets(initialWidgets);
+  }, []);
+
+  useEffect(() => {
+    if (!isRealTime || !mounted) return;
 
     const interval = setInterval(() => {
-      // Simulate real-time data updates
-      dashboardWidgets.forEach(widget => {
-        if (widget.type === 'gauge') {
-          widget.data[0].value = Math.random() * 100;
-        }
+      setWidgets(currentWidgets => {
+        return currentWidgets.map(widget => {
+          if (widget.type === 'gauge') {
+            return {
+              ...widget,
+              data: [{ ...widget.data[0], value: Math.random() * 100 }]
+            };
+          }
+          return widget;
+        });
       });
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [isRealTime]);
+  }, [isRealTime, mounted]);
+
+  if (!mounted) {
+    return (
+      <section className="py-20 bg-slate-950 border-t border-slate-800/50 min-h-[800px] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-slate-400 font-medium tracking-wide">Loading Analytics...</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 bg-slate-950 border-t border-slate-800/50">
@@ -358,7 +382,7 @@ export default function AdvancedDashboard() {
 
         {/* Dashboard Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {dashboardWidgets.map((widget, index) => (
+          {widgets.map((widget, index) => (
             <motion.div
               key={widget.id}
               className={`bg-slate-900 rounded-xl p-8 transition-all duration-300 shadow-sm cursor-pointer ${

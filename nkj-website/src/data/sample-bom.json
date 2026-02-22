@@ -1,0 +1,119 @@
+{
+  "itemNumber": "BRK-ASSY-FR",
+  "description": "Front Brake Assembly",
+  "uom": "EA",
+  "leadTimeDays": 5,
+  "standardCost": 125.50,
+  "level": 0,
+  "components": [
+    {
+      "itemNumber": "CAL-FR-L",
+      "description": "Brake Caliper Front Left",
+      "qtyPer": 1,
+      "uom": "EA",
+      "leadTimeDays": 14,
+      "standardCost": 45.00,
+      "level": 1,
+      "supplierId": "SUP-1001",
+      "components": [
+        {
+          "itemNumber": "CAL-HSG",
+          "description": "Caliper Housing Cast",
+          "qtyPer": 1,
+          "uom": "EA",
+          "leadTimeDays": 21,
+          "standardCost": 22.50,
+          "level": 2,
+          "supplierId": "SUP-1004"
+        },
+        {
+          "itemNumber": "PST-42MM",
+          "description": "Piston 42mm",
+          "qtyPer": 2,
+          "uom": "EA",
+          "leadTimeDays": 10,
+          "standardCost": 5.25,
+          "level": 2
+        },
+        {
+          "itemNumber": "SEAL-KIT",
+          "description": "Seal Kit 42mm",
+          "qtyPer": 1,
+          "uom": "KT",
+          "leadTimeDays": 5,
+          "standardCost": 3.50,
+          "level": 2
+        }
+      ]
+    },
+    {
+      "itemNumber": "CAL-FR-R",
+      "description": "Brake Caliper Front Right",
+      "qtyPer": 1,
+      "uom": "EA",
+      "leadTimeDays": 14,
+      "standardCost": 45.00,
+      "level": 1,
+      "supplierId": "SUP-1001",
+      "components": [
+        {
+          "itemNumber": "CAL-HSG",
+          "description": "Caliper Housing Cast",
+          "qtyPer": 1,
+          "uom": "EA",
+          "leadTimeDays": 21,
+          "standardCost": 22.50,
+          "level": 2,
+          "supplierId": "SUP-1004"
+        },
+        {
+          "itemNumber": "PST-42MM",
+          "description": "Piston 42mm",
+          "qtyPer": 2,
+          "uom": "EA",
+          "leadTimeDays": 10,
+          "standardCost": 5.25,
+          "level": 2
+        },
+        {
+          "itemNumber": "SEAL-KIT",
+          "description": "Seal Kit 42mm",
+          "qtyPer": 1,
+          "uom": "KT",
+          "leadTimeDays": 5,
+          "standardCost": 3.50,
+          "level": 2
+        }
+      ]
+    },
+    {
+      "itemNumber": "ROTOR-320",
+      "description": "Brake Rotor Vented 320mm",
+      "qtyPer": 2,
+      "uom": "EA",
+      "leadTimeDays": 18,
+      "standardCost": 28.00,
+      "level": 1,
+      "supplierId": "SUP-1004"
+    },
+    {
+      "itemNumber": "PAD-SET-FR",
+      "description": "Brake Pad Set Front Ceramic",
+      "qtyPer": 1,
+      "uom": "ST",
+      "leadTimeDays": 12,
+      "standardCost": 18.50,
+      "level": 1,
+      "supplierId": "SUP-1001"
+    },
+    {
+      "itemNumber": "MNT-HDW-KIT",
+      "description": "Mounting Hardware Kit M12",
+      "qtyPer": 1,
+      "uom": "KT",
+      "leadTimeDays": 3,
+      "standardCost": 4.50,
+      "level": 1
+    }
+  ]
+}

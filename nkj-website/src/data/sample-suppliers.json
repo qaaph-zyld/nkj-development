@@ -1,0 +1,99 @@
+[
+  {
+    "supplierId": "SUP-1001",
+    "name": "Brembo Systems GmbH",
+    "country": "Germany",
+    "category": "Brake Components",
+    "status": "active",
+    "riskLevel": "low",
+    "metrics": {
+      "overallScore": 96.4,
+      "onTimeDelivery": 98.2,
+      "qualityPPM": 12,
+      "responsiveness": 92.0
+    },
+    "certifications": [
+      { "name": "IATF 16949:2016", "validUntil": "2025-10-15" },
+      { "name": "ISO 14001:2015", "validUntil": "2026-03-20" }
+    ],
+    "incidents": 0,
+    "annualSpend": 4500000
+  },
+  {
+    "supplierId": "SUP-1002",
+    "name": "Magna Seating Systems",
+    "country": "Czech Republic",
+    "category": "Interior Components",
+    "status": "active",
+    "riskLevel": "medium",
+    "metrics": {
+      "overallScore": 88.5,
+      "onTimeDelivery": 91.5,
+      "qualityPPM": 45,
+      "responsiveness": 85.0
+    },
+    "certifications": [
+      { "name": "IATF 16949:2016", "validUntil": "2024-08-10" }
+    ],
+    "incidents": 2,
+    "annualSpend": 2800000
+  },
+  {
+    "supplierId": "SUP-1003",
+    "name": "Continental Electronics",
+    "country": "Hungary",
+    "category": "Electronic Control Units",
+    "status": "active",
+    "riskLevel": "low",
+    "metrics": {
+      "overallScore": 94.2,
+      "onTimeDelivery": 96.5,
+      "qualityPPM": 28,
+      "responsiveness": 90.0
+    },
+    "certifications": [
+      { "name": "IATF 16949:2016", "validUntil": "2025-12-05" },
+      { "name": "ISO 27001:2022", "validUntil": "2026-01-15" }
+    ],
+    "incidents": 0,
+    "annualSpend": 6200000
+  },
+  {
+    "supplierId": "SUP-1004",
+    "name": "Advanced Castings Ltd",
+    "country": "UK",
+    "category": "Engine Components",
+    "status": "under_review",
+    "riskLevel": "high",
+    "metrics": {
+      "overallScore": 76.8,
+      "onTimeDelivery": 82.0,
+      "qualityPPM": 145,
+      "responsiveness": 65.0
+    },
+    "certifications": [
+      { "name": "ISO 9001:2015", "validUntil": "2024-05-20" }
+    ],
+    "incidents": 5,
+    "annualSpend": 1500000
+  },
+  {
+    "supplierId": "SUP-1005",
+    "name": "Tenneco Suspension",
+    "country": "Poland",
+    "category": "Chassis Systems",
+    "status": "active",
+    "riskLevel": "low",
+    "metrics": {
+      "overallScore": 92.5,
+      "onTimeDelivery": 95.0,
+      "qualityPPM": 35,
+      "responsiveness": 88.0
+    },
+    "certifications": [
+      { "name": "IATF 16949:2016", "validUntil": "2026-06-30" }
+    ],
+    "incidents": 1,
+    "annualSpend": 3400000
+  }
+]

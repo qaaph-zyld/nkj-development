@@ -1,0 +1,71 @@
+[
+  {
+    "date": "2024-02-15",
+    "productionLine": "L-101",
+    "partCategory": "Engine Components",
+    "inspectedUnits": 500,
+    "defectiveUnits": 15,
+    "firstPassYield": 97.0,
+    "topDefectTypes": [
+      { "type": "Porosity", "count": 8, "severity": "major" },
+      { "type": "Dimensional Variance", "count": 5, "severity": "minor" },
+      { "type": "Surface Finish", "count": 2, "severity": "minor" }
+    ],
+    "supplierId": "SUP-1004"
+  },
+  {
+    "date": "2024-02-15",
+    "productionLine": "L-102",
+    "partCategory": "Brake Components",
+    "inspectedUnits": 1200,
+    "defectiveUnits": 8,
+    "firstPassYield": 99.3,
+    "topDefectTypes": [
+      { "type": "Missing Hardware", "count": 4, "severity": "critical" },
+      { "type": "Caliper Alignment", "count": 3, "severity": "major" },
+      { "type": "Paint Scratch", "count": 1, "severity": "minor" }
+    ],
+    "supplierId": "SUP-1001"
+  },
+  {
+    "date": "2024-02-16",
+    "productionLine": "L-101",
+    "partCategory": "Engine Components",
+    "inspectedUnits": 480,
+    "defectiveUnits": 22,
+    "firstPassYield": 95.4,
+    "topDefectTypes": [
+      { "type": "Porosity", "count": 12, "severity": "major" },
+      { "type": "Machining Error", "count": 6, "severity": "critical" },
+      { "type": "Dimensional Variance", "count": 4, "severity": "minor" }
+    ],
+    "supplierId": "SUP-1004"
+  },
+  {
+    "date": "2024-02-16",
+    "productionLine": "L-103",
+    "partCategory": "Chassis Systems",
+    "inspectedUnits": 450,
+    "defectiveUnits": 12,
+    "firstPassYield": 97.3,
+    "topDefectTypes": [
+      { "type": "Weld Spatter", "count": 7, "severity": "minor" },
+      { "type": "Bushing Alignment", "count": 5, "severity": "major" }
+    ],
+    "supplierId": "SUP-1005"
+  },
+  {
+    "date": "2024-02-17",
+    "productionLine": "L-201",
+    "partCategory": "Interior Components",
+    "inspectedUnits": 2400,
+    "defectiveUnits": 45,
+    "firstPassYield": 98.1,
+    "topDefectTypes": [
+      { "type": "Material Tear", "count": 20, "severity": "critical" },
+      { "type": "Color Mismatch", "count": 15, "severity": "major" },
+      { "type": "Clip Breakage", "count": 10, "severity": "minor" }
+    ],
+    "supplierId": "SUP-1002"
+  }
+]

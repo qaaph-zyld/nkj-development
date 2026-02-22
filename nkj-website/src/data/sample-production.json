@@ -1,0 +1,102 @@
+[
+  {
+    "orderId": "PO-2024-001",
+    "partNumber": "ENG-BLK-V6",
+    "partDescription": "V6 Engine Block Cast",
+    "plannedQuantity": 500,
+    "completedQuantity": 485,
+    "scrappedQuantity": 15,
+    "status": "completed",
+    "lineId": "L-101",
+    "startDate": "2024-02-15T06:00:00Z",
+    "endDate": "2024-02-16T14:30:00Z",
+    "plannedDurationHours": 32,
+    "actualDurationHours": 32.5,
+    "downtimeMinutes": 145,
+    "oee": {
+      "availability": 92.5,
+      "performance": 96.0,
+      "quality": 97.0,
+      "overall": 86.1
+    }
+  },
+  {
+    "orderId": "PO-2024-002",
+    "partNumber": "BRK-ASSY-FR",
+    "partDescription": "Front Brake Assembly",
+    "plannedQuantity": 1200,
+    "completedQuantity": 1200,
+    "scrappedQuantity": 8,
+    "status": "completed",
+    "lineId": "L-102",
+    "startDate": "2024-02-16T06:00:00Z",
+    "endDate": "2024-02-17T18:00:00Z",
+    "plannedDurationHours": 36,
+    "actualDurationHours": 35.5,
+    "downtimeMinutes": 45,
+    "oee": {
+      "availability": 97.9,
+      "performance": 98.5,
+      "quality": 99.3,
+      "overall": 95.7
+    }
+  },
+  {
+    "orderId": "PO-2024-003",
+    "partNumber": "SUS-STR-FL",
+    "partDescription": "Suspension Strut FL",
+    "plannedQuantity": 800,
+    "completedQuantity": 450,
+    "scrappedQuantity": 12,
+    "status": "in_progress",
+    "lineId": "L-103",
+    "startDate": "2024-02-18T06:00:00Z",
+    "endDate": null,
+    "plannedDurationHours": 24,
+    "actualDurationHours": 14,
+    "downtimeMinutes": 120,
+    "oee": {
+      "availability": 85.7,
+      "performance": 92.0,
+      "quality": 97.4,
+      "overall": 76.8
+    }
+  },
+  {
+    "orderId": "PO-2024-004",
+    "partNumber": "TRN-HSG-AWD",
+    "partDescription": "Transmission Housing AWD",
+    "plannedQuantity": 300,
+    "completedQuantity": 0,
+    "scrappedQuantity": 0,
+    "status": "planned",
+    "lineId": "L-101",
+    "startDate": "2024-02-20T06:00:00Z",
+    "endDate": null,
+    "plannedDurationHours": 48,
+    "actualDurationHours": 0,
+    "downtimeMinutes": 0,
+    "oee": null
+  },
+  {
+    "orderId": "PO-2024-005",
+    "partNumber": "INT-PNL-DR",
+    "partDescription": "Door Interior Panel",
+    "plannedQuantity": 2400,
+    "completedQuantity": 2350,
+    "scrappedQuantity": 45,
+    "status": "completed",
+    "lineId": "L-201",
+    "startDate": "2024-02-10T06:00:00Z",
+    "endDate": "2024-02-12T14:00:00Z",
+    "plannedDurationHours": 56,
+    "actualDurationHours": 56,
+    "downtimeMinutes": 210,
+    "oee": {
+      "availability": 93.7,
+      "performance": 95.2,
+      "quality": 98.1,
+      "overall": 87.5
+    }
+  }
+]

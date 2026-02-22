@@ -58,12 +58,20 @@ const mockMetrics: PerformanceMetric[] = [
 ];
 
 export default function PerformanceOptimizer() {
-  const [metrics, setMetrics] = useState<PerformanceMetric[]>(mockMetrics);
+  const [metrics, setMetrics] = useState<PerformanceMetric[]>([]);
   const [lodLevel, setLodLevel] = useState(2);
   const [enableShadows, setEnableShadows] = useState(true);
   const [antialiasing, setAntialiasing] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    setMetrics(mockMetrics);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     const interval = setInterval(() => {
       setMetrics(prev => prev.map(metric => ({
         ...metric,
@@ -72,7 +80,7 @@ export default function PerformanceOptimizer() {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [mounted]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -82,6 +90,17 @@ export default function PerformanceOptimizer() {
       default: return 'text-slate-400 bg-slate-800 border-slate-700';
     }
   };
+
+  if (!mounted) {
+    return (
+      <div className="w-full mt-8 min-h-[400px] flex items-center justify-center bg-slate-900 border border-slate-800 rounded-xl">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-slate-400 font-medium tracking-wide">Loading Performance Telemetry...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full mt-8">

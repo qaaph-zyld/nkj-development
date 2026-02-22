@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 export default function Hero() {
   return (
@@ -61,15 +62,15 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <button className="nkj-button-primary text-base px-8 py-3.5 w-full sm:w-auto">
-              Deploy Platform
-            </button>
-            <button className="nkj-button-secondary text-base px-8 py-3.5 w-full sm:w-auto">
-              View Architecture
-            </button>
+            <Link href="/book" className="nkj-button-primary text-base px-8 py-3.5 w-full sm:w-auto text-center inline-block">
+              Schedule Consultation
+            </Link>
+            <Link href="#solutions" className="nkj-button-secondary text-base px-8 py-3.5 w-full sm:w-auto text-center inline-block">
+              Explore Solutions
+            </Link>
           </motion.div>
 
-          {/* Key Stats - Modern Dashboard Style */}
+          {/* Key Stats - Honest Credibility */}
           <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
@@ -77,22 +78,22 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.5 }}
           >
             <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-xl p-6 flex flex-col items-center">
-              <div className="text-3xl font-bold text-slate-50 mb-1 tracking-tight">99.9%</div>
-              <div className="text-sm font-medium text-emerald-400 mb-1">System Uptime</div>
-              <div className="text-xs text-slate-500">Enterprise SLA guaranteed</div>
+              <div className="text-3xl font-bold text-slate-50 mb-1 tracking-tight">10+</div>
+              <div className="text-sm font-medium text-emerald-400 mb-1">Years Experience</div>
+              <div className="text-xs text-slate-500">Manufacturing Analytics</div>
             </div>
             
             <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-xl p-6 flex flex-col items-center relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-emerald-400"></div>
-              <div className="text-3xl font-bold text-slate-50 mb-1 tracking-tight">150+</div>
-              <div className="text-sm font-medium text-emerald-400 mb-1">Facilities Mapped</div>
-              <div className="text-xs text-slate-500">Active EU deployments</div>
+              <div className="text-3xl font-bold text-slate-50 mb-1 tracking-tight">Tier 1/2</div>
+              <div className="text-sm font-medium text-emerald-400 mb-1">Automotive Specialist</div>
+              <div className="text-xs text-slate-500">European market focus</div>
             </div>
             
             <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-xl p-6 flex flex-col items-center">
-              <div className="text-3xl font-bold text-slate-50 mb-1 tracking-tight">ISO</div>
-              <div className="text-sm font-medium text-emerald-400 mb-1">27001 & 9001</div>
-              <div className="text-xs text-slate-500">Fully compliant architecture</div>
+              <div className="text-3xl font-bold text-slate-50 mb-1 tracking-tight">Expert</div>
+              <div className="text-sm font-medium text-emerald-400 mb-1">QAD · SAP · SQL</div>
+              <div className="text-xs text-slate-500">Seamless ERP integration</div>
             </div>
           </motion.div>
         </motion.div>
