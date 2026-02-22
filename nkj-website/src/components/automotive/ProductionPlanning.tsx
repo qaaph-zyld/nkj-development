@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import sampleProductionData from '@/data/sample-production.json';
 
-// ... (rest of the file content needs to be read first, I will keep the interfaces and mock data)
 interface ProductionOrder {
   id: string;
   partNumber: string;
@@ -12,7 +12,7 @@ interface ProductionOrder {
   priority: 'high' | 'medium' | 'low';
   status: 'planned' | 'in-progress' | 'completed' | 'delayed';
   startDate: string;
-  endDate: string;
+  endDate: string | null;
   assignedLine: string;
   progress: number;
 }
@@ -27,93 +27,76 @@ interface ProductionLine {
   nextMaintenance: string;
 }
 
-const mockProductionOrders: ProductionOrder[] = [
-  {
-    id: 'PO-001',
-    partNumber: 'ENG-V8-2024',
-    description: 'V8 Engine Block Assembly',
-    quantity: 150,
-    priority: 'high',
-    status: 'in-progress',
-    startDate: '2024-01-15',
-    endDate: '2024-01-22',
-    assignedLine: 'Line A',
-    progress: 65
-  },
-  {
-    id: 'PO-002',
-    partNumber: 'TRANS-AUTO-X7',
-    description: 'Automatic Transmission Unit',
-    quantity: 200,
-    priority: 'medium',
-    status: 'planned',
-    startDate: '2024-01-20',
-    endDate: '2024-01-28',
-    assignedLine: 'Line B',
-    progress: 0
-  },
-  {
-    id: 'PO-003',
-    partNumber: 'BRAKE-DISC-F1',
-    description: 'Front Brake Disc Set',
-    quantity: 500,
-    priority: 'high',
-    status: 'completed',
-    startDate: '2024-01-10',
-    endDate: '2024-01-18',
-    assignedLine: 'Line C',
-    progress: 100
-  },
-  {
-    id: 'PO-004',
-    partNumber: 'SUSP-STRUT-R2',
-    description: 'Rear Suspension Strut',
-    quantity: 300,
-    priority: 'low',
-    status: 'delayed',
-    startDate: '2024-01-12',
-    endDate: '2024-01-25',
-    assignedLine: 'Line A',
-    progress: 45
-  }
-];
+const mapSampleDataToOrders = (): ProductionOrder[] => {
+  return sampleProductionData.map(order => {
+    // Calculate progress
+    const progress = order.plannedQuantity > 0 
+      ? Math.round((order.completedQuantity / order.plannedQuantity) * 100) 
+      : 0;
+      
+    // Map status from snake_case to hyphenated
+    let status: ProductionOrder['status'] = 'planned';
+    if (order.status === 'in_progress') status = 'in-progress';
+    else if (order.status === 'completed') status = 'completed';
+    else if (order.status === 'delayed') status = 'delayed';
+    else status = 'planned';
+
+    // Assign priority based on OEE/progress/downtime logic (simple heuristic for demo)
+    let priority: ProductionOrder['priority'] = 'medium';
+    if (order.downtimeMinutes > 100 || status === 'delayed') priority = 'high';
+    else if (status === 'completed') priority = 'low';
+
+    return {
+      id: order.orderId,
+      partNumber: order.partNumber,
+      description: order.partDescription,
+      quantity: order.plannedQuantity,
+      priority,
+      status,
+      startDate: new Date(order.startDate).toLocaleDateString(),
+      endDate: order.endDate ? new Date(order.endDate).toLocaleDateString() : null,
+      assignedLine: order.lineId,
+      progress
+    };
+  });
+};
 
 const mockProductionLines: ProductionLine[] = [
   {
-    id: 'line-a',
-    name: 'Line A - Engine Assembly',
+    id: 'L-101',
+    name: 'Engine Assembly Line 1',
     capacity: 100,
     currentLoad: 85,
     efficiency: 94.2,
     status: 'active',
-    nextMaintenance: '2024-01-30'
+    nextMaintenance: '2024-03-30'
   },
   {
-    id: 'line-b',
-    name: 'Line B - Transmission',
+    id: 'L-102',
+    name: 'Brake Systems Assembly',
     capacity: 80,
     currentLoad: 60,
     efficiency: 91.8,
     status: 'active',
-    nextMaintenance: '2024-02-05'
+    nextMaintenance: '2024-03-05'
   },
   {
-    id: 'line-c',
-    name: 'Line C - Components',
+    id: 'L-103',
+    name: 'Chassis Components',
     capacity: 150,
     currentLoad: 120,
     efficiency: 96.5,
     status: 'active',
-    nextMaintenance: '2024-01-28'
+    nextMaintenance: '2024-02-28'
   },
   {
-    id: 'line-d',
-    name: 'Line D - Quality Control',
+    id: 'L-201',
+    name: 'Interior Trim Line',
     capacity: 200,
     currentLoad: 0,
     efficiency: 0,
     status: 'maintenance',
-    nextMaintenance: '2024-01-25'
+    nextMaintenance: '2024-02-25'
   }
 ];
 
@@ -147,8 +130,12 @@ const getLineStatusColor = (status: string) => {
 
 export default function ProductionPlanning() {
   const [selectedTab, setSelectedTab] = useState<'orders' | 'lines' | 'schedule'>('orders');
-  const [orders] = useState<ProductionOrder[]>(mockProductionOrders);
+  const [orders, setOrders] = useState<ProductionOrder[]>([]);
   const [lines] = useState<ProductionLine[]>(mockProductionLines);
+
+  useEffect(() => {
+    setOrders(mapSampleDataToOrders());
+  }, []);
 
   const tabs = [
     { id: 'orders', label: 'Production Orders', icon: '📋' },
@@ -185,7 +172,7 @@ export default function ProductionPlanning() {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
               <div>
                 <h3 className="text-lg font-bold text-slate-50 tracking-tight">Production Orders</h3>
-                <p className="text-sm text-slate-400 mt-1">Manage and track active manufacturing orders</p>
+                <p className="text-sm text-slate-400 mt-1">Manage and track active manufacturing orders (Loaded from sample data)</p>
               </div>
               <button className="nkj-button-secondary text-sm whitespace-nowrap">
                 New Order
@@ -239,7 +226,7 @@ export default function ProductionPlanning() {
                           <span className="text-xs font-medium text-slate-400 w-8 text-right">{order.progress}%</span>
                         </div>
                       </td>
-                      <td className="py-4 px-4 text-sm text-slate-400">{order.assignedLine}</td>
+                      <td className="py-4 px-4 font-mono text-sm text-slate-400">{order.assignedLine}</td>
                     </motion.tr>
                   ))}
                 </tbody>
@@ -270,7 +257,10 @@ export default function ProductionPlanning() {
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
                   <div className="flex justify-between items-start mb-6">
-                    <h4 className="text-base font-semibold text-slate-200 group-hover:text-emerald-400 transition-colors">{line.name}</h4>
+                    <div>
+                      <h4 className="text-base font-semibold text-slate-200 group-hover:text-emerald-400 transition-colors">{line.name}</h4>
+                      <p className="text-xs text-slate-500 font-mono mt-1">{line.id}</p>
+                    </div>
                     <div className="flex items-center gap-2">
                       <span className={`w-2 h-2 rounded-full ${line.status === 'active' ? 'bg-emerald-500 animate-pulse' : line.status === 'maintenance' ? 'bg-amber-500' : 'bg-slate-500'}`}></span>
                       <span className={`text-[10px] font-bold uppercase tracking-wider ${getLineStatusColor(line.status)}`}>
@@ -284,17 +274,17 @@ export default function ProductionPlanning() {
                       <div className="flex justify-between text-sm mb-2">
                         <span className="text-slate-400 font-medium">Capacity Utilization</span>
                         <span className="font-mono text-slate-300">
-                          {line.currentLoad}/{line.capacity} <span className="text-slate-500 ml-1">({Math.round((line.currentLoad / line.capacity) * 100)}%)</span>
+                          {line.currentLoad}/{line.capacity} <span className="text-slate-500 ml-1">({line.capacity > 0 ? Math.round((line.currentLoad / line.capacity) * 100) : 0}%)</span>
                         </span>
                       </div>
                       
                       <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
                         <div
                           className={`h-full rounded-full transition-all duration-500 ${
-                            (line.currentLoad / line.capacity) > 0.9 ? 'bg-red-500' :
-                            (line.currentLoad / line.capacity) > 0.7 ? 'bg-amber-500' : 'bg-emerald-500'
+                            line.capacity > 0 && (line.currentLoad / line.capacity) > 0.9 ? 'bg-red-500' :
+                            line.capacity > 0 && (line.currentLoad / line.capacity) > 0.7 ? 'bg-amber-500' : 'bg-emerald-500'
                           }`}
-                          style={{ width: `${(line.currentLoad / line.capacity) * 100}%` }}
+                          style={{ width: `${line.capacity > 0 ? (line.currentLoad / line.capacity) * 100 : 0}%` }}
                         />
                       </div>
                     </div>
@@ -345,15 +335,15 @@ export default function ProductionPlanning() {
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
               <div className="bg-slate-950 border border-slate-800 rounded-lg p-5 shadow-sm flex flex-col items-center">
-                <div className="text-2xl font-bold text-emerald-500 tracking-tight mb-1">24</div>
+                <div className="text-2xl font-bold text-emerald-500 tracking-tight mb-1">{orders.filter(o => o.status === 'in-progress').length}</div>
                 <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Active Orders</div>
               </div>
               <div className="bg-slate-950 border border-slate-800 rounded-lg p-5 shadow-sm flex flex-col items-center">
-                <div className="text-2xl font-bold text-sky-500 tracking-tight mb-1">94.2%</div>
-                <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Avg Efficiency</div>
+                <div className="text-2xl font-bold text-sky-500 tracking-tight mb-1">{orders.length > 0 ? (orders.reduce((acc, order) => acc + order.progress, 0) / orders.length).toFixed(1) : 0}%</div>
+                <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Avg Progress</div>
               </div>
               <div className="bg-slate-950 border border-slate-800 rounded-lg p-5 shadow-sm flex flex-col items-center">
-                <div className="text-2xl font-bold text-amber-500 tracking-tight mb-1">3</div>
+                <div className="text-2xl font-bold text-amber-500 tracking-tight mb-1">{orders.filter(o => o.status === 'delayed').length}</div>
                 <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Bottlenecks</div>
               </div>
             </div>

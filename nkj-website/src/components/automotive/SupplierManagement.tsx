@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import sampleSuppliersData from '@/data/sample-suppliers.json';
 
 interface Supplier {
   id: string;
@@ -13,13 +14,12 @@ interface Supplier {
   costRating: number;
   overallScore: number;
   certifications: string[];
-  status: 'active' | 'pending' | 'suspended' | 'terminated';
+  status: 'active' | 'pending' | 'suspended' | 'terminated' | 'under_review';
   riskLevel: 'low' | 'medium' | 'high';
   lastAudit: string;
   nextAudit: string;
   contractValue: number;
 }
-
 
 interface Certification {
   id: string;
@@ -29,106 +29,51 @@ interface Certification {
   validityPeriod: string;
 }
 
-const mockSuppliers: Supplier[] = [
-  {
-    id: 'SUP-001',
-    name: 'Premium Auto Components Ltd',
-    category: 'Engine Parts',
-    location: 'Birmingham, UK',
-    qualityRating: 96.5,
-    deliveryRating: 94.2,
-    costRating: 88.7,
-    overallScore: 93.1,
-    certifications: ['ISO 9001', 'TS 16949', 'ISO 14001'],
-    status: 'active',
-    riskLevel: 'low',
-    lastAudit: '2023-11-15',
-    nextAudit: '2024-05-15',
-    contractValue: 2500000
-  },
-  {
-    id: 'SUP-002',
-    name: 'European Brake Systems GmbH',
-    category: 'Brake Components',
-    location: 'Stuttgart, Germany',
-    qualityRating: 98.2,
-    deliveryRating: 96.8,
-    costRating: 85.3,
-    overallScore: 93.4,
-    certifications: ['ISO 9001', 'TS 16949', 'VDA 6.3'],
-    status: 'active',
-    riskLevel: 'low',
-    lastAudit: '2023-12-08',
-    nextAudit: '2024-06-08',
-    contractValue: 1800000
-  },
-  {
-    id: 'SUP-003',
-    name: 'Advanced Materials Inc',
-    category: 'Raw Materials',
-    location: 'Detroit, USA',
-    qualityRating: 89.5,
-    deliveryRating: 87.3,
-    costRating: 92.1,
-    overallScore: 89.6,
-    certifications: ['ISO 9001', 'OHSAS 18001'],
-    status: 'pending',
-    riskLevel: 'medium',
-    lastAudit: '2023-09-22',
-    nextAudit: '2024-03-22',
-    contractValue: 950000
-  },
-  {
-    id: 'SUP-004',
-    name: 'Precision Electronics Co',
-    category: 'Electronics',
-    location: 'Shenzhen, China',
-    qualityRating: 85.7,
-    deliveryRating: 82.4,
-    costRating: 95.8,
-    overallScore: 87.9,
-    certifications: ['ISO 9001', 'IPC-A-610'],
-    status: 'active',
-    riskLevel: 'high',
-    lastAudit: '2023-10-10',
-    nextAudit: '2024-04-10',
-    contractValue: 750000
-  }
-];
+const mapSampleDataToSuppliers = (): Supplier[] => {
+  return sampleSuppliersData.map(sup => ({
+    id: sup.supplierId,
+    name: sup.name,
+    category: sup.category,
+    location: sup.country,
+    qualityRating: 100 - (sup.metrics.qualityPPM / 100), // Simple conversion for demo
+    deliveryRating: sup.metrics.onTimeDelivery,
+    costRating: 90, // Not in sample, mock it
+    overallScore: sup.metrics.overallScore,
+    certifications: sup.certifications.map(c => c.name),
+    status: sup.status as Supplier['status'],
+    riskLevel: sup.riskLevel as Supplier['riskLevel'],
+    lastAudit: '2023-11-15', // Mock
+    nextAudit: sup.certifications[0]?.validUntil || '2024-12-31',
+    contractValue: sup.annualSpend
+  }));
+};
 
 const automotiveCertifications: Certification[] = [
   {
     id: 'iso-9001',
-    name: 'ISO 9001',
+    name: 'ISO 9001:2015',
     description: 'Quality Management Systems',
     required: true,
     validityPeriod: '3 years'
   },
   {
-    id: 'ts-16949',
-    name: 'TS 16949',
+    id: 'iatf-16949',
+    name: 'IATF 16949:2016',
     description: 'Automotive Quality Management Standard',
     required: true,
     validityPeriod: '3 years'
   },
   {
     id: 'iso-14001',
-    name: 'ISO 14001',
+    name: 'ISO 14001:2015',
     description: 'Environmental Management Systems',
     required: false,
     validityPeriod: '3 years'
   },
   {
-    id: 'vda-63',
-    name: 'VDA 6.3',
-    description: 'Process Audit Standard',
-    required: false,
-    validityPeriod: '3 years'
-  },
-  {
-    id: 'ohsas-18001',
-    name: 'OHSAS 18001',
-    description: 'Occupational Health and Safety',
+    id: 'iso-27001',
+    name: 'ISO 27001:2022',
+    description: 'Information Security Management',
     required: false,
     validityPeriod: '3 years'
   }
@@ -136,348 +81,354 @@ const automotiveCertifications: Certification[] = [
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case 'active': return 'bg-green-100 text-green-800 border-green-200';
-    case 'pending': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-    case 'suspended': return 'bg-orange-100 text-orange-800 border-orange-200';
-    case 'terminated': return 'bg-red-100 text-red-800 border-red-200';
-    default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    case 'active': return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+    case 'pending': return 'bg-sky-500/10 text-sky-400 border border-sky-500/20';
+    case 'under_review': return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
+    case 'suspended': return 'bg-orange-500/10 text-orange-400 border border-orange-500/20';
+    case 'terminated': return 'bg-red-500/10 text-red-400 border border-red-500/20';
+    default: return 'bg-slate-800 text-slate-400 border border-slate-700';
   }
 };
 
 const getRiskColor = (risk: string) => {
   switch (risk) {
-    case 'low': return 'bg-green-100 text-green-800 border-green-200';
-    case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-    case 'high': return 'bg-red-100 text-red-800 border-red-200';
-    default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    case 'low': return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+    case 'medium': return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
+    case 'high': return 'bg-red-500/10 text-red-400 border border-red-500/20';
+    default: return 'bg-slate-800 text-slate-400 border border-slate-700';
   }
 };
 
 const getScoreColor = (score: number) => {
-  if (score >= 95) return 'text-green-600';
-  if (score >= 85) return 'text-blue-600';
-  if (score >= 75) return 'text-yellow-600';
-  return 'text-red-600';
+  if (score >= 95) return 'text-emerald-400';
+  if (score >= 85) return 'text-sky-400';
+  if (score >= 75) return 'text-amber-400';
+  return 'text-red-400';
 };
 
 export default function SupplierManagement() {
   const [selectedTab, setSelectedTab] = useState<'suppliers' | 'performance' | 'certifications' | 'audits'>('suppliers');
-  const [suppliers] = useState<Supplier[]>(mockSuppliers);
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+
+  useEffect(() => {
+    setSuppliers(mapSampleDataToSuppliers());
+  }, []);
+
+  const tabs = [
+    { id: 'suppliers', label: 'Supplier Directory', icon: '🏢' },
+    { id: 'performance', label: 'Performance Metrics', icon: '📈' },
+    { id: 'certifications', label: 'Certifications', icon: '🏆' },
+    { id: 'audits', label: 'Audit Schedule', icon: '🔍' }
+  ];
 
   return (
-    <section className="py-16 bg-gradient-to-br from-purple-50 to-blue-50">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl font-bold text-automotive-carbon mb-4">
-            Supplier Management System
-          </h2>
-          <p className="text-xl text-automotive-steel max-w-3xl mx-auto">
-            Comprehensive automotive supplier lifecycle management with quality tracking, certification monitoring, and risk assessment
-          </p>
-        </motion.div>
-
-        {/* Tab Navigation */}
-        <div className="flex justify-center mb-8">
-          <div className="bg-white rounded-lg p-1 shadow-lg">
-            {[
-              { id: 'suppliers', label: 'Supplier Directory', icon: '🏢' },
-              { id: 'performance', label: 'Performance Metrics', icon: '📈' },
-              { id: 'certifications', label: 'Certifications', icon: '🏆' },
-              { id: 'audits', label: 'Audit Schedule', icon: '🔍' }
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setSelectedTab(tab.id as 'suppliers' | 'performance' | 'certifications' | 'audits')}
-                className={`px-6 py-3 rounded-md font-medium transition-all duration-300 ${
-                  selectedTab === tab.id
-                    ? 'bg-primary-500 text-white shadow-md'
-                    : 'text-automotive-steel hover:bg-gray-50'
-                }`}
-              >
-                <span className="mr-2">{tab.icon}</span>
-                {tab.label}
-              </button>
-            ))}
-          </div>
+    <div className="w-full">
+      {/* Tab Navigation */}
+      <div className="mb-8 overflow-x-auto pb-4 scrollbar-hide">
+        <div className="flex flex-nowrap md:flex-wrap justify-start gap-2 min-w-max md:min-w-0">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setSelectedTab(tab.id as 'suppliers' | 'performance' | 'certifications' | 'audits')}
+              className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 flex items-center whitespace-nowrap ${
+                selectedTab === tab.id
+                  ? 'bg-emerald-500 text-slate-50 shadow-sm border border-emerald-400'
+                  : 'bg-slate-900 text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-slate-800'
+              }`}
+            >
+              <span className="mr-2 opacity-80">{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
         </div>
+      </div>
 
-        {/* Content Panels */}
-        <motion.div
-          key={selectedTab}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4 }}
-          className="bg-white rounded-xl shadow-xl p-8"
-        >
-          {selectedTab === 'suppliers' && (
-            <div>
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-semibold text-automotive-carbon">Supplier Directory</h3>
-                <div className="flex space-x-2">
-                  <button className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
-                    Import Suppliers
-                  </button>
-                  <button className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors">
-                    + Add Supplier
-                  </button>
-                </div>
+      {/* Content Panels */}
+      <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-sm">
+        {selectedTab === 'suppliers' && (
+          <div className="p-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-50 tracking-tight">Supplier Directory</h3>
+                <p className="text-sm text-slate-400 mt-1">Manage automotive supplier lifecycle and risk (Loaded from sample data)</p>
               </div>
-              
-              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                {suppliers.map((supplier) => (
-                  <motion.div
-                    key={supplier.id}
-                    className="bg-gradient-to-r from-white to-gray-50 rounded-lg p-6 border border-gray-200"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h4 className="text-lg font-semibold text-automotive-carbon">{supplier.name}</h4>
-                        <p className="text-sm text-automotive-steel">{supplier.category}</p>
-                        <p className="text-sm text-automotive-steel">{supplier.location}</p>
-                      </div>
-                      <div className="text-right">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(supplier.status)}`}>
-                          {supplier.status.toUpperCase()}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-automotive-steel">Overall Score:</span>
-                        <span className={`text-lg font-bold ${getScoreColor(supplier.overallScore)}`}>
-                          {supplier.overallScore.toFixed(1)}%
-                        </span>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-automotive-steel">Quality:</span>
-                          <span className="font-medium">{supplier.qualityRating.toFixed(1)}%</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-automotive-steel">Delivery:</span>
-                          <span className="font-medium">{supplier.deliveryRating.toFixed(1)}%</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-automotive-steel">Cost:</span>
-                          <span className="font-medium">{supplier.costRating.toFixed(1)}%</span>
-                        </div>
-                      </div>
-                      
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-automotive-steel">Risk Level:</span>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getRiskColor(supplier.riskLevel)}`}>
-                          {supplier.riskLevel.toUpperCase()}
-                        </span>
-                      </div>
-                      
-                      <div className="flex justify-between text-sm">
-                        <span className="text-automotive-steel">Contract Value:</span>
-                        <span className="font-medium">£{supplier.contractValue.toLocaleString()}</span>
-                      </div>
-                      
-                      <div className="pt-2 border-t border-gray-200">
-                        <div className="flex flex-wrap gap-1">
-                          {supplier.certifications.slice(0, 3).map((cert) => (
-                            <span key={cert} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
-                              {cert}
-                            </span>
-                          ))}
-                          {supplier.certifications.length > 3 && (
-                            <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
-                              +{supplier.certifications.length - 3} more
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {selectedTab === 'performance' && (
-            <div>
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-semibold text-automotive-carbon">Supplier Performance Metrics</h3>
-                <button className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors">
-                  Generate Report
+              <div className="flex space-x-2">
+                <button className="nkj-button-secondary text-sm whitespace-nowrap">
+                  Import Suppliers
+                </button>
+                <button className="nkj-button-primary text-sm whitespace-nowrap">
+                  + Add Supplier
                 </button>
               </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-6 text-center">
-                  <div className="text-3xl font-bold text-green-600">94.2%</div>
-                  <div className="text-sm text-automotive-steel">Avg On-Time Delivery</div>
-                </div>
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 text-center">
-                  <div className="text-3xl font-bold text-blue-600">96.8%</div>
-                  <div className="text-sm text-automotive-steel">Avg Quality Score</div>
-                </div>
-                <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6 text-center">
-                  <div className="text-3xl font-bold text-purple-600">2.3%</div>
-                  <div className="text-sm text-automotive-steel">Cost Variance</div>
-                </div>
-                <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-lg p-6 text-center">
-                  <div className="text-3xl font-bold text-orange-600">12</div>
-                  <div className="text-sm text-automotive-steel">Active Incidents</div>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-8 text-center">
-                <div className="text-6xl mb-4">📊</div>
-                <h4 className="text-xl font-semibold text-automotive-carbon mb-2">
-                  Performance Analytics Dashboard
-                </h4>
-                <p className="text-automotive-steel mb-4">
-                  Interactive charts showing supplier performance trends, benchmarking, and predictive analytics
-                </p>
-              </div>
             </div>
-          )}
-
-          {selectedTab === 'certifications' && (
-            <div>
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-semibold text-automotive-carbon">Automotive Certifications</h3>
-                <button className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors">
-                  Certification Audit
-                </button>
-              </div>
-              
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {automotiveCertifications.map((cert) => (
-                  <motion.div
-                    key={cert.id}
-                    className="bg-gradient-to-r from-white to-gray-50 rounded-lg p-6 border border-gray-200"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h4 className="text-lg font-semibold text-automotive-carbon">{cert.name}</h4>
-                        <p className="text-sm text-automotive-steel">{cert.description}</p>
-                      </div>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium border ${
-                        cert.required ? 'bg-red-100 text-red-800 border-red-200' : 'bg-blue-100 text-blue-800 border-blue-200'
-                      }`}>
-                        {cert.required ? 'REQUIRED' : 'OPTIONAL'}
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+              {suppliers.map((supplier, index) => (
+                <motion.div
+                  key={supplier.id}
+                  className="bg-slate-950 rounded-xl p-6 border border-slate-800 hover:border-slate-700 transition-colors cursor-pointer group"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h4 className="text-lg font-semibold text-slate-200 group-hover:text-emerald-400 transition-colors tracking-tight">{supplier.name}</h4>
+                      <p className="text-xs text-slate-500 mt-1">{supplier.category}</p>
+                      <p className="text-xs text-slate-500 font-mono mt-0.5">{supplier.location}</p>
+                    </div>
+                    <div className="text-right">
+                      <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${getStatusColor(supplier.status)}`}>
+                        {supplier.status.replace('_', ' ')}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center p-3 bg-slate-900 rounded-lg border border-slate-800">
+                      <span className="text-sm font-semibold text-slate-400 uppercase tracking-wider">Overall Score</span>
+                      <span className={`text-xl font-bold tracking-tight ${getScoreColor(supplier.overallScore)}`}>
+                        {supplier.overallScore.toFixed(1)}%
                       </span>
                     </div>
                     
-                    <div className="space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-automotive-steel">Validity Period:</span>
-                        <span className="font-medium text-automotive-carbon">{cert.validityPeriod}</span>
+                    <div className="grid grid-cols-3 gap-2 text-center">
+                      <div className="p-2 bg-slate-900 rounded-lg border border-slate-800">
+                        <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Quality</div>
+                        <div className="font-medium text-slate-300">{supplier.qualityRating.toFixed(1)}%</div>
                       </div>
-                      
-                      <div className="flex justify-between">
-                        <span className="text-automotive-steel">Suppliers with this cert:</span>
-                        <span className="font-medium text-automotive-carbon">
+                      <div className="p-2 bg-slate-900 rounded-lg border border-slate-800">
+                        <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Delivery</div>
+                        <div className="font-medium text-slate-300">{supplier.deliveryRating.toFixed(1)}%</div>
+                      </div>
+                      <div className="p-2 bg-slate-900 rounded-lg border border-slate-800">
+                        <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Cost</div>
+                        <div className="font-medium text-slate-300">{supplier.costRating.toFixed(1)}%</div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex justify-between items-center py-2 border-t border-slate-800">
+                      <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Risk Level</span>
+                      <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${getRiskColor(supplier.riskLevel)}`}>
+                        {supplier.riskLevel}
+                      </span>
+                    </div>
+                    
+                    <div className="flex justify-between text-sm py-2 border-t border-slate-800">
+                      <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Annual Spend</span>
+                      <span className="font-mono text-slate-300">£{(supplier.contractValue / 1000000).toFixed(1)}M</span>
+                    </div>
+                    
+                    <div className="pt-3 border-t border-slate-800">
+                      <div className="flex flex-wrap gap-1.5">
+                        {supplier.certifications.slice(0, 3).map((cert) => (
+                          <span key={cert} className="px-2 py-1 bg-slate-800 text-slate-300 text-[10px] font-medium rounded border border-slate-700">
+                            {cert}
+                          </span>
+                        ))}
+                        {supplier.certifications.length > 3 && (
+                          <span className="px-2 py-1 bg-slate-900 text-slate-500 text-[10px] font-medium rounded border border-slate-800">
+                            +{supplier.certifications.length - 3} more
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {selectedTab === 'performance' && (
+          <div className="p-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-50 tracking-tight">Supplier Performance Metrics</h3>
+                <p className="text-sm text-slate-400 mt-1">Aggregated performance and risk indicators</p>
+              </div>
+              <button className="nkj-button-primary text-sm whitespace-nowrap">
+                Generate Report
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <div className="bg-slate-950 rounded-xl p-6 border border-slate-800 shadow-sm text-center">
+                <div className="text-3xl font-bold text-emerald-500 tracking-tight mb-2">94.2%</div>
+                <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Avg On-Time Delivery</div>
+              </div>
+              <div className="bg-slate-950 rounded-xl p-6 border border-slate-800 shadow-sm text-center">
+                <div className="text-3xl font-bold text-sky-500 tracking-tight mb-2">96.8%</div>
+                <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Avg Quality Score</div>
+              </div>
+              <div className="bg-slate-950 rounded-xl p-6 border border-slate-800 shadow-sm text-center">
+                <div className="text-3xl font-bold text-indigo-500 tracking-tight mb-2">2.3%</div>
+                <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Cost Variance</div>
+              </div>
+              <div className="bg-slate-950 rounded-xl p-6 border border-slate-800 shadow-sm text-center">
+                <div className="text-3xl font-bold text-amber-500 tracking-tight mb-2">8</div>
+                <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Active Incidents</div>
+              </div>
+            </div>
+
+            <div className="bg-slate-950 border border-slate-800 rounded-xl p-8 text-center border-dashed">
+              <div className="text-4xl mb-4 opacity-50 grayscale">📊</div>
+              <h4 className="text-base font-semibold text-slate-300 mb-2 tracking-tight">
+                Performance Analytics Dashboard
+              </h4>
+              <p className="text-sm text-slate-500 max-w-sm mx-auto">
+                Interactive charts showing supplier performance trends, benchmarking, and predictive analytics are available in the full platform.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {selectedTab === 'certifications' && (
+          <div className="p-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-50 tracking-tight">Automotive Certifications</h3>
+                <p className="text-sm text-slate-400 mt-1">Track compliance with industry standards</p>
+              </div>
+              <button className="nkj-button-primary text-sm whitespace-nowrap">
+                Certification Audit
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {automotiveCertifications.map((cert, index) => (
+                <motion.div
+                  key={cert.id}
+                  className="bg-slate-950 rounded-xl p-6 border border-slate-800 hover:border-slate-700 transition-colors cursor-pointer group"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h4 className="text-lg font-semibold text-slate-200 group-hover:text-emerald-400 transition-colors tracking-tight">{cert.name}</h4>
+                      <p className="text-xs text-slate-500 mt-1">{cert.description}</p>
+                    </div>
+                    <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
+                      cert.required ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-sky-500/10 text-sky-400 border-sky-500/20'
+                    }`}>
+                      {cert.required ? 'REQUIRED' : 'OPTIONAL'}
+                    </span>
+                  </div>
+                  
+                  <div className="space-y-4 pt-4 border-t border-slate-800">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Validity Period</span>
+                      <span className="font-mono text-sm text-slate-300">{cert.validityPeriod}</span>
+                    </div>
+                    
+                    <div>
+                      <div className="flex justify-between text-sm mb-2">
+                        <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Compliance Rate</span>
+                        <span className="font-mono text-slate-300">
                           {suppliers.filter(s => s.certifications.includes(cert.name)).length} / {suppliers.length}
                         </span>
                       </div>
                       
-                      <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
                         <div
-                          className="bg-primary-500 h-2 rounded-full transition-all duration-300"
+                          className="bg-emerald-500 h-full rounded-full transition-all duration-500"
                           style={{ 
-                            width: `${(suppliers.filter(s => s.certifications.includes(cert.name)).length / suppliers.length) * 100}%` 
+                            width: `${suppliers.length > 0 ? (suppliers.filter(s => s.certifications.includes(cert.name)).length / suppliers.length) * 100 : 0}%` 
                           }}
                         />
                       </div>
                     </div>
-                  </motion.div>
-                ))}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {selectedTab === 'audits' && (
+          <div className="p-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-50 tracking-tight">Audit Schedule & Results</h3>
+                <p className="text-sm text-slate-400 mt-1">Manage supplier audits and corrective actions</p>
+              </div>
+              <button className="nkj-button-primary text-sm whitespace-nowrap">
+                Schedule Audit
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="bg-slate-950 rounded-xl p-6 border border-slate-800 shadow-sm text-center">
+                <div className="text-3xl font-bold text-amber-500 tracking-tight mb-2">3</div>
+                <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Pending Audits</div>
+              </div>
+              <div className="bg-slate-950 rounded-xl p-6 border border-slate-800 shadow-sm text-center">
+                <div className="text-3xl font-bold text-sky-500 tracking-tight mb-2">12</div>
+                <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Completed This Year</div>
+              </div>
+              <div className="bg-slate-950 rounded-xl p-6 border border-slate-800 shadow-sm text-center">
+                <div className="text-3xl font-bold text-emerald-500 tracking-tight mb-2">92%</div>
+                <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Avg Audit Score</div>
               </div>
             </div>
-          )}
 
-          {selectedTab === 'audits' && (
-            <div>
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-semibold text-automotive-carbon">Audit Schedule & Results</h3>
-                <button className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors">
-                  Schedule Audit
-                </button>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg p-6 text-center">
-                  <div className="text-3xl font-bold text-yellow-600">8</div>
-                  <div className="text-sm text-automotive-steel">Pending Audits</div>
-                </div>
-                <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-6 text-center">
-                  <div className="text-3xl font-bold text-blue-600">15</div>
-                  <div className="text-sm text-automotive-steel">Completed This Quarter</div>
-                </div>
-                <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-6 text-center">
-                  <div className="text-3xl font-bold text-green-600">92%</div>
-                  <div className="text-sm text-automotive-steel">Avg Audit Score</div>
-                </div>
-              </div>
-
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Supplier</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Last Audit</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Score</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Next Audit</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Status</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {suppliers.map((supplier) => (
-                      <tr key={supplier.id} className="border-b border-gray-100 hover:bg-gray-50">
-                        <td className="py-4 px-4">
-                          <div>
-                            <div className="font-medium text-automotive-carbon">{supplier.name}</div>
-                            <div className="text-sm text-automotive-steel">{supplier.category}</div>
-                          </div>
-                        </td>
-                        <td className="py-4 px-4 text-automotive-steel">{supplier.lastAudit}</td>
-                        <td className="py-4 px-4">
-                          <span className={`font-medium ${getScoreColor(supplier.overallScore)}`}>
-                            {supplier.overallScore.toFixed(1)}%
-                          </span>
-                        </td>
-                        <td className="py-4 px-4 text-automotive-steel">{supplier.nextAudit}</td>
-                        <td className="py-4 px-4">
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium border ${
-                            new Date(supplier.nextAudit) < new Date() ? 'bg-red-100 text-red-800 border-red-200' : 
-                            new Date(supplier.nextAudit) < new Date(Date.now() + 30*24*60*60*1000) ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
-                            'bg-green-100 text-green-800 border-green-200'
-                          }`}>
-                            {new Date(supplier.nextAudit) < new Date() ? 'OVERDUE' : 
-                             new Date(supplier.nextAudit) < new Date(Date.now() + 30*24*60*60*1000) ? 'DUE SOON' : 'SCHEDULED'}
-                          </span>
-                        </td>
-                        <td className="py-4 px-4">
-                          <button className="text-primary-500 hover:text-primary-600 font-medium">
-                            View Report
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-800 bg-slate-950/50">
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Supplier</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Last Audit</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Score</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Next Audit</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Status</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/50">
+                  {suppliers.map((supplier) => (
+                    <motion.tr 
+                      key={supplier.id} 
+                      className="hover:bg-slate-800/30 transition-colors group cursor-pointer"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                    >
+                      <td className="py-4 px-4">
+                        <div>
+                          <div className="font-medium text-slate-200">{supplier.name}</div>
+                          <div className="text-xs text-slate-500 mt-1">{supplier.category}</div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4 text-sm text-slate-400">{supplier.lastAudit}</td>
+                      <td className="py-4 px-4">
+                        <span className={`font-bold tracking-tight ${getScoreColor(supplier.overallScore)}`}>
+                          {supplier.overallScore.toFixed(1)}%
+                        </span>
+                      </td>
+                      <td className="py-4 px-4 text-sm text-slate-400">{supplier.nextAudit}</td>
+                      <td className="py-4 px-4">
+                        <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
+                          new Date(supplier.nextAudit) < new Date() ? 'bg-red-500/10 text-red-400 border-red-500/20' : 
+                          new Date(supplier.nextAudit) < new Date(Date.now() + 30*24*60*60*1000) ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
+                          'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                        }`}>
+                          {new Date(supplier.nextAudit) < new Date() ? 'OVERDUE' : 
+                           new Date(supplier.nextAudit) < new Date(Date.now() + 30*24*60*60*1000) ? 'DUE SOON' : 'SCHEDULED'}
+                        </span>
+                      </td>
+                      <td className="py-4 px-4 text-right">
+                        <button className="text-emerald-500 hover:text-emerald-400 text-sm font-medium transition-colors opacity-0 group-hover:opacity-100">
+                          View Report
+                        </button>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          )}
-        </motion.div>
+          </div>
+        )}
       </div>
-    </section>
+    </div>
   );
 }

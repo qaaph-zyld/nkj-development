@@ -1,6 +1,7 @@
 {
   "itemNumber": "BRK-ASSY-FR",
   "description": "Front Brake Assembly",
+  "qtyPer": 1,
   "uom": "EA",
   "leadTimeDays": 5,
   "standardCost": 125.50,

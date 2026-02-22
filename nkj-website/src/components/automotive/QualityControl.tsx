@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import sampleQualityData from '@/data/sample-quality.json';
 
-// ... (rest of the file content needs to be read first, I will keep the interfaces and mock data)
 interface QualityMetric {
   id: string;
   name: string;
@@ -37,101 +37,100 @@ interface InspectionResult {
   timestamp: string;
 }
 
-const mockQualityMetrics: QualityMetric[] = [
-  {
-    id: 'defect-rate',
-    name: 'Defect Rate',
-    value: 0.8,
-    target: 1.0,
-    unit: '%',
-    trend: 'down',
-    status: 'excellent',
-    lastUpdated: '2024-01-15T10:30:00Z'
-  },
-  {
-    id: 'first-pass-yield',
-    name: 'First Pass Yield',
-    value: 98.5,
-    target: 97.0,
-    unit: '%',
-    trend: 'up',
-    status: 'excellent',
-    lastUpdated: '2024-01-15T10:30:00Z'
-  },
-  {
-    id: 'customer-complaints',
-    name: 'Customer Complaints',
-    value: 2,
-    target: 5,
-    unit: 'per 1000',
-    trend: 'stable',
-    status: 'good',
-    lastUpdated: '2024-01-15T10:30:00Z'
-  },
-  {
-    id: 'inspection-coverage',
-    name: 'Inspection Coverage',
-    value: 95.2,
-    target: 98.0,
-    unit: '%',
-    trend: 'up',
-    status: 'warning',
-    lastUpdated: '2024-01-15T10:30:00Z'
-  },
-  {
-    id: 'supplier-quality',
-    name: 'Supplier Quality Score',
-    value: 94.7,
-    target: 95.0,
-    unit: '%',
-    trend: 'down',
-    status: 'warning',
-    lastUpdated: '2024-01-15T10:30:00Z'
-  },
-  {
-    id: 'audit-score',
-    name: 'ISO Audit Score',
-    value: 96.8,
-    target: 95.0,
-    unit: '%',
-    trend: 'up',
-    status: 'excellent',
-    lastUpdated: '2024-01-15T10:30:00Z'
-  }
-];
+const mapSampleDataToMetrics = (): QualityMetric[] => {
+  // Calculate aggregates from sample data
+  const totalInspected = sampleQualityData.reduce((acc, curr) => acc + curr.inspectedUnits, 0);
+  const totalDefects = sampleQualityData.reduce((acc, curr) => acc + curr.defectiveUnits, 0);
+  
+  const avgFpy = sampleQualityData.reduce((acc, curr) => acc + curr.firstPassYield, 0) / sampleQualityData.length;
+  const defectRate = (totalDefects / totalInspected) * 100;
 
-const mockQualityIncidents: QualityIncident[] = [
-  {
-    id: 'QI-001',
-    partNumber: 'ENG-V8-2024',
-    defectType: 'Surface Roughness',
-    severity: 'medium',
-    detectedAt: 'Final Inspection',
-    status: 'investigating',
-    assignedTo: 'John Smith',
-    description: 'Surface roughness exceeds specification on cylinder head'
-  },
-  {
-    id: 'QI-002',
-    partNumber: 'BRAKE-DISC-F1',
-    defectType: 'Dimensional Variance',
-    severity: 'high',
-    detectedAt: 'In-Process Check',
-    status: 'open',
-    assignedTo: 'Sarah Johnson',
-    description: 'Brake disc thickness variance beyond tolerance'
-  },
-  {
-    id: 'QI-003',
-    partNumber: 'TRANS-AUTO-X7',
-    defectType: 'Material Defect',
-    severity: 'critical',
-    detectedAt: 'Incoming Inspection',
-    status: 'resolved',
-    assignedTo: 'Mike Wilson',
-    description: 'Material hardness below specification'
-  }
-];
+  return [
+    {
+      id: 'defect-rate',
+      name: 'Defect Rate',
+      value: Number(defectRate.toFixed(2)),
+      target: 1.0,
+      unit: '%',
+      trend: 'down',
+      status: defectRate < 1.0 ? 'excellent' : defectRate < 2.0 ? 'warning' : 'critical',
+      lastUpdated: new Date().toISOString()
+    },
+    {
+      id: 'first-pass-yield',
+      name: 'First Pass Yield',
+      value: Number(avgFpy.toFixed(1)),
+      target: 97.0,
+      unit: '%',
+      trend: 'up',
+      status: avgFpy >= 97.0 ? 'excellent' : avgFpy >= 95.0 ? 'good' : 'warning',
+      lastUpdated: new Date().toISOString()
+    },
+    {
+      id: 'customer-complaints',
+      name: 'Customer Complaints',
+      value: 2, // Mocked for now
+      target: 5,
+      unit: 'per 1000',
+      trend: 'stable',
+      status: 'good',
+      lastUpdated: new Date().toISOString()
+    },
+    {
+      id: 'inspection-coverage',
+      name: 'Inspection Coverage',
+      value: 95.2, // Mocked
+      target: 98.0,
+      unit: '%',
+      trend: 'up',
+      status: 'warning',
+      lastUpdated: new Date().toISOString()
+    },
+    {
+      id: 'supplier-quality',
+      name: 'Supplier Quality Score',
+      value: 94.7, // Mocked
+      target: 95.0,
+      unit: '%',
+      trend: 'down',
+      status: 'warning',
+      lastUpdated: new Date().toISOString()
+    },
+    {
+      id: 'audit-score',
+      name: 'ISO Audit Score',
+      value: 96.8, // Mocked
+      target: 95.0,
+      unit: '%',
+      trend: 'up',
+      status: 'excellent',
+      lastUpdated: new Date().toISOString()
+    }
+  ];
+};
+
+const mapSampleDataToIncidents = (): QualityIncident[] => {
+  // Extract top defects into incidents
+  const incidents: QualityIncident[] = [];
+  sampleQualityData.forEach((record, index) => {
+    record.topDefectTypes.forEach((defect, dIndex) => {
+      // Create an incident for severe defects
+      if (defect.severity === 'critical' || defect.severity === 'major') {
+        incidents.push({
+          id: `QI-${1000 + index * 10 + dIndex}`,
+          partNumber: record.partCategory, // Using category as part number for demo
+          defectType: defect.type,
+          severity: defect.severity as QualityIncident['severity'],
+          detectedAt: `Line ${record.productionLine}`,
+          status: defect.severity === 'critical' ? 'investigating' : 'open',
+          assignedTo: 'Quality Team',
+          description: `${defect.count} units found with ${defect.type} during inspection on ${record.date}`
+        });
+      }
+    });
+  });
+  return incidents.slice(0, 5); // Return top 5
+};
 
 const mockInspectionResults: InspectionResult[] = [
   {
@@ -206,6 +205,13 @@ const getTrendIcon = (trend: string) => {
 
 export default function QualityControl() {
   const [selectedTab, setSelectedTab] = useState<'metrics' | 'incidents' | 'inspections'>('metrics');
+  const [metrics, setMetrics] = useState<QualityMetric[]>([]);
+  const [incidents, setIncidents] = useState<QualityIncident[]>([]);
+
+  useEffect(() => {
+    setMetrics(mapSampleDataToMetrics());
+    setIncidents(mapSampleDataToIncidents());
+  }, []);
 
   const tabs = [
     { id: 'metrics', label: 'Quality Metrics', icon: '📊' },
@@ -247,7 +253,7 @@ export default function QualityControl() {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
-              {mockQualityMetrics.map((metric, index) => (
+              {metrics.map((metric, index) => (
                 <motion.div
                   key={metric.id}
                   className="bg-slate-950 rounded-lg p-6 border border-slate-800 hover:border-slate-700 transition-colors group cursor-pointer"
@@ -339,7 +345,7 @@ export default function QualityControl() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800/50">
-                  {mockQualityIncidents.map((incident) => (
+                  {incidents.map((incident) => (
                     <motion.tr 
                       key={incident.id} 
                       className="hover:bg-slate-800/30 transition-colors group cursor-pointer"
