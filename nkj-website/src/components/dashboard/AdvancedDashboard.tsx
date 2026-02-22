@@ -45,7 +45,7 @@ const dashboardWidgets: DashboardWidget[] = [
     title: 'Production Efficiency Trend',
     type: 'line',
     data: generateTimeSeriesData(30, 94, 0.05),
-    color: '#0ea5e9',
+    color: '#34d399', // Emerald 400
     unit: '%'
   },
   {
@@ -53,7 +53,7 @@ const dashboardWidgets: DashboardWidget[] = [
     title: 'Quality Score Distribution',
     type: 'bar',
     data: generateTimeSeriesData(7, 98, 0.02),
-    color: '#10b981',
+    color: '#10b981', // Emerald 500
     unit: '%'
   },
   {
@@ -61,7 +61,7 @@ const dashboardWidgets: DashboardWidget[] = [
     title: 'Supply Chain Health',
     type: 'gauge',
     data: [{ timestamp: new Date(), value: 87.5, category: 'health' }],
-    color: '#f59e0b',
+    color: '#38bdf8', // Sky 400
     unit: '/100'
   },
   {
@@ -69,7 +69,7 @@ const dashboardWidgets: DashboardWidget[] = [
     title: 'Delivery Performance Heatmap',
     type: 'heatmap',
     data: generateTimeSeriesData(14, 96, 0.08),
-    color: '#8b5cf6',
+    color: '#818cf8', // Indigo 400
     unit: '%'
   }
 ];
@@ -317,67 +317,76 @@ export default function AdvancedDashboard() {
   }, [isRealTime]);
 
   return (
-    <section className="py-16 bg-slate-50">
+    <section className="py-20 bg-slate-950 border-t border-slate-800/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl font-bold text-automotive-carbon mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-50 mb-4 tracking-tight">
             Advanced Analytics Dashboard
           </h2>
-          <p className="text-lg text-automotive-steel max-w-3xl mx-auto">
+          <p className="text-lg text-slate-400 max-w-3xl mx-auto">
             Real-time data visualization powered by D3.js for comprehensive automotive insights
           </p>
           
-          <div className="mt-6 flex justify-center">
+          <div className="mt-8 flex justify-center">
             <button
               onClick={() => setIsRealTime(!isRealTime)}
-              className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+              className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 shadow-sm flex items-center gap-2 ${
                 isRealTime
-                  ? 'bg-automotive-success text-white'
-                  : 'bg-automotive-chrome text-automotive-carbon'
+                  ? 'bg-emerald-500 text-slate-50 border border-emerald-400'
+                  : 'bg-slate-800 text-slate-400 border border-slate-700 hover:bg-slate-700 hover:text-slate-300'
               }`}
             >
-              {isRealTime ? '🟢 Real-time Active' : '⏸️ Real-time Paused'}
+              {isRealTime ? (
+                <>
+                  <span className="w-2 h-2 rounded-full bg-slate-50 animate-pulse"></span>
+                  Real-time Active
+                </>
+              ) : (
+                <>
+                  <span className="w-2 h-2 rounded-full bg-slate-500"></span>
+                  Real-time Paused
+                </>
+              )}
             </button>
           </div>
         </motion.div>
 
         {/* Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {dashboardWidgets.map((widget, index) => (
             <motion.div
               key={widget.id}
-              className={`nkj-card p-6 border-2 transition-all duration-300 ${
+              className={`bg-slate-900 rounded-xl p-8 transition-all duration-300 shadow-sm cursor-pointer ${
                 selectedWidget === widget.id
-                  ? 'border-primary-500 shadow-xl'
-                  : 'border-automotive-chrome hover:border-primary-300'
+                  ? 'border-2 border-emerald-500 shadow-md scale-[1.01]'
+                  : 'border border-slate-800 hover:border-slate-700 hover:shadow-md'
               }`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               onClick={() => setSelectedWidget(selectedWidget === widget.id ? null : widget.id)}
-              whileHover={{ scale: 1.02 }}
             >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-white">
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="text-lg font-semibold text-slate-50 tracking-tight">
                   {widget.title}
                 </h3>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 bg-slate-950 px-3 py-1 rounded-full border border-slate-800">
                   <div 
-                    className="w-4 h-4 rounded-full"
+                    className="w-2.5 h-2.5 rounded-full"
                     style={{ backgroundColor: widget.color }}
                   ></div>
-                  <span className="text-sm text-gray-300">
+                  <span className="text-xs font-medium text-slate-400 tracking-wider">
                     {widget.type.toUpperCase()}
                   </span>
                 </div>
               </div>
 
-              <div className="flex justify-center">
+              <div className="flex justify-center mb-6">
                 {widget.type === 'line' && (
                   <LineChart 
                     data={widget.data} 
@@ -416,21 +425,21 @@ export default function AdvancedDashboard() {
               </div>
 
               {/* Widget Stats */}
-              <div className="mt-4 pt-4 border-t border-automotive-chrome">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-automotive-steel">
-                    Current Value:
+              <div className="mt-auto pt-6 border-t border-slate-800">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="text-sm font-medium text-slate-500">
+                    Current Value
                   </span>
-                  <span className="font-semibold text-automotive-carbon">
+                  <span className="text-lg font-bold text-slate-50">
                     {widget.data[widget.data.length - 1]?.value.toFixed(1)}{widget.unit}
                   </span>
                 </div>
                 
-                <div className="flex justify-between items-center mt-2">
-                  <span className="text-sm text-automotive-steel">
-                    Data Points:
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-slate-500">
+                    Data Points
                   </span>
-                  <span className="font-semibold text-automotive-carbon">
+                  <span className="text-sm font-medium text-slate-300">
                     {widget.data.length}
                   </span>
                 </div>
@@ -441,60 +450,60 @@ export default function AdvancedDashboard() {
 
         {/* Technical Info */}
         <motion.div
-          className="mt-12 nkj-card p-6"
+          className="mt-12 bg-slate-900 border border-slate-800 rounded-xl p-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
         >
-          <h3 className="text-xl font-semibold text-white mb-4">
+          <h3 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-8">
             D3.js Visualization Features
           </h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-primary-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <span className="text-xl">📊</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <div className="w-10 h-10 bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center mb-4">
+                <span className="text-emerald-400">📊</span>
               </div>
-              <h4 className="font-semibold text-white mb-2">
+              <h4 className="text-sm font-semibold text-slate-50 mb-1">
                 Interactive Charts
               </h4>
-              <p className="text-sm text-gray-300">
+              <p className="text-xs text-slate-400">
                 Click and hover interactions
               </p>
             </div>
             
-            <div className="text-center">
-              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <span className="text-xl">🔄</span>
+            <div>
+              <div className="w-10 h-10 bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center mb-4">
+                <span className="text-emerald-400">🔄</span>
               </div>
-              <h4 className="font-semibold text-automotive-carbon mb-2">
+              <h4 className="text-sm font-semibold text-slate-50 mb-1">
                 Real-time Updates
               </h4>
-              <p className="text-sm text-automotive-steel">
+              <p className="text-xs text-slate-400">
                 Live data streaming
               </p>
             </div>
             
-            <div className="text-center">
-              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <span className="text-xl">🎨</span>
+            <div>
+              <div className="w-10 h-10 bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center mb-4">
+                <span className="text-emerald-400">🎨</span>
               </div>
-              <h4 className="font-semibold text-automotive-carbon mb-2">
+              <h4 className="text-sm font-semibold text-slate-50 mb-1">
                 Custom Styling
               </h4>
-              <p className="text-sm text-automotive-steel">
+              <p className="text-xs text-slate-400">
                 Automotive brand colors
               </p>
             </div>
             
-            <div className="text-center">
-              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <span className="text-xl">📱</span>
+            <div>
+              <div className="w-10 h-10 bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center mb-4">
+                <span className="text-emerald-400">📱</span>
               </div>
-              <h4 className="font-semibold text-automotive-carbon mb-2">
+              <h4 className="text-sm font-semibold text-slate-50 mb-1">
                 Responsive Design
               </h4>
-              <p className="text-sm text-automotive-steel">
+              <p className="text-xs text-slate-400">
                 Mobile-optimized views
               </p>
             </div>

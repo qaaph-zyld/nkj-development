@@ -1,28 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  /* NKJ Brand Colors - Strategic Green Spectrum */
-  --nkj-primary: #4ade80;
-  --nkj-secondary: #22c55e;
-  --nkj-accent: #6ee7b7;
-  --nkj-dark-green: #0a4a3a;
-  --nkj-medium-green: #1a5a4a;
+  /* Enterprise Slate & Emerald System */
+  --nkj-primary: #10b981; /* Emerald 500 */
+  --nkj-secondary: #059669; /* Emerald 600 */
+  --nkj-accent: #34d399; /* Emerald 400 */
   
-  /* Sophisticated Neutrals */
-  --nkj-black: #000000;
-  --nkj-dark: #0f0f0f;
-  --nkj-background: #0a4a3a;
-  --nkj-light: #ffffff;
-  --nkj-gray: #6b7280;
-  --nkj-surface: #1a1a1a;
-  --nkj-border: #2a2a2a;
+  /* Sophisticated Neutrals (Slate) */
+  --nkj-black: #020617; /* Slate 950 */
+  --nkj-dark: #0f172a; /* Slate 900 */
+  --nkj-background: #1e293b; /* Slate 800 */
+  --nkj-light: #f8fafc; /* Slate 50 */
+  --nkj-gray: #64748b; /* Slate 500 */
+  --nkj-surface: #0f172a; /* Slate 900 */
+  --nkj-border: #334155; /* Slate 700 */
   
   /* Enhanced Design System */
   --nkj-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --nkj-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --nkj-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --nkj-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  --nkj-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --nkj-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  --nkj-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+  --nkj-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   
   /* Animation Timing */
   --nkj-transition-fast: 150ms;
@@ -30,26 +28,14 @@
   --nkj-transition-slow: 500ms;
   
   /* Legacy variables for compatibility */
-  --background: var(--nkj-dark);
+  --background: var(--nkj-black);
   --foreground: var(--nkj-light);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: Arial, Helvetica, sans-serif;
-  --font-mono: 'Courier New', monospace;
-  
-  /* NKJ Brand Color Extensions */
-  --color-primary: var(--nkj-primary);
-  --color-secondary: var(--nkj-secondary);
-  --color-accent: var(--nkj-accent);
-}
-
 body {
-  background: linear-gradient(135deg, var(--nkj-dark) 0%, var(--nkj-background) 100%);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-weight: 400;
   line-height: 1.6;
   scroll-behavior: smooth;
@@ -57,7 +43,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Network Animation Background */
+/* Network Animation Background - Muted for Enterprise */
 .network-bg {
   position: fixed;
   top: 0;
@@ -65,35 +51,35 @@ body {
   width: 100%;
   height: 100%;
   z-index: -1;
-  background: radial-gradient(circle at 20% 50%, rgba(74, 222, 128, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 40% 80%, rgba(110, 231, 183, 0.1) 0%, transparent 50%);
+  background: radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(5, 150, 105, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 40% 80%, rgba(52, 211, 153, 0.03) 0%, transparent 50%);
 }
 
 /* Enhanced Design System Classes */
 .glass-effect {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.6); /* Slate 900 */
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--nkj-border);
 }
 
 .nkj-card {
-  background: linear-gradient(145deg, rgba(26, 26, 26, 0.8), rgba(15, 15, 15, 0.9));
+  background: var(--nkj-surface);
   border: 1px solid var(--nkj-border);
   border-radius: 12px;
-  box-shadow: var(--nkj-shadow-lg);
+  box-shadow: var(--nkj-shadow);
   transition: all var(--nkj-transition-normal) ease;
 }
 
 .nkj-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--nkj-shadow-xl);
-  border-color: var(--nkj-primary);
+  box-shadow: var(--nkj-shadow-lg);
+  border-color: var(--nkj-gray);
 }
 
 .nkj-button-primary {
-  background: linear-gradient(135deg, var(--nkj-primary), var(--nkj-secondary));
-  color: var(--nkj-black);
+  background: var(--nkj-primary);
+  color: var(--nkj-light);
   font-weight: 600;
   padding: 12px 24px;
   border-radius: 8px;
@@ -106,23 +92,24 @@ body {
 .nkj-button-primary:hover {
   transform: translateY(-1px);
   box-shadow: var(--nkj-shadow-lg);
-  filter: brightness(1.1);
+  background: var(--nkj-secondary);
 }
 
 .nkj-button-secondary {
   background: transparent;
-  color: var(--nkj-primary);
+  color: var(--nkj-light);
   font-weight: 600;
   padding: 12px 24px;
   border-radius: 8px;
-  border: 2px solid var(--nkj-primary);
+  border: 1px solid var(--nkj-border);
   cursor: pointer;
   transition: all var(--nkj-transition-normal) ease;
+  background: var(--nkj-background);
 }
 
 .nkj-button-secondary:hover {
-  background: var(--nkj-primary);
-  color: var(--nkj-black);
+  background: var(--nkj-surface);
+  border-color: var(--nkj-gray);
   transform: translateY(-1px);
 }
 

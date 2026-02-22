@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
+// ... (rest of the file content needs to be read first, I will keep the interfaces and mock data)
 interface ProductionOrder {
   id: string;
   partNumber: string;
@@ -118,29 +119,29 @@ const mockProductionLines: ProductionLine[] = [
 
 const getPriorityColor = (priority: string) => {
   switch (priority) {
-    case 'high': return 'bg-red-100 text-red-800 border-red-200';
-    case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-    case 'low': return 'bg-green-100 text-green-800 border-green-200';
-    default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    case 'high': return 'bg-red-500/10 text-red-400 border-red-500/20';
+    case 'medium': return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+    case 'low': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+    default: return 'bg-slate-800 text-slate-400 border-slate-700';
   }
 };
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case 'completed': return 'bg-green-100 text-green-800 border-green-200';
-    case 'in-progress': return 'bg-blue-100 text-blue-800 border-blue-200';
-    case 'planned': return 'bg-purple-100 text-purple-800 border-purple-200';
-    case 'delayed': return 'bg-red-100 text-red-800 border-red-200';
-    default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    case 'completed': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+    case 'in-progress': return 'bg-sky-500/10 text-sky-400 border-sky-500/20';
+    case 'planned': return 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20';
+    case 'delayed': return 'bg-red-500/10 text-red-400 border-red-500/20';
+    default: return 'bg-slate-800 text-slate-400 border-slate-700';
   }
 };
 
 const getLineStatusColor = (status: string) => {
   switch (status) {
-    case 'active': return 'text-green-600';
-    case 'maintenance': return 'text-orange-600';
-    case 'idle': return 'text-gray-600';
-    default: return 'text-gray-600';
+    case 'active': return 'text-emerald-400';
+    case 'maintenance': return 'text-amber-400';
+    case 'idle': return 'text-slate-400';
+    default: return 'text-slate-400';
   }
 };
 
@@ -149,214 +150,216 @@ export default function ProductionPlanning() {
   const [orders] = useState<ProductionOrder[]>(mockProductionOrders);
   const [lines] = useState<ProductionLine[]>(mockProductionLines);
 
+  const tabs = [
+    { id: 'orders', label: 'Production Orders', icon: '📋' },
+    { id: 'lines', label: 'Production Lines', icon: '🏭' },
+    { id: 'schedule', label: 'Schedule View', icon: '📅' }
+  ];
+
   return (
-    <section className="py-16 bg-gradient-to-br from-slate-50 to-blue-50">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl font-bold text-automotive-carbon mb-4">
-            Production Planning & Optimization
-          </h2>
-          <p className="text-xl text-automotive-steel max-w-3xl mx-auto">
-            Advanced automotive manufacturing workflow management with real-time capacity planning and resource optimization
-          </p>
-        </motion.div>
-
-        {/* Tab Navigation */}
-        <div className="flex justify-center mb-8">
-          <div className="bg-white rounded-lg p-1 shadow-lg">
-            {[
-              { id: 'orders', label: 'Production Orders', icon: '📋' },
-              { id: 'lines', label: 'Production Lines', icon: '🏭' },
-              { id: 'schedule', label: 'Schedule View', icon: '📅' }
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setSelectedTab(tab.id as 'orders' | 'lines' | 'schedule')}
-                className={`px-6 py-3 rounded-md font-medium transition-all duration-300 ${
-                  selectedTab === tab.id
-                    ? 'bg-primary-500 text-white shadow-md'
-                    : 'text-automotive-steel hover:bg-gray-50'
-                }`}
-              >
-                <span className="mr-2">{tab.icon}</span>
-                {tab.label}
-              </button>
-            ))}
-          </div>
+    <div className="w-full">
+      {/* Tab Navigation */}
+      <div className="mb-8 overflow-x-auto pb-4 scrollbar-hide">
+        <div className="flex flex-nowrap md:flex-wrap justify-start gap-2 min-w-max md:min-w-0">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setSelectedTab(tab.id as 'orders' | 'lines' | 'schedule')}
+              className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 flex items-center whitespace-nowrap ${
+                selectedTab === tab.id
+                  ? 'bg-emerald-500 text-slate-50 shadow-sm border border-emerald-400'
+                  : 'bg-slate-900 text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-slate-800'
+              }`}
+            >
+              <span className="mr-2 opacity-80">{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
         </div>
+      </div>
 
-        {/* Content Panels */}
-        <motion.div
-          key={selectedTab}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4 }}
-          className="bg-white rounded-xl shadow-xl p-8"
-        >
-          {selectedTab === 'orders' && (
-            <div>
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-semibold text-automotive-carbon">Production Orders</h3>
-                <button className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors">
-                  + New Order
-                </button>
+      {/* Content Panels */}
+      <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-sm">
+        {selectedTab === 'orders' && (
+          <div className="p-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-50 tracking-tight">Production Orders</h3>
+                <p className="text-sm text-slate-400 mt-1">Manage and track active manufacturing orders</p>
               </div>
-              
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Order ID</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Part Number</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Description</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Quantity</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Priority</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Status</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Progress</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Line</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orders.map((order) => (
-                      <tr key={order.id} className="border-b border-gray-100 hover:bg-gray-50">
-                        <td className="py-4 px-4 font-medium text-automotive-carbon">{order.id}</td>
-                        <td className="py-4 px-4 text-automotive-steel">{order.partNumber}</td>
-                        <td className="py-4 px-4 text-automotive-steel">{order.description}</td>
-                        <td className="py-4 px-4 text-automotive-steel">{order.quantity.toLocaleString()}</td>
-                        <td className="py-4 px-4">
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getPriorityColor(order.priority)}`}>
-                            {order.priority.toUpperCase()}
-                          </span>
-                        </td>
-                        <td className="py-4 px-4">
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(order.status)}`}>
-                            {order.status.replace('-', ' ').toUpperCase()}
-                          </span>
-                        </td>
-                        <td className="py-4 px-4">
-                          <div className="flex items-center space-x-2">
-                            <div className="w-20 bg-gray-200 rounded-full h-2">
-                              <div
-                                className="bg-primary-500 h-2 rounded-full transition-all duration-300"
-                                style={{ width: `${order.progress}%` }}
-                              />
-                            </div>
-                            <span className="text-sm text-automotive-steel">{order.progress}%</span>
-                          </div>
-                        </td>
-                        <td className="py-4 px-4 text-automotive-steel">{order.assignedLine}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <button className="nkj-button-secondary text-sm whitespace-nowrap">
+                New Order
+              </button>
             </div>
-          )}
+            
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-800 bg-slate-950/50">
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Order ID</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Part Number</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Description</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Quantity</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Priority</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Status</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Progress</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Line</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/50">
+                  {orders.map((order) => (
+                    <motion.tr 
+                      key={order.id} 
+                      className="hover:bg-slate-800/30 transition-colors group cursor-pointer"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                    >
+                      <td className="py-4 px-4 font-mono text-sm text-slate-300">{order.id}</td>
+                      <td className="py-4 px-4 text-sm font-medium text-slate-200">{order.partNumber}</td>
+                      <td className="py-4 px-4 text-sm text-slate-400">{order.description}</td>
+                      <td className="py-4 px-4 text-sm font-mono text-slate-300">{order.quantity.toLocaleString()}</td>
+                      <td className="py-4 px-4">
+                        <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${getPriorityColor(order.priority)}`}>
+                          {order.priority}
+                        </span>
+                      </td>
+                      <td className="py-4 px-4">
+                        <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${getStatusColor(order.status)}`}>
+                          {order.status.replace('-', ' ')}
+                        </span>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center space-x-3 w-32">
+                          <div className="flex-grow bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                            <div
+                              className="bg-emerald-500 h-full rounded-full transition-all duration-500"
+                              style={{ width: `${order.progress}%` }}
+                            />
+                          </div>
+                          <span className="text-xs font-medium text-slate-400 w-8 text-right">{order.progress}%</span>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4 text-sm text-slate-400">{order.assignedLine}</td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
 
-          {selectedTab === 'lines' && (
-            <div>
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-semibold text-automotive-carbon">Production Lines Status</h3>
-                <button className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors">
-                  Schedule Maintenance
-                </button>
+        {selectedTab === 'lines' && (
+          <div className="p-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-50 tracking-tight">Production Lines Status</h3>
+                <p className="text-sm text-slate-400 mt-1">Monitor real-time capacity and efficiency</p>
               </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {lines.map((line) => (
-                  <motion.div
-                    key={line.id}
-                    className="bg-gradient-to-r from-white to-gray-50 rounded-lg p-6 border border-gray-200"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <h4 className="text-lg font-semibold text-automotive-carbon">{line.name}</h4>
-                      <span className={`text-sm font-medium ${getLineStatusColor(line.status)}`}>
-                        ● {line.status.toUpperCase()}
+              <button className="nkj-button-secondary text-sm whitespace-nowrap">
+                Schedule Maintenance
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {lines.map((line, index) => (
+                <motion.div
+                  key={line.id}
+                  className="bg-slate-950 rounded-xl p-6 border border-slate-800 hover:border-slate-700 transition-colors cursor-pointer group"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                >
+                  <div className="flex justify-between items-start mb-6">
+                    <h4 className="text-base font-semibold text-slate-200 group-hover:text-emerald-400 transition-colors">{line.name}</h4>
+                    <div className="flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${line.status === 'active' ? 'bg-emerald-500 animate-pulse' : line.status === 'maintenance' ? 'bg-amber-500' : 'bg-slate-500'}`}></span>
+                      <span className={`text-[10px] font-bold uppercase tracking-wider ${getLineStatusColor(line.status)}`}>
+                        {line.status}
                       </span>
                     </div>
-                    
-                    <div className="space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-automotive-steel">Capacity Utilization:</span>
-                        <span className="font-medium text-automotive-carbon">
-                          {line.currentLoad}/{line.capacity} ({Math.round((line.currentLoad / line.capacity) * 100)}%)
+                  </div>
+                  
+                  <div className="space-y-5">
+                    <div>
+                      <div className="flex justify-between text-sm mb-2">
+                        <span className="text-slate-400 font-medium">Capacity Utilization</span>
+                        <span className="font-mono text-slate-300">
+                          {line.currentLoad}/{line.capacity} <span className="text-slate-500 ml-1">({Math.round((line.currentLoad / line.capacity) * 100)}%)</span>
                         </span>
                       </div>
                       
-                      <div className="w-full bg-gray-200 rounded-full h-3">
+                      <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
                         <div
-                          className={`h-3 rounded-full transition-all duration-300 ${
+                          className={`h-full rounded-full transition-all duration-500 ${
                             (line.currentLoad / line.capacity) > 0.9 ? 'bg-red-500' :
-                            (line.currentLoad / line.capacity) > 0.7 ? 'bg-yellow-500' : 'bg-green-500'
+                            (line.currentLoad / line.capacity) > 0.7 ? 'bg-amber-500' : 'bg-emerald-500'
                           }`}
                           style={{ width: `${(line.currentLoad / line.capacity) * 100}%` }}
                         />
                       </div>
-                      
-                      <div className="flex justify-between">
-                        <span className="text-automotive-steel">Efficiency:</span>
-                        <span className="font-medium text-automotive-carbon">{line.efficiency}%</span>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-800">
+                      <div>
+                        <span className="block text-xs font-medium text-slate-500 mb-1">Efficiency</span>
+                        <div className="font-semibold text-emerald-400 text-lg tracking-tight">{line.efficiency}%</div>
                       </div>
-                      
-                      <div className="flex justify-between">
-                        <span className="text-automotive-steel">Next Maintenance:</span>
-                        <span className="font-medium text-automotive-carbon">{line.nextMaintenance}</span>
+                      <div>
+                        <span className="block text-xs font-medium text-slate-500 mb-1">Next Maintenance</span>
+                        <div className="font-medium text-slate-300">{new Date(line.nextMaintenance).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</div>
                       </div>
                     </div>
-                  </motion.div>
-                ))}
-              </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
-          )}
+          </div>
+        )}
 
-          {selectedTab === 'schedule' && (
-            <div>
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-semibold text-automotive-carbon">Production Schedule</h3>
-                <div className="flex space-x-2">
-                  <button className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
-                    Week View
-                  </button>
-                  <button className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors">
-                    Month View
-                  </button>
-                </div>
+        {selectedTab === 'schedule' && (
+          <div className="p-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-50 tracking-tight">Production Schedule</h3>
+                <p className="text-sm text-slate-400 mt-1">Interactive timeline of planned manufacturing operations</p>
               </div>
-              
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-8 text-center">
-                <div className="text-6xl mb-4">📅</div>
-                <h4 className="text-xl font-semibold text-automotive-carbon mb-2">
-                  Advanced Scheduling Interface
-                </h4>
-                <p className="text-automotive-steel mb-4">
-                  Interactive Gantt chart with drag-and-drop scheduling, resource allocation, and bottleneck analysis
-                </p>
-                <div className="flex justify-center space-x-4">
-                  <div className="bg-white rounded-lg p-4 shadow-md">
-                    <div className="text-2xl font-bold text-primary-500">24</div>
-                    <div className="text-sm text-automotive-steel">Active Orders</div>
-                  </div>
-                  <div className="bg-white rounded-lg p-4 shadow-md">
-                    <div className="text-2xl font-bold text-green-500">94.2%</div>
-                    <div className="text-sm text-automotive-steel">Avg Efficiency</div>
-                  </div>
-                  <div className="bg-white rounded-lg p-4 shadow-md">
-                    <div className="text-2xl font-bold text-orange-500">3</div>
-                    <div className="text-sm text-automotive-steel">Bottlenecks</div>
-                  </div>
-                </div>
+              <div className="flex bg-slate-950 p-1 rounded-lg border border-slate-800">
+                <button className="px-3 py-1.5 text-xs font-medium rounded-md bg-slate-800 text-slate-200 shadow-sm">
+                  Week
+                </button>
+                <button className="px-3 py-1.5 text-xs font-medium rounded-md text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition-colors">
+                  Month
+                </button>
               </div>
             </div>
-          )}
-        </motion.div>
+            
+            <div className="bg-slate-950 border border-slate-800 rounded-xl p-8 text-center border-dashed mb-8">
+              <div className="text-4xl mb-4 opacity-50 grayscale">📅</div>
+              <h4 className="text-base font-semibold text-slate-300 mb-2 tracking-tight">
+                Advanced Scheduling Interface
+              </h4>
+              <p className="text-sm text-slate-500 max-w-sm mx-auto mb-6">
+                Interactive Gantt chart with drag-and-drop scheduling, resource allocation, and bottleneck analysis available in the full platform.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+              <div className="bg-slate-950 border border-slate-800 rounded-lg p-5 shadow-sm flex flex-col items-center">
+                <div className="text-2xl font-bold text-emerald-500 tracking-tight mb-1">24</div>
+                <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Active Orders</div>
+              </div>
+              <div className="bg-slate-950 border border-slate-800 rounded-lg p-5 shadow-sm flex flex-col items-center">
+                <div className="text-2xl font-bold text-sky-500 tracking-tight mb-1">94.2%</div>
+                <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Avg Efficiency</div>
+              </div>
+              <div className="bg-slate-950 border border-slate-800 rounded-lg p-5 shadow-sm flex flex-col items-center">
+                <div className="text-2xl font-bold text-amber-500 tracking-tight mb-1">3</div>
+                <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Bottlenecks</div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </section>
+    </div>
   );
 }

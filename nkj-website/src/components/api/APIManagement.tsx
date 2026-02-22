@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface APIEndpoint {
   id: string;
@@ -63,20 +63,20 @@ export default function APIManagement() {
 
   const getMethodColor = (method: string) => {
     switch (method) {
-      case 'GET': return 'bg-automotive-success text-white';
-      case 'POST': return 'bg-primary-500 text-white';
-      case 'PUT': return 'bg-automotive-warning text-white';
-      case 'DELETE': return 'bg-automotive-danger text-white';
-      default: return 'bg-automotive-steel text-white';
+      case 'GET': return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+      case 'POST': return 'bg-sky-500/10 text-sky-400 border border-sky-500/20';
+      case 'PUT': return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
+      case 'DELETE': return 'bg-red-500/10 text-red-400 border border-red-500/20';
+      default: return 'bg-slate-800 text-slate-400 border border-slate-700';
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'text-automotive-success';
-      case 'beta': return 'text-automotive-warning';
-      case 'deprecated': return 'text-automotive-danger';
-      default: return 'text-automotive-steel';
+      case 'active': return 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20';
+      case 'beta': return 'text-amber-500 bg-amber-500/10 border-amber-500/20';
+      case 'deprecated': return 'text-red-500 bg-red-500/10 border-red-500/20';
+      default: return 'text-slate-500 bg-slate-800 border-slate-700';
     }
   };
 
@@ -100,176 +100,190 @@ export default function APIManagement() {
   };
 
   return (
-    <section className="py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* API Endpoints List */}
         <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          className="bg-slate-900 border border-slate-800 rounded-xl p-8 shadow-sm"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl font-bold text-white mb-4">
-            API Management Platform
-          </h2>
-          <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-            Comprehensive API integration hub for automotive systems and third-party connectors
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* API Endpoints List */}
-          <motion.div
-            className="nkj-card p-6"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h3 className="text-xl font-semibold text-white mb-6">
+          <div className="flex items-center justify-between mb-8">
+            <h3 className="text-xl font-bold text-slate-50 tracking-tight">
               Available Endpoints
             </h3>
-            
-            <div className="space-y-4">
-              {apiEndpoints.map((endpoint) => (
-                <motion.div
-                  key={endpoint.id}
-                  className={`p-4 bg-gray-800 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
-                    selectedEndpoint?.id === endpoint.id
-                      ? 'border-primary-500 shadow-lg'
-                      : 'border-automotive-chrome hover:border-primary-300'
-                  }`}
-                  onClick={() => setSelectedEndpoint(endpoint)}
-                  whileHover={{ scale: 1.02 }}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center space-x-3">
-                      <span className={`px-2 py-1 rounded text-xs font-semibold ${getMethodColor(endpoint.method)}`}>
-                        {endpoint.method}
-                      </span>
-                      <span className="font-semibold text-white">
-                        {endpoint.name}
-                      </span>
-                    </div>
-                    <span className={`text-sm font-medium capitalize ${getStatusColor(endpoint.status)}`}>
-                      {endpoint.status}
+            <span className="text-sm font-medium text-slate-500 bg-slate-950 px-3 py-1 rounded-full border border-slate-800">
+              v1.0.0
+            </span>
+          </div>
+          
+          <div className="space-y-4">
+            {apiEndpoints.map((endpoint) => (
+              <motion.div
+                key={endpoint.id}
+                className={`p-5 rounded-lg border cursor-pointer transition-all duration-200 group ${
+                  selectedEndpoint?.id === endpoint.id
+                    ? 'bg-slate-800/80 border-emerald-500 shadow-sm'
+                    : 'bg-slate-950/50 border-slate-800 hover:border-slate-700 hover:bg-slate-900'
+                }`}
+                onClick={() => setSelectedEndpoint(endpoint)}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-3">
+                    <span className={`px-2.5 py-1 rounded text-xs font-bold tracking-wider ${getMethodColor(endpoint.method)}`}>
+                      {endpoint.method}
+                    </span>
+                    <span className="font-semibold text-slate-200 group-hover:text-emerald-400 transition-colors">
+                      {endpoint.name}
                     </span>
                   </div>
-                  
-                  <p className="text-sm text-gray-300 mb-3">
-                    {endpoint.description}
-                  </p>
-                  
-                  <div className="flex items-center justify-between text-xs text-gray-400">
-                    <span>{endpoint.path}</span>
-                    <div className="flex space-x-4">
-                      <span>{endpoint.responseTime}ms</span>
-                      <span>{endpoint.usage}% uptime</span>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* API Testing Interface */}
-          <motion.div
-            className="nkj-card p-6"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <h3 className="text-xl font-semibold text-white mb-6">
-              API Testing Console
-            </h3>
-            
-            {selectedEndpoint ? (
-              <div>
-                <div className="mb-4 p-4 bg-gray-800 rounded-lg">
-                  <h4 className="font-semibold text-white mb-2">
-                    {selectedEndpoint.name}
-                  </h4>
-                  <p className="text-sm text-gray-300 mb-3">
-                    {selectedEndpoint.description}
-                  </p>
-                  
-                  <div className="flex items-center space-x-2 mb-3">
-                    <span className={`px-2 py-1 rounded text-xs font-semibold ${getMethodColor(selectedEndpoint.method)}`}>
-                      {selectedEndpoint.method}
-                    </span>
-                    <code className="text-sm bg-gray-700 text-green-400 px-2 py-1 rounded">
-                      {selectedEndpoint.path}
-                    </code>
-                  </div>
-                  
-                  <button
-                    onClick={() => testEndpoint(selectedEndpoint)}
-                    className="w-full bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300"
-                  >
-                    Test Endpoint
-                  </button>
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${getStatusColor(endpoint.status)}`}>
+                    {endpoint.status}
+                  </span>
                 </div>
                 
-                {testResult && (
+                <p className="text-sm text-slate-400 mb-4">
+                  {endpoint.description}
+                </p>
+                
+                <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-800/50">
+                  <code className="text-xs font-mono text-slate-500 bg-slate-950 px-2 py-1 rounded border border-slate-800">
+                    {endpoint.path}
+                  </code>
+                  <div className="flex space-x-4 text-xs font-medium text-slate-500">
+                    <span className="flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/50"></span>
+                      {endpoint.responseTime}ms
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-sky-500/50"></span>
+                      {endpoint.usage}%
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* API Testing Interface */}
+        <motion.div
+          className="bg-slate-900 border border-slate-800 rounded-xl p-8 shadow-sm flex flex-col"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <div className="flex items-center justify-between mb-8">
+            <h3 className="text-xl font-bold text-slate-50 tracking-tight">
+              API Testing Console
+            </h3>
+            <span className="text-xl text-slate-600">⚡</span>
+          </div>
+          
+          {selectedEndpoint ? (
+            <div className="flex flex-col h-full">
+              <div className="mb-6 p-5 bg-slate-950 rounded-lg border border-slate-800">
+                <h4 className="font-semibold text-slate-200 mb-2">
+                  {selectedEndpoint.name}
+                </h4>
+                <p className="text-sm text-slate-400 mb-4">
+                  {selectedEndpoint.description}
+                </p>
+                
+                <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 mb-6">
+                  <span className={`inline-flex self-start px-2.5 py-1 rounded text-xs font-bold tracking-wider ${getMethodColor(selectedEndpoint.method)}`}>
+                    {selectedEndpoint.method}
+                  </span>
+                  <code className="text-sm font-mono text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded border border-emerald-500/20 break-all">
+                    {selectedEndpoint.path}
+                  </code>
+                </div>
+                
+                <button
+                  onClick={() => testEndpoint(selectedEndpoint)}
+                  className="w-full nkj-button-primary"
+                >
+                  Execute Request
+                </button>
+              </div>
+              
+              <div className="flex-grow flex flex-col">
+                <h5 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">Response Output</h5>
+                {testResult ? (
                   <motion.div
-                    className="bg-automotive-carbon text-white p-4 rounded-lg"
+                    className="flex-grow bg-[#0d1117] text-slate-300 p-5 rounded-lg border border-slate-800 relative overflow-hidden"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                   >
-                    <h5 className="font-semibold mb-2">Response:</h5>
-                    <pre className="text-sm overflow-x-auto">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-sky-500"></div>
+                    <pre className="text-sm font-mono overflow-x-auto whitespace-pre-wrap">
                       {testResult}
                     </pre>
                   </motion.div>
+                ) : (
+                  <div className="flex-grow flex items-center justify-center bg-slate-950/50 rounded-lg border border-slate-800 border-dashed p-8">
+                    <p className="text-sm text-slate-500 font-medium">
+                      Execute a request to see the response
+                    </p>
+                  </div>
                 )}
               </div>
-            ) : (
-              <div className="text-center py-12">
-                <div className="text-6xl mb-4">🔌</div>
-                <p className="text-automotive-steel">
-                  Select an endpoint to test
-                </p>
-              </div>
-            )}
-          </motion.div>
-        </div>
-
-        {/* Integration Partners */}
-        <motion.div
-          className="mt-12 bg-slate-50 rounded-lg p-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <h3 className="text-xl font-semibold text-automotive-carbon mb-6">
-            Integration Partners
-          </h3>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="text-center p-4 bg-white rounded-lg">
-              <div className="text-3xl mb-2">🏢</div>
-              <h4 className="font-semibold text-automotive-carbon">SAP ERP</h4>
-              <p className="text-sm text-automotive-steel">Enterprise Resource Planning</p>
             </div>
-            
-            <div className="text-center p-4 bg-white rounded-lg">
-              <div className="text-3xl mb-2">⚙️</div>
-              <h4 className="font-semibold text-automotive-carbon">QAD MFG</h4>
-              <p className="text-sm text-automotive-steel">Manufacturing Execution</p>
+          ) : (
+            <div className="flex-grow flex flex-col items-center justify-center text-center p-12 bg-slate-950/30 rounded-lg border border-slate-800 border-dashed">
+              <div className="text-5xl mb-6 opacity-50 grayscale">🔌</div>
+              <h4 className="text-lg font-medium text-slate-300 mb-2">No Endpoint Selected</h4>
+              <p className="text-sm text-slate-500 max-w-xs">
+                Select an endpoint from the list to view its details and test the connection
+              </p>
             </div>
-            
-            <div className="text-center p-4 bg-white rounded-lg">
-              <div className="text-3xl mb-2">🤝</div>
-              <h4 className="font-semibold text-automotive-carbon">Ariba</h4>
-              <p className="text-sm text-automotive-steel">Supplier Network</p>
-            </div>
-            
-            <div className="text-center p-4 bg-white rounded-lg">
-              <div className="text-3xl mb-2">📊</div>
-              <h4 className="font-semibold text-automotive-carbon">Power BI</h4>
-              <p className="text-sm text-automotive-steel">Business Intelligence</p>
-            </div>
-          </div>
+          )}
         </motion.div>
       </div>
-    </section>
+
+      {/* Integration Partners */}
+      <motion.div
+        className="mt-8 bg-slate-900 border border-slate-800 rounded-xl p-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+      >
+        <div className="flex items-center justify-between mb-8">
+          <h3 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">
+            Supported Enterprise Integrations
+          </h3>
+          <span className="text-xs font-medium px-2 py-1 bg-slate-800 text-slate-400 rounded">Seamless Connectivity</span>
+        </div>
+        
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="flex flex-col items-center p-6 bg-slate-950 rounded-lg border border-slate-800 hover:border-slate-700 transition-colors group">
+            <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">🏢</div>
+            <h4 className="font-semibold text-slate-200 mb-1 text-center">SAP ERP</h4>
+            <p className="text-xs text-slate-500 text-center">Enterprise Resource Planning</p>
+          </div>
+          
+          <div className="flex flex-col items-center p-6 bg-slate-950 rounded-lg border border-slate-800 hover:border-slate-700 transition-colors group">
+            <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">⚙️</div>
+            <h4 className="font-semibold text-slate-200 mb-1 text-center">QAD MFG</h4>
+            <p className="text-xs text-slate-500 text-center">Manufacturing Execution</p>
+          </div>
+          
+          <div className="flex flex-col items-center p-6 bg-slate-950 rounded-lg border border-slate-800 hover:border-slate-700 transition-colors group">
+            <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">🤝</div>
+            <h4 className="font-semibold text-slate-200 mb-1 text-center">Ariba</h4>
+            <p className="text-xs text-slate-500 text-center">Supplier Network</p>
+          </div>
+          
+          <div className="flex flex-col items-center p-6 bg-slate-950 rounded-lg border border-slate-800 hover:border-slate-700 transition-colors group">
+            <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">📊</div>
+            <h4 className="font-semibold text-slate-200 mb-1 text-center">Power BI</h4>
+            <p className="text-xs text-slate-500 text-center">Business Intelligence</p>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 }

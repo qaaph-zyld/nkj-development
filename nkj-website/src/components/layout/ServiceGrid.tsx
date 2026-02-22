@@ -19,31 +19,30 @@ interface ServiceGridProps {
 function ServiceCard({ icon, title, description, features, delay = 0 }: ServiceCardProps) {
   return (
     <motion.div
-      className="nkj-card p-8 group"
+      className="bg-slate-900 border border-slate-800 rounded-xl p-8 hover:bg-slate-800/80 hover:border-slate-700 transition-all duration-300 group shadow-sm hover:shadow-md"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
-      whileHover={{ scale: 1.02, y: -5 }}
     >
       <div className="flex items-center mb-6">
-        <div className="w-14 h-14 bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30 rounded-xl flex items-center justify-center mr-4 group-hover:from-green-400/30 group-hover:to-green-500/30 transition-all duration-300">
+        <div className="w-12 h-12 bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center mr-4 text-emerald-400 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/30 transition-all duration-300 shadow-sm">
           {icon}
         </div>
-        <h3 className="text-xl font-semibold text-white group-hover:text-green-400 transition-colors duration-300">
+        <h3 className="text-lg font-semibold text-slate-50 group-hover:text-emerald-400 transition-colors duration-300 tracking-tight">
           {title}
         </h3>
       </div>
       
-      <p className="text-gray-300 mb-6 leading-relaxed text-base">
+      <p className="text-slate-400 mb-6 leading-relaxed text-sm">
         {description}
       </p>
       
       {features && features.length > 0 && (
-        <ul className="space-y-3">
+        <ul className="space-y-2.5">
           {features.map((feature, index) => (
-            <li key={index} className="flex items-center text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
-              <div className="w-2 h-2 bg-green-400 rounded-full mr-3 group-hover:bg-green-300 transition-colors"></div>
+            <li key={index} className="flex items-start text-sm text-slate-500 group-hover:text-slate-400 transition-colors">
+              <span className="text-emerald-500 mr-2 mt-0.5 text-[10px]">■</span>
               {feature}
             </li>
           ))}
@@ -66,7 +65,7 @@ export default function ServiceGrid({ services, columns = 3 }: ServiceGridProps)
   };
 
   return (
-    <div className={`grid ${getGridClass()} gap-8`}>
+    <div className={`grid ${getGridClass()} gap-6`}>
       {services.map((service, index) => (
         <ServiceCard
           key={index}

@@ -21,7 +21,7 @@ const automotiveSolutions: Solution[] = [
     icon: '🏭',
     features: ['Capacity Planning', 'Resource Optimization', 'Schedule Automation', 'Bottleneck Analysis'],
     benefits: ['15% efficiency increase', 'Reduced downtime', 'Better resource utilization'],
-    color: 'from-blue-500 to-blue-600'
+    color: 'from-emerald-500 to-emerald-600'
   },
   {
     id: 'quality-control',
@@ -30,7 +30,7 @@ const automotiveSolutions: Solution[] = [
     icon: '✅',
     features: ['Defect Detection', 'Statistical Process Control', 'Root Cause Analysis', 'Quality Metrics'],
     benefits: ['99.2% quality score', 'Reduced waste', 'Compliance assurance'],
-    color: 'from-green-500 to-green-600'
+    color: 'from-emerald-400 to-emerald-500'
   },
   {
     id: 'supply-chain',
@@ -39,7 +39,7 @@ const automotiveSolutions: Solution[] = [
     icon: '🔗',
     features: ['Supplier Management', 'Inventory Optimization', 'Demand Forecasting', 'Risk Assessment'],
     benefits: ['30% inventory reduction', 'Improved delivery times', 'Cost optimization'],
-    color: 'from-purple-500 to-purple-600'
+    color: 'from-slate-600 to-slate-700'
   },
   {
     id: 'predictive-maintenance',
@@ -48,7 +48,7 @@ const automotiveSolutions: Solution[] = [
     icon: '🔧',
     features: ['Equipment Monitoring', 'Failure Prediction', 'Maintenance Scheduling', 'Performance Analytics'],
     benefits: ['40% less downtime', 'Extended equipment life', 'Reduced maintenance costs'],
-    color: 'from-orange-500 to-orange-600'
+    color: 'from-sky-500 to-sky-600'
   },
   {
     id: 'logistics',
@@ -57,7 +57,7 @@ const automotiveSolutions: Solution[] = [
     icon: '🚛',
     features: ['Route Optimization', 'Warehouse Management', 'Fleet Tracking', 'Delivery Analytics'],
     benefits: ['25% cost reduction', 'Faster deliveries', 'Better customer satisfaction'],
-    color: 'from-cyan-500 to-cyan-600'
+    color: 'from-indigo-500 to-indigo-600'
   },
   {
     id: 'compliance',
@@ -66,7 +66,7 @@ const automotiveSolutions: Solution[] = [
     icon: '📋',
     features: ['ISO Standards', 'Audit Management', 'Documentation Control', 'Compliance Tracking'],
     benefits: ['100% compliance rate', 'Reduced audit time', 'Risk mitigation'],
-    color: 'from-red-500 to-red-600'
+    color: 'from-slate-500 to-slate-600'
   },
   {
     id: 'analytics',
@@ -75,7 +75,7 @@ const automotiveSolutions: Solution[] = [
     icon: '📊',
     features: ['Real-time Dashboards', 'Custom Reports', 'Data Visualization', 'Trend Analysis'],
     benefits: ['Data-driven decisions', 'Improved visibility', 'Strategic insights'],
-    color: 'from-indigo-500 to-indigo-600'
+    color: 'from-emerald-600 to-emerald-700'
   },
   {
     id: 'integration',
@@ -84,7 +84,7 @@ const automotiveSolutions: Solution[] = [
     icon: '🔌',
     features: ['ERP Integration', 'API Connectivity', 'Data Synchronization', 'Legacy System Support'],
     benefits: ['Unified data view', 'Reduced silos', 'Improved efficiency'],
-    color: 'from-teal-500 to-teal-600'
+    color: 'from-sky-600 to-sky-700'
   }
 ];
 
@@ -93,142 +93,116 @@ export default function SolutionNavigator() {
   const activeSolution = automotiveSolutions.find(s => s.id === activeTab) || automotiveSolutions[0];
 
   return (
-    <section className="py-16 bg-gradient-to-br from-gray-900 via-black to-green-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-3xl font-bold text-white mb-4">
-            <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
-              Automotive Solutions Portfolio
-            </span>
-          </h2>
-          <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-            Comprehensive supply chain management solutions tailored for the automotive industry
-          </p>
-        </motion.div>
-
-        {/* Tab Navigation */}
-        <div className="mb-8">
-          <div className="flex flex-wrap justify-center gap-2 mb-6">
-            {automotiveSolutions.map((solution, index) => (
-              <motion.button
-                key={solution.id}
-                onClick={() => setActiveTab(solution.id)}
-                className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 ${
-                  activeTab === solution.id
-                    ? 'bg-green-500 text-black shadow-lg'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-green-500/30'
-                }`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="mr-2">{solution.icon}</span>
-                {solution.title}
-              </motion.button>
-            ))}
-          </div>
+    <div className="w-full">
+      {/* Tab Navigation */}
+      <div className="mb-8 overflow-x-auto pb-4 scrollbar-hide">
+        <div className="flex flex-nowrap md:flex-wrap justify-start md:justify-center gap-2 min-w-max md:min-w-0">
+          {automotiveSolutions.map((solution) => (
+            <button
+              key={solution.id}
+              onClick={() => setActiveTab(solution.id)}
+              className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 whitespace-nowrap ${
+                activeTab === solution.id
+                  ? 'bg-emerald-500 text-slate-50 shadow-sm border border-emerald-400'
+                  : 'bg-slate-900 text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-slate-800'
+              }`}
+            >
+              <span className="mr-2">{solution.icon}</span>
+              {solution.title}
+            </button>
+          ))}
         </div>
+      </div>
 
-        {/* Content Panel */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            className="bg-gray-900 border border-green-500/30 rounded-2xl p-8 shadow-xl"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Solution Overview */}
-              <div>
-                <div className="flex items-center mb-6">
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${activeSolution.color} flex items-center justify-center text-2xl shadow-lg`}>
-                    {activeSolution.icon}
-                  </div>
-                  <div className="ml-4">
-                    <h3 className="text-2xl font-bold text-white">
-                      {activeSolution.title}
-                    </h3>
-                  </div>
+      {/* Content Panel */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          className="bg-slate-900 border border-slate-800 rounded-xl p-8 shadow-sm"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Solution Overview */}
+            <div>
+              <div className="flex items-center mb-6">
+                <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${activeSolution.color} flex items-center justify-center text-xl shadow-sm`}>
+                  {activeSolution.icon}
                 </div>
-                
-                <p className="text-gray-300 text-lg mb-6 leading-relaxed">
-                  {activeSolution.description}
-                </p>
-
-                {/* Key Benefits */}
-                <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-white mb-3">
-                    Key Benefits
-                  </h4>
-                  <div className="space-y-2">
-                    {activeSolution.benefits.map((benefit, index) => (
-                      <motion.div
-                        key={benefit}
-                        className="flex items-center text-gray-300"
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3, delay: index * 0.1 }}
-                      >
-                        <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
-                        {benefit}
-                      </motion.div>
-                    ))}
-                  </div>
+                <div className="ml-4">
+                  <h3 className="text-2xl font-bold text-slate-50 tracking-tight">
+                    {activeSolution.title}
+                  </h3>
                 </div>
               </div>
+              
+              <p className="text-slate-400 text-base mb-8 leading-relaxed">
+                {activeSolution.description}
+              </p>
 
-              {/* Features List */}
+              {/* Key Benefits */}
               <div>
-                <h4 className="text-lg font-semibold text-white mb-4">
-                  Core Features
+                <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-4">
+                  Key Business Outcomes
                 </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {activeSolution.features.map((feature, index) => (
+                <div className="space-y-3">
+                  {activeSolution.benefits.map((benefit, index) => (
                     <motion.div
-                      key={feature}
-                      className="bg-gray-800 border border-green-500/30 rounded-lg p-4 shadow-sm hover:border-green-400/50"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      key={benefit}
+                      className="flex items-center text-slate-400 text-sm"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.3, delay: index * 0.1 }}
-                      whileHover={{ scale: 1.02 }}
                     >
-                      <div className="flex items-center">
-                        <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${activeSolution.color} flex items-center justify-center mr-3`}>
-                          <div className="w-2 h-2 bg-white rounded-full"></div>
-                        </div>
-                        <span className="font-medium text-white text-sm">
-                          {feature}
-                        </span>
-                      </div>
+                      <span className="text-emerald-500 mr-3">✓</span>
+                      {benefit}
                     </motion.div>
                   ))}
                 </div>
-
-                {/* CTA Button */}
-                <motion.div
-                  className="mt-8"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.5 }}
-                >
-                  <button className="w-full bg-green-500 hover:bg-green-600 text-black font-semibold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl">
-                    Learn More About {activeSolution.title}
-                  </button>
-                </motion.div>
               </div>
             </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-    </section>
+
+            {/* Features List */}
+            <div className="bg-slate-950 rounded-lg p-6 border border-slate-800/50">
+              <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-6">
+                Core Capabilities
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {activeSolution.features.map((feature, index) => (
+                  <motion.div
+                    key={feature}
+                    className="bg-slate-900 border border-slate-800 rounded-lg p-4 shadow-sm"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <div className="flex items-center">
+                      <div className={`w-2 h-2 rounded-full bg-gradient-to-br ${activeSolution.color} mr-3`}></div>
+                      <span className="font-medium text-slate-300 text-sm">
+                        {feature}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* CTA Button */}
+              <motion.div
+                className="mt-8 pt-6 border-t border-slate-800"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.4 }}
+              >
+                <button className="w-full nkj-button-secondary text-sm">
+                  View Technical Specifications
+                </button>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </div>
   );
 }

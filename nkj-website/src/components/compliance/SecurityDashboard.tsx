@@ -191,27 +191,27 @@ export default function SecurityDashboard() {
       case 'compliant':
       case 'resolved':
       case 'contained':
-        return 'bg-green-100 text-green-800 border-green-200';
+        return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
       case 'warning':
       case 'partial':
       case 'investigating':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+        return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
       case 'critical':
       case 'non_compliant':
       case 'detected':
-        return 'bg-red-100 text-red-800 border-red-200';
+        return 'bg-red-500/10 text-red-400 border border-red-500/20';
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-slate-800 text-slate-400 border border-slate-700';
     }
   };
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'low': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'high': return 'bg-orange-100 text-orange-800 border-orange-200';
-      case 'critical': return 'bg-red-100 text-red-800 border-red-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'low': return 'bg-sky-500/10 text-sky-400 border border-sky-500/20';
+      case 'medium': return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
+      case 'high': return 'bg-orange-500/10 text-orange-400 border border-orange-500/20';
+      case 'critical': return 'bg-red-500/10 text-red-400 border border-red-500/20';
+      default: return 'bg-slate-800 text-slate-400 border border-slate-700';
     }
   };
 
@@ -223,368 +223,370 @@ export default function SecurityDashboard() {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-br from-slate-900 to-blue-900">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Security & Encryption Dashboard
-          </h2>
-          <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-            Comprehensive security monitoring, threat detection, and compliance management for automotive data protection
-          </p>
-        </motion.div>
-
-        {/* Tab Navigation */}
-        <div className="flex justify-center mb-8">
-          <div className="bg-slate-800 rounded-lg p-1 shadow-lg">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as 'overview' | 'incidents' | 'compliance' | 'encryption')}
-                className={`px-6 py-3 rounded-md font-medium transition-all duration-300 ${
-                  activeTab === tab.id
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'text-slate-300 hover:bg-slate-700'
-                }`}
-              >
-                <span className="mr-2">{tab.icon}</span>
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-slate-800 rounded-xl shadow-2xl overflow-hidden">
-          {/* Security Overview Tab */}
-          {activeTab === 'overview' && (
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-white mb-6">Security Metrics Overview</h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                {metrics.map((metric) => (
-                  <motion.div
-                    key={metric.id}
-                    className="bg-slate-700 rounded-lg p-6"
-                    whileHover={{ scale: 1.02 }}
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <h4 className="font-medium text-white">{metric.name}</h4>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(metric.status)}`}>
-                        {metric.status.toUpperCase()}
-                      </span>
-                    </div>
-                    
-                    <div className="flex items-end space-x-2 mb-4">
-                      <AnimatedCounter
-                        end={metric.value}
-                        decimals={metric.unit === '%' ? 1 : 0}
-                        suffix={metric.unit}
-                        className="text-3xl font-bold text-blue-400"
-                      />
-                      <span className="text-sm text-slate-300">
-                        / {metric.target} {metric.unit}
-                      </span>
-                    </div>
-                    
-                    <div className="w-full bg-slate-600 rounded-full h-2">
-                      <div
-                        className={`h-2 rounded-full transition-all duration-300 ${
-                          metric.status === 'secure' ? 'bg-green-500' :
-                          metric.status === 'warning' ? 'bg-yellow-500' : 'bg-red-500'
-                        }`}
-                        style={{ width: `${Math.min((metric.value / metric.target) * 100, 100)}%` }}
-                      />
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="bg-slate-700 rounded-lg p-6">
-                  <h4 className="text-lg font-semibold text-white mb-4">Security Status</h4>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-300">Overall Security Score</span>
-                      <span className="text-2xl font-bold text-green-400">A+</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-300">Active Threats</span>
-                      <span className="text-xl font-bold text-yellow-400">2</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-300">Systems Protected</span>
-                      <span className="text-xl font-bold text-blue-400">47</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-300">Last Security Scan</span>
-                      <span className="text-sm text-slate-300">2 hours ago</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-slate-700 rounded-lg p-6">
-                  <h4 className="text-lg font-semibold text-white mb-4">Recent Activity</h4>
-                  <div className="space-y-3">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span className="text-sm text-slate-300">Firewall rules updated</span>
-                      <span className="text-xs text-slate-400">5 min ago</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                      <span className="text-sm text-slate-300">SSL certificates renewed</span>
-                      <span className="text-xs text-slate-400">1 hour ago</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                      <span className="text-sm text-slate-300">Security scan completed</span>
-                      <span className="text-xs text-slate-400">2 hours ago</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-2 h-2 bg-red-400 rounded-full"></div>
-                      <span className="text-sm text-slate-300">Threat detected and blocked</span>
-                      <span className="text-xs text-slate-400">4 hours ago</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Security Incidents Tab */}
-          {activeTab === 'incidents' && (
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-semibold text-white">Security Incidents</h3>
-                <div className="flex space-x-2">
-                  <select className="bg-slate-700 text-white border border-slate-600 rounded-lg px-3 py-2">
-                    <option>All Incidents</option>
-                    <option>Critical</option>
-                    <option>High</option>
-                    <option>Medium</option>
-                    <option>Low</option>
-                  </select>
-                  <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                    Report Incident
-                  </button>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                {mockSecurityIncidents.map((incident) => (
-                  <motion.div
-                    key={incident.id}
-                    className="bg-slate-700 rounded-lg p-4"
-                    whileHover={{ backgroundColor: '#475569' }}
-                  >
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <h4 className="font-medium text-white capitalize">
-                          {incident.type.replace('_', ' ')}
-                        </h4>
-                        <p className="text-sm text-slate-300">{incident.description}</p>
-                      </div>
-                      <div className="flex space-x-2">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getSeverityColor(incident.severity)}`}>
-                          {incident.severity.toUpperCase()}
-                        </span>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(incident.status)}`}>
-                          {incident.status.toUpperCase()}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                      <div>
-                        <span className="text-slate-400">Timestamp:</span>
-                        <div className="text-slate-300">{new Date(incident.timestamp).toLocaleString()}</div>
-                      </div>
-                      <div>
-                        <span className="text-slate-400">Response Time:</span>
-                        <div className="text-slate-300">{incident.responseTime} minutes</div>
-                      </div>
-                      <div>
-                        <span className="text-slate-400">Affected Systems:</span>
-                        <div className="flex flex-wrap gap-1 mt-1">
-                          {incident.affectedSystems.map((system) => (
-                            <span key={system} className="px-2 py-1 bg-slate-600 text-slate-300 rounded text-xs">
-                              {system}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Compliance Status Tab */}
-          {activeTab === 'compliance' && (
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-white mb-6">Compliance Standards</h3>
-              
-              <div className="space-y-6">
-                {mockComplianceStandards.map((standard) => (
-                  <motion.div
-                    key={standard.id}
-                    className="bg-slate-700 rounded-lg p-6"
-                    whileHover={{ backgroundColor: '#475569' }}
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h4 className="font-medium text-white text-lg">{standard.name}</h4>
-                        <p className="text-sm text-slate-300">{standard.description}</p>
-                      </div>
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(standard.status)}`}>
-                        {standard.status.replace('_', ' ').toUpperCase()}
-                      </span>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                      <div className="text-center">
-                        <div className="text-3xl font-bold text-blue-400 mb-1">
-                          <AnimatedCounter end={standard.compliance} decimals={1} suffix="%" />
-                        </div>
-                        <div className="text-sm text-slate-400">Compliance</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-green-400 mb-1">{standard.requirements.met}</div>
-                        <div className="text-sm text-slate-400">Requirements Met</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-yellow-400 mb-1">{standard.requirements.pending}</div>
-                        <div className="text-sm text-slate-400">Pending</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-sm text-slate-300 mb-1">Next Audit</div>
-                        <div className="text-sm text-slate-400">{standard.nextAudit}</div>
-                      </div>
-                    </div>
-                    
-                    <div className="mt-4">
-                      <div className="w-full bg-slate-600 rounded-full h-2">
-                        <div
-                          className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-                          style={{ width: `${standard.compliance}%` }}
-                        />
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Encryption & Keys Tab */}
-          {activeTab === 'encryption' && (
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-white mb-6">Encryption & Key Management</h3>
-              
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="space-y-6">
-                  <div className="bg-slate-700 rounded-lg p-6">
-                    <h4 className="text-lg font-semibold text-white mb-4">Encryption Status</h4>
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-300">Data at Rest</span>
-                        <span className="text-green-400 font-medium">AES-256 ✓</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-300">Data in Transit</span>
-                        <span className="text-green-400 font-medium">TLS 1.3 ✓</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-300">Database Encryption</span>
-                        <span className="text-green-400 font-medium">Enabled ✓</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-300">Backup Encryption</span>
-                        <span className="text-green-400 font-medium">AES-256 ✓</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-700 rounded-lg p-6">
-                    <h4 className="text-lg font-semibold text-white mb-4">Key Management</h4>
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-300">Active Keys</span>
-                        <span className="text-blue-400 font-medium">24</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-300">Keys Expiring Soon</span>
-                        <span className="text-yellow-400 font-medium">3</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-300">Key Rotation Frequency</span>
-                        <span className="text-slate-300">90 days</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-300">HSM Status</span>
-                        <span className="text-green-400 font-medium">Online ✓</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <div className="bg-slate-700 rounded-lg p-6">
-                    <h4 className="text-lg font-semibold text-white mb-4">Certificate Management</h4>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center p-3 bg-slate-600 rounded">
-                        <div>
-                          <div className="text-white font-medium">*.nkj-development.com</div>
-                          <div className="text-sm text-slate-400">Expires: 2024-12-15</div>
-                        </div>
-                        <span className="text-green-400">Valid</span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-slate-600 rounded">
-                        <div>
-                          <div className="text-white font-medium">api.nkj-development.com</div>
-                          <div className="text-sm text-slate-400">Expires: 2024-08-20</div>
-                        </div>
-                        <span className="text-yellow-400">Expiring Soon</span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-slate-600 rounded">
-                        <div>
-                          <div className="text-white font-medium">admin.nkj-development.com</div>
-                          <div className="text-sm text-slate-400">Expires: 2025-03-10</div>
-                        </div>
-                        <span className="text-green-400">Valid</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-700 rounded-lg p-6">
-                    <h4 className="text-lg font-semibold text-white mb-4">Security Actions</h4>
-                    <div className="space-y-3">
-                      <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-                        Rotate Encryption Keys
-                      </button>
-                      <button className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">
-                        Renew Certificates
-                      </button>
-                      <button className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">
-                        Generate Security Report
-                      </button>
-                      <button className="w-full bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors">
-                        Run Security Audit
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+    <div className="w-full">
+      {/* Tab Navigation */}
+      <div className="mb-8 overflow-x-auto pb-4 scrollbar-hide">
+        <div className="flex flex-nowrap md:flex-wrap justify-start gap-2 min-w-max md:min-w-0">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as 'overview' | 'incidents' | 'compliance' | 'encryption')}
+              className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 flex items-center whitespace-nowrap ${
+                activeTab === tab.id
+                  ? 'bg-emerald-500 text-slate-50 shadow-sm border border-emerald-400'
+                  : 'bg-slate-900 text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-slate-800'
+              }`}
+            >
+              <span className="mr-2 opacity-80">{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
         </div>
       </div>
-    </section>
+
+      <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-sm">
+        {/* Security Overview Tab */}
+        {activeTab === 'overview' && (
+          <div className="p-8">
+            <h3 className="text-lg font-bold text-slate-50 tracking-tight mb-8">Security Metrics Overview</h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+              {metrics.map((metric) => (
+                <motion.div
+                  key={metric.id}
+                  className="bg-slate-950 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors group cursor-pointer"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <h4 className="font-semibold text-slate-300 group-hover:text-emerald-400 transition-colors tracking-tight">{metric.name}</h4>
+                    <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${getStatusColor(metric.status)}`}>
+                      {metric.status}
+                    </span>
+                  </div>
+                  
+                  <div className="flex items-baseline space-x-2 mb-4">
+                    <AnimatedCounter
+                      end={metric.value}
+                      decimals={metric.unit === '%' ? 1 : 0}
+                      suffix={metric.unit}
+                      className="text-3xl font-bold text-slate-50 tracking-tight"
+                    />
+                    <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                      / {metric.target} {metric.unit} target
+                    </span>
+                  </div>
+                  
+                  <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all duration-300 ${
+                        metric.status === 'secure' ? 'bg-emerald-500' :
+                        metric.status === 'warning' ? 'bg-amber-500' : 'bg-red-500'
+                      }`}
+                      style={{ width: `${Math.min((metric.value / metric.target) * 100, 100)}%` }}
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="bg-slate-950 border border-slate-800 rounded-xl p-8">
+                <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-6">Security Posture</h4>
+                <div className="space-y-5">
+                  <div className="flex justify-between items-center pb-4 border-b border-slate-800/50">
+                    <span className="text-sm font-medium text-slate-400">Overall Security Score</span>
+                    <span className="text-2xl font-bold text-emerald-400 tracking-tight">A+</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-4 border-b border-slate-800/50">
+                    <span className="text-sm font-medium text-slate-400">Active Threats Detected</span>
+                    <span className="text-xl font-bold text-amber-400 bg-amber-500/10 px-3 py-1 rounded border border-amber-500/20">2</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-4 border-b border-slate-800/50">
+                    <span className="text-sm font-medium text-slate-400">Systems Protected</span>
+                    <span className="text-xl font-bold text-sky-400">47</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-medium text-slate-400">Last Vulnerability Scan</span>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400">2 hours ago</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-slate-950 border border-slate-800 rounded-xl p-8">
+                <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-6">System Audit Trail</h4>
+                <div className="space-y-4">
+                  <div className="flex items-start space-x-4 p-3 rounded-lg hover:bg-slate-900 transition-colors cursor-pointer">
+                    <div className="w-2 h-2 mt-1.5 bg-emerald-400 rounded-full shadow-[0_0_8px_rgba(52,211,153,0.5)]"></div>
+                    <div className="flex-1">
+                      <h5 className="text-sm font-medium text-slate-300">Firewall rules updated</h5>
+                      <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">5 min ago</span>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-4 p-3 rounded-lg hover:bg-slate-900 transition-colors cursor-pointer">
+                    <div className="w-2 h-2 mt-1.5 bg-sky-400 rounded-full shadow-[0_0_8px_rgba(56,189,248,0.5)]"></div>
+                    <div className="flex-1">
+                      <h5 className="text-sm font-medium text-slate-300">SSL certificates renewed</h5>
+                      <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">1 hour ago</span>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-4 p-3 rounded-lg hover:bg-slate-900 transition-colors cursor-pointer">
+                    <div className="w-2 h-2 mt-1.5 bg-amber-400 rounded-full shadow-[0_0_8px_rgba(251,191,36,0.5)]"></div>
+                    <div className="flex-1">
+                      <h5 className="text-sm font-medium text-slate-300">Security scan completed</h5>
+                      <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">2 hours ago</span>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-4 p-3 rounded-lg hover:bg-slate-900 transition-colors cursor-pointer">
+                    <div className="w-2 h-2 mt-1.5 bg-red-400 rounded-full shadow-[0_0_8px_rgba(248,113,113,0.5)]"></div>
+                    <div className="flex-1">
+                      <h5 className="text-sm font-medium text-slate-300">Threat detected and blocked</h5>
+                      <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">4 hours ago</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Security Incidents Tab */}
+        {activeTab === 'incidents' && (
+          <div className="p-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-50 tracking-tight">Security Incidents</h3>
+                <p className="text-sm text-slate-400 mt-1">Track and manage security events and breaches</p>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <select className="bg-slate-950 border border-slate-800 text-slate-300 text-sm rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
+                  <option>All Incidents</option>
+                  <option>Critical</option>
+                  <option>High</option>
+                  <option>Medium</option>
+                  <option>Low</option>
+                </select>
+                <button className="nkj-button-primary text-sm whitespace-nowrap bg-red-600 hover:bg-red-700 text-white">
+                  Report Incident
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              {mockSecurityIncidents.map((incident) => (
+                <motion.div
+                  key={incident.id}
+                  className="bg-slate-950 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors group cursor-pointer"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h4 className="font-semibold text-slate-200 capitalize tracking-tight group-hover:text-sky-400 transition-colors">
+                        {incident.type.replace('_', ' ')}
+                      </h4>
+                      <p className="text-sm text-slate-400 mt-1">{incident.description}</p>
+                    </div>
+                    <div className="flex space-x-2 flex-shrink-0">
+                      <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${getSeverityColor(incident.severity)}`}>
+                        {incident.severity}
+                      </span>
+                      <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${getStatusColor(incident.status)}`}>
+                        {incident.status}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-800/50">
+                    <div>
+                      <span className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Timestamp</span>
+                      <div className="text-sm font-medium text-slate-300">{new Date(incident.timestamp).toLocaleString()}</div>
+                    </div>
+                    <div>
+                      <span className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Response Time</span>
+                      <div className="text-sm font-mono text-slate-300">{incident.responseTime} minutes</div>
+                    </div>
+                    <div>
+                      <span className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Affected Systems</span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {incident.affectedSystems.map((system) => (
+                          <span key={system} className="px-2 py-1 bg-slate-900 border border-slate-700 text-slate-400 rounded text-[10px] font-medium">
+                            {system}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Compliance Status Tab */}
+        {activeTab === 'compliance' && (
+          <div className="p-8">
+            <h3 className="text-lg font-bold text-slate-50 tracking-tight mb-8">Security Compliance Standards</h3>
+            
+            <div className="space-y-6">
+              {mockComplianceStandards.map((standard) => (
+                <motion.div
+                  key={standard.id}
+                  className="bg-slate-950 border border-slate-800 rounded-xl p-8 hover:border-slate-700 transition-colors"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <div>
+                      <h4 className="font-bold text-slate-50 text-lg tracking-tight mb-1">{standard.name}</h4>
+                      <p className="text-sm text-slate-400">{standard.description}</p>
+                    </div>
+                    <span className={`inline-flex px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${getStatusColor(standard.status)}`}>
+                      {standard.status.replace('_', ' ')}
+                    </span>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-6">
+                    <div className="text-center p-4 bg-slate-900 rounded-lg border border-slate-800/50">
+                      <div className="text-3xl font-bold text-sky-500 tracking-tight mb-1">
+                        <AnimatedCounter end={standard.compliance} decimals={1} suffix="%" />
+                      </div>
+                      <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Overall Compliance</div>
+                    </div>
+                    <div className="text-center p-4 bg-slate-900 rounded-lg border border-slate-800/50">
+                      <div className="text-2xl font-bold text-emerald-500 tracking-tight mb-2">{standard.requirements.met}</div>
+                      <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Requirements Met</div>
+                    </div>
+                    <div className="text-center p-4 bg-slate-900 rounded-lg border border-slate-800/50">
+                      <div className="text-2xl font-bold text-amber-500 tracking-tight mb-2">{standard.requirements.pending}</div>
+                      <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Pending Action</div>
+                    </div>
+                    <div className="text-center p-4 bg-slate-900 rounded-lg border border-slate-800/50">
+                      <div className="text-base font-semibold text-slate-300 mb-3">{new Date(standard.nextAudit).toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'})}</div>
+                      <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Next Scheduled Audit</div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Completion Progress</span>
+                    </div>
+                    <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                      <div
+                        className="bg-sky-500 h-full rounded-full transition-all duration-1000 ease-out"
+                        style={{ width: `${standard.compliance}%` }}
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Encryption & Keys Tab */}
+        {activeTab === 'encryption' && (
+          <div className="p-8">
+            <h3 className="text-lg font-bold text-slate-50 tracking-tight mb-8">Encryption & Key Management</h3>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="space-y-6">
+                <div className="bg-slate-950 border border-slate-800 rounded-xl p-8">
+                  <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-6">Encryption Status</h4>
+                  <div className="space-y-5">
+                    <div className="flex justify-between items-center pb-4 border-b border-slate-800/50">
+                      <span className="text-sm font-medium text-slate-400">Data at Rest</span>
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20">AES-256 ✓</span>
+                    </div>
+                    <div className="flex justify-between items-center pb-4 border-b border-slate-800/50">
+                      <span className="text-sm font-medium text-slate-400">Data in Transit</span>
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20">TLS 1.3 ✓</span>
+                    </div>
+                    <div className="flex justify-between items-center pb-4 border-b border-slate-800/50">
+                      <span className="text-sm font-medium text-slate-400">Database Encryption</span>
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20">ACTIVE ✓</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-slate-400">Backup Encryption</span>
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20">AES-256 ✓</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-slate-950 border border-slate-800 rounded-xl p-8">
+                  <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-6">Key Management</h4>
+                  <div className="space-y-5">
+                    <div className="flex justify-between items-center pb-4 border-b border-slate-800/50">
+                      <span className="text-sm font-medium text-slate-400">Active Keys</span>
+                      <span className="text-xl font-bold text-sky-400 tracking-tight">24</span>
+                    </div>
+                    <div className="flex justify-between items-center pb-4 border-b border-slate-800/50">
+                      <span className="text-sm font-medium text-slate-400">Keys Expiring Soon</span>
+                      <span className="text-xl font-bold text-amber-400 tracking-tight bg-amber-500/10 px-3 py-0.5 rounded border border-amber-500/20">3</span>
+                    </div>
+                    <div className="flex justify-between items-center pb-4 border-b border-slate-800/50">
+                      <span className="text-sm font-medium text-slate-400">Key Rotation Frequency</span>
+                      <span className="text-sm font-mono text-slate-300">90 days</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-slate-400">HSM Status</span>
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20">ONLINE ✓</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div className="bg-slate-950 border border-slate-800 rounded-xl p-8">
+                  <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-6">Certificate Lifecycle Management</h4>
+                  <div className="space-y-4">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-slate-900 border border-slate-800 rounded-lg gap-3">
+                      <div>
+                        <div className="text-sm font-mono font-medium text-slate-200 tracking-tight">*.nkj-development.com</div>
+                        <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-1">Expires: Dec 15, 2024</div>
+                      </div>
+                      <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20 uppercase tracking-wider">Valid</span>
+                    </div>
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-slate-900 border border-slate-800 rounded-lg gap-3">
+                      <div>
+                        <div className="text-sm font-mono font-medium text-slate-200 tracking-tight">api.nkj-development.com</div>
+                        <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-1">Expires: Aug 20, 2024</div>
+                      </div>
+                      <span className="text-[10px] font-bold text-amber-400 bg-amber-500/10 px-2 py-1 rounded border border-amber-500/20 uppercase tracking-wider">Expiring Soon</span>
+                    </div>
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-slate-900 border border-slate-800 rounded-lg gap-3">
+                      <div>
+                        <div className="text-sm font-mono font-medium text-slate-200 tracking-tight">admin.nkj-development.com</div>
+                        <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-1">Expires: Mar 10, 2025</div>
+                      </div>
+                      <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20 uppercase tracking-wider">Valid</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-slate-950 border border-slate-800 rounded-xl p-8">
+                  <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-6">Security Actions</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <button className="nkj-button-secondary text-sm flex flex-col items-center justify-center p-4 h-24 hover:bg-slate-800 group">
+                      <span className="text-xl mb-2 group-hover:scale-110 transition-transform">🔑</span>
+                      <span>Rotate Keys</span>
+                    </button>
+                    <button className="nkj-button-secondary text-sm flex flex-col items-center justify-center p-4 h-24 hover:bg-slate-800 group">
+                      <span className="text-xl mb-2 group-hover:scale-110 transition-transform">📜</span>
+                      <span>Renew Certs</span>
+                    </button>
+                    <button className="nkj-button-secondary text-sm flex flex-col items-center justify-center p-4 h-24 hover:bg-slate-800 group">
+                      <span className="text-xl mb-2 group-hover:scale-110 transition-transform">📊</span>
+                      <span>Security Report</span>
+                    </button>
+                    <button className="nkj-button-secondary text-sm flex flex-col items-center justify-center p-4 h-24 hover:bg-slate-800 group border-amber-500/30 text-amber-400 hover:border-amber-500">
+                      <span className="text-xl mb-2 group-hover:scale-110 transition-transform">🔍</span>
+                      <span>Run Audit</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

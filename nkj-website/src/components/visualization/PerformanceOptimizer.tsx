@@ -67,7 +67,7 @@ export default function PerformanceOptimizer() {
     const interval = setInterval(() => {
       setMetrics(prev => prev.map(metric => ({
         ...metric,
-        value: metric.value + (Math.random() - 0.5) * 5
+        value: Math.max(0, metric.value + (Math.random() - 0.5) * (metric.id === 'draw-calls' ? 20 : 5))
       })));
     }, 2000);
 
@@ -76,155 +76,186 @@ export default function PerformanceOptimizer() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'optimal': return 'text-green-400 bg-green-900/20';
-      case 'warning': return 'text-yellow-400 bg-yellow-900/20';
-      case 'critical': return 'text-red-400 bg-red-900/20';
-      default: return 'text-gray-400 bg-gray-900/20';
+      case 'optimal': return 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
+      case 'warning': return 'text-amber-400 bg-amber-500/10 border-amber-500/20';
+      case 'critical': return 'text-red-400 bg-red-500/10 border-red-500/20';
+      default: return 'text-slate-400 bg-slate-800 border-slate-700';
     }
   };
 
   return (
-    <section className="py-16 bg-gradient-to-br from-slate-900 to-indigo-900">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl font-bold text-white mb-4">
-            3D Performance Optimization
-          </h2>
-          <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-            Real-time performance monitoring and GPU optimization for complex 3D automotive visualizations
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Performance Metrics */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-slate-800 rounded-xl p-6">
-              <h3 className="text-xl font-semibold text-white mb-6">Performance Metrics</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {metrics.map((metric) => (
-                  <motion.div
-                    key={metric.id}
-                    className="bg-slate-700 rounded-lg p-4"
-                    whileHover={{ scale: 1.02 }}
-                  >
-                    <div className="flex justify-between items-start mb-2">
-                      <h4 className="font-medium text-white">{metric.name}</h4>
-                      <span className={`px-2 py-1 rounded text-xs ${getStatusColor(metric.status)}`}>
-                        {metric.status}
-                      </span>
-                    </div>
-                    <div className="flex items-end space-x-2 mb-2">
-                      <span className="text-2xl font-bold text-blue-400">
-                        {Math.round(metric.value)}
-                      </span>
-                      <span className="text-sm text-slate-300">{metric.unit}</span>
-                      <span className="text-xs text-slate-400">
-                        / {metric.target} {metric.unit}
-                      </span>
-                    </div>
-                    <div className="w-full bg-slate-600 rounded-full h-2">
-                      <div
-                        className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-                        style={{ width: `${Math.min((metric.value / metric.target) * 100, 100)}%` }}
-                      />
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-slate-800 rounded-xl p-6">
-              <h3 className="text-xl font-semibold text-white mb-6">Optimization Techniques</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <h4 className="font-medium text-blue-400">Level of Detail (LOD)</h4>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-slate-300">Detail Level</span>
-                      <span className="text-white">{lodLevel}/5</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="1"
-                      max="5"
-                      value={lodLevel}
-                      onChange={(e) => setLodLevel(parseInt(e.target.value))}
-                      className="w-full"
+    <div className="w-full mt-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Performance Metrics */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-8 shadow-sm">
+            <h3 className="text-sm font-bold text-slate-50 uppercase tracking-wider mb-6 flex items-center justify-between">
+              Performance Telemetry
+              <span className="px-2 py-0.5 bg-slate-800 text-[10px] text-emerald-400 rounded border border-slate-700 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                ACTIVE
+              </span>
+            </h3>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {metrics.map((metric) => (
+                <motion.div
+                  key={metric.id}
+                  className="bg-slate-950 border border-slate-800 rounded-lg p-5 hover:border-slate-700 transition-colors group"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <h4 className="font-semibold text-slate-300 tracking-tight group-hover:text-emerald-400 transition-colors">{metric.name}</h4>
+                    <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${getStatusColor(metric.status)}`}>
+                      {metric.status}
+                    </span>
+                  </div>
+                  
+                  <div className="flex items-baseline space-x-2 mb-3">
+                    <span className="text-3xl font-bold text-slate-50 tracking-tight">
+                      {Math.round(metric.value)}
+                    </span>
+                    <span className="text-sm font-medium text-slate-500">{metric.unit}</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center text-xs font-medium text-slate-500 mb-2">
+                    <span>Current Load</span>
+                    <span>Target: {metric.target} {metric.unit}</span>
+                  </div>
+                  
+                  <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all duration-300 ${
+                        metric.status === 'optimal' ? 'bg-emerald-500' :
+                        metric.status === 'warning' ? 'bg-amber-500' : 'bg-red-500'
+                      }`}
+                      style={{ width: `${Math.min((metric.value / metric.target) * 100, 100)}%` }}
                     />
-                    <p className="text-xs text-slate-400">
-                      Higher levels show more detail but reduce performance
-                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-8 shadow-sm">
+            <h3 className="text-sm font-bold text-slate-50 uppercase tracking-wider mb-6">Optimization Techniques</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-5">
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <h4 className="font-semibold text-slate-300 tracking-tight">Level of Detail (LOD)</h4>
+                    <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                      Level {lodLevel}/5
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-500 mb-4 leading-relaxed">
+                    Dynamically adjust geometric complexity based on camera distance to maintain stable frame rates.
+                  </p>
+                  <input
+                    type="range"
+                    min="1"
+                    max="5"
+                    value={lodLevel}
+                    onChange={(e) => setLodLevel(parseInt(e.target.value))}
+                    className="w-full accent-emerald-500 cursor-pointer"
+                  />
+                  <div className="flex justify-between text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-2">
+                    <span>Performance</span>
+                    <span>Quality</span>
                   </div>
                 </div>
+              </div>
 
+              <div className="space-y-5">
+                <h4 className="font-semibold text-slate-300 tracking-tight">Rendering Pipeline</h4>
                 <div className="space-y-4">
-                  <h4 className="font-medium text-blue-400">Rendering Options</h4>
-                  <div className="space-y-3">
-                    <label className="flex items-center space-x-3">
+                  <label className="flex items-center group cursor-pointer">
+                    <div className="relative flex items-center">
                       <input
                         type="checkbox"
                         checked={enableShadows}
                         onChange={(e) => setEnableShadows(e.target.checked)}
-                        className="rounded"
+                        className="sr-only peer"
                       />
-                      <span className="text-slate-300">Enable Shadows</span>
-                    </label>
-                    <label className="flex items-center space-x-3">
+                      <div className="w-9 h-5 bg-slate-800 border border-slate-700 rounded-full peer peer-checked:bg-emerald-500 peer-checked:border-emerald-400 transition-colors"></div>
+                      <div className="absolute left-[3px] top-[3px] w-3.5 h-3.5 bg-slate-400 rounded-full transition-all peer-checked:translate-x-full peer-checked:bg-white"></div>
+                    </div>
+                    <span className="ml-3 text-sm font-medium text-slate-400 group-hover:text-slate-200 transition-colors">Volumetric Shadows</span>
+                  </label>
+                  
+                  <label className="flex items-center group cursor-pointer">
+                    <div className="relative flex items-center">
                       <input
                         type="checkbox"
                         checked={antialiasing}
                         onChange={(e) => setAntialiasing(e.target.checked)}
-                        className="rounded"
+                        className="sr-only peer"
                       />
-                      <span className="text-slate-300">Anti-aliasing</span>
-                    </label>
-                  </div>
+                      <div className="w-9 h-5 bg-slate-800 border border-slate-700 rounded-full peer peer-checked:bg-emerald-500 peer-checked:border-emerald-400 transition-colors"></div>
+                      <div className="absolute left-[3px] top-[3px] w-3.5 h-3.5 bg-slate-400 rounded-full transition-all peer-checked:translate-x-full peer-checked:bg-white"></div>
+                    </div>
+                    <span className="ml-3 text-sm font-medium text-slate-400 group-hover:text-slate-200 transition-colors">Multi-sample Anti-aliasing (MSAA)</span>
+                  </label>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Optimization Controls */}
-          <div className="space-y-6">
-            <div className="bg-slate-800 rounded-xl p-6">
-              <h4 className="text-lg font-semibold text-white mb-4">Auto-Optimization</h4>
-              <div className="space-y-4">
-                <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-                  Optimize for Performance
-                </button>
-                <button className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">
-                  Optimize for Quality
-                </button>
-                <button className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">
-                  Balanced Mode
-                </button>
-              </div>
+        {/* Optimization Controls */}
+        <div className="space-y-6">
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-8 shadow-sm h-full flex flex-col">
+            <h4 className="text-sm font-bold text-slate-50 uppercase tracking-wider mb-6">Auto-Optimization Profiles</h4>
+            <p className="text-xs text-slate-500 mb-6 leading-relaxed">
+              Apply pre-configured rendering profiles optimized for different hardware capabilities and visualization needs.
+            </p>
+            
+            <div className="space-y-3 mb-8">
+              <button className="w-full flex items-center justify-between p-3 bg-slate-950 border border-slate-800 rounded-lg hover:border-emerald-500 transition-colors group">
+                <div className="flex items-center gap-3">
+                  <span className="text-lg opacity-80 group-hover:opacity-100 transition-opacity">⚡</span>
+                  <span className="text-sm font-semibold text-slate-300 group-hover:text-slate-100 transition-colors">Maximum Performance</span>
+                </div>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
+              
+              <button className="w-full flex items-center justify-between p-3 bg-slate-800 border border-emerald-500 rounded-lg shadow-sm group">
+                <div className="flex items-center gap-3">
+                  <span className="text-lg">⚖️</span>
+                  <span className="text-sm font-semibold text-slate-50">Balanced Profile</span>
+                </div>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
+              </button>
+              
+              <button className="w-full flex items-center justify-between p-3 bg-slate-950 border border-slate-800 rounded-lg hover:border-sky-500 transition-colors group">
+                <div className="flex items-center gap-3">
+                  <span className="text-lg opacity-80 group-hover:opacity-100 transition-opacity">✨</span>
+                  <span className="text-sm font-semibold text-slate-300 group-hover:text-slate-100 transition-colors">Maximum Quality</span>
+                </div>
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-500 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
             </div>
 
-            <div className="bg-slate-800 rounded-xl p-6">
-              <h4 className="text-lg font-semibold text-white mb-4">System Info</h4>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-slate-300">GPU:</span>
-                  <span className="text-white">RTX 4080</span>
+            <div className="mt-auto pt-6 border-t border-slate-800">
+              <h4 className="text-xs font-bold text-slate-50 uppercase tracking-wider mb-4">Client Hardware Info</h4>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center p-2.5 bg-slate-950 rounded border border-slate-800/50">
+                  <span className="text-xs font-medium text-slate-500">GPU</span>
+                  <span className="text-xs font-mono font-medium text-slate-300 tracking-tight">RTX 4080 (Detected)</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-300">VRAM:</span>
-                  <span className="text-white">16GB</span>
+                <div className="flex justify-between items-center p-2.5 bg-slate-950 rounded border border-slate-800/50">
+                  <span className="text-xs font-medium text-slate-500">VRAM</span>
+                  <span className="text-xs font-mono font-medium text-slate-300 tracking-tight">16 GB</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-300">WebGL:</span>
-                  <span className="text-green-400">2.0</span>
+                <div className="flex justify-between items-center p-2.5 bg-slate-950 rounded border border-slate-800/50">
+                  <span className="text-xs font-medium text-slate-500">WebGL Context</span>
+                  <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">WEBGL 2.0</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

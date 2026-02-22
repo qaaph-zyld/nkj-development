@@ -59,7 +59,7 @@ export default function PerformanceChart({
         labels: {
           usePointStyle: true,
           padding: 20,
-          color: '#ffffff',
+          color: '#f8fafc', // slate-50
           font: {
             size: 12,
             family: 'Inter, system-ui, sans-serif',
@@ -70,10 +70,10 @@ export default function PerformanceChart({
         display: false,
       },
       tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        titleColor: '#ffffff',
-        bodyColor: '#ffffff',
-        borderColor: '#0ea5e9',
+        backgroundColor: '#0f172a', // slate-900
+        titleColor: '#f8fafc', // slate-50
+        bodyColor: '#cbd5e1', // slate-300
+        borderColor: '#334155', // slate-700
         borderWidth: 1,
         cornerRadius: 8,
         padding: 12,
@@ -82,26 +82,26 @@ export default function PerformanceChart({
     scales: {
       x: {
         grid: {
-          color: 'rgba(74, 222, 128, 0.1)',
+          color: 'rgba(51, 65, 85, 0.2)', // slate-700 with opacity
         },
         ticks: {
           font: {
             size: 11,
             family: 'Inter, system-ui, sans-serif',
           },
-          color: '#9ca3af',
+          color: '#64748b', // slate-500
         },
       },
       y: {
         grid: {
-          color: 'rgba(74, 222, 128, 0.1)',
+          color: 'rgba(51, 65, 85, 0.2)', // slate-700 with opacity
         },
         ticks: {
           font: {
             size: 11,
             family: 'Inter, system-ui, sans-serif',
           },
-          color: '#9ca3af',
+          color: '#64748b', // slate-500
         },
       },
     },
@@ -122,12 +122,12 @@ export default function PerformanceChart({
 
   return (
     <motion.div
-      className={`bg-gray-900 border border-green-500/30 rounded-lg shadow-xl p-6 hover:border-green-400/50 transition-all duration-300 ${className}`}
+      className={`bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-all duration-300 shadow-sm ${className}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      <h3 className="text-lg font-semibold text-white mb-4">
+      <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-6">
         {title}
       </h3>
       <div style={{ height: `${height}px` }}>

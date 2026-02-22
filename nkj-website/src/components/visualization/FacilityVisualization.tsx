@@ -128,11 +128,11 @@ const mockWorkflowSteps: WorkflowStep[] = [
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case 'active': return 'bg-green-100 text-green-800 border-green-200';
-    case 'maintenance': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-    case 'idle': return 'bg-gray-100 text-gray-800 border-gray-200';
-    case 'offline': return 'bg-red-100 text-red-800 border-red-200';
-    default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    case 'active': return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+    case 'maintenance': return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
+    case 'idle': return 'bg-slate-800 text-slate-400 border border-slate-700';
+    case 'offline': return 'bg-red-500/10 text-red-400 border border-red-500/20';
+    default: return 'bg-slate-800 text-slate-400 border border-slate-700';
   }
 };
 
@@ -141,158 +141,177 @@ export default function FacilityVisualization() {
   const [isAnimating, setIsAnimating] = useState(true);
 
   return (
-    <section className="py-16 bg-gradient-to-br from-slate-50 to-indigo-50">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl font-bold text-automotive-carbon mb-4">
-            3D Facility Visualization
-          </h2>
-          <p className="text-xl text-automotive-steel max-w-3xl mx-auto">
-            Interactive 3D visualization of automotive manufacturing facilities with real-time workflow animation and performance monitoring
-          </p>
-        </motion.div>
-
-        {/* View Controls */}
-        <div className="flex justify-center mb-8">
-          <div className="nkj-card p-1">
-            {[
-              { id: 'overview', label: 'Facility Overview', icon: '🏭' },
-              { id: 'production', label: 'Production Lines', icon: '⚙️' },
-              { id: 'warehouse', label: 'Warehouses', icon: '📦' },
-              { id: 'workflow', label: 'Workflow Animation', icon: '🔄' }
-            ].map((view) => (
-              <button
-                key={view.id}
-                onClick={() => setSelectedView(view.id as 'overview' | 'production' | 'warehouse' | 'workflow')}
-                className={`px-6 py-3 rounded-md font-medium transition-all duration-300 ${
-                  selectedView === view.id
-                    ? 'bg-primary-500 text-white shadow-md'
-                    : 'text-gray-300 hover:bg-gray-700'
-                }`}
-              >
-                <span className="mr-2">{view.icon}</span>
-                {view.label}
-              </button>
-            ))}
-          </div>
+    <div className="w-full">
+      {/* View Controls */}
+      <div className="mb-8 overflow-x-auto pb-4 scrollbar-hide">
+        <div className="flex flex-nowrap md:flex-wrap justify-start gap-2 min-w-max md:min-w-0">
+          {[
+            { id: 'overview', label: 'Facility Overview', icon: '🏭' },
+            { id: 'production', label: 'Production Lines', icon: '⚙️' },
+            { id: 'warehouse', label: 'Warehouses', icon: '📦' },
+            { id: 'workflow', label: 'Workflow Animation', icon: '🔄' }
+          ].map((view) => (
+            <button
+              key={view.id}
+              onClick={() => setSelectedView(view.id as 'overview' | 'production' | 'warehouse' | 'workflow')}
+              className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 flex items-center whitespace-nowrap ${
+                selectedView === view.id
+                  ? 'bg-emerald-500 text-slate-50 shadow-sm border border-emerald-400'
+                  : 'bg-slate-900 text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-slate-800'
+              }`}
+            >
+              <span className="mr-2 opacity-80">{view.icon}</span>
+              {view.label}
+            </button>
+          ))}
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* 3D Visualization Placeholder */}
-          <div className="lg:col-span-3">
-            <div className="nkj-card overflow-hidden">
-              <div className="p-4 border-b border-gray-600 flex justify-between items-center">
-                <h3 className="text-xl font-semibold text-white">
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+        {/* 3D Visualization Placeholder */}
+        <div className="xl:col-span-3 flex flex-col h-full min-h-[600px]">
+          <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-sm flex flex-col h-full">
+            <div className="p-5 border-b border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-950/50">
+              <div>
+                <h3 className="text-lg font-bold text-slate-50 tracking-tight">
                   Interactive 3D Factory Layout
                 </h3>
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => setIsAnimating(!isAnimating)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                      isAnimating 
-                        ? 'bg-red-500 text-white hover:bg-red-600' 
-                        : 'bg-green-500 text-white hover:bg-green-600'
-                    }`}
-                  >
-                    {isAnimating ? 'Stop Animation' : 'Start Animation'}
-                  </button>
-                  <button className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors">
-                    Reset View
-                  </button>
-                </div>
+                <p className="text-xs text-slate-400 mt-1 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  Live telemetry active
+                </p>
               </div>
-              <div className="w-full h-96 lg:h-[600px] bg-gradient-to-br from-slate-100 to-blue-100 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-6xl mb-4">🏭</div>
-                  <h4 className="text-2xl font-bold text-gray-800 mb-2">3D Factory Visualization</h4>
-                  <p className="text-gray-600 mb-4">Interactive WebGL-based facility layout with real-time monitoring</p>
-                  <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-                    <div className="bg-gray-800 rounded-lg p-3 shadow">
-                      <div className="text-2xl mb-1">⚙️</div>
-                      <div className="text-sm font-medium text-white">Production Lines</div>
-                    </div>
-                    <div className="bg-gray-800 rounded-lg p-3 shadow">
-                      <div className="text-2xl mb-1">📦</div>
-                      <div className="text-sm font-medium text-white">Warehouses</div>
-                    </div>
-                    <div className="bg-gray-800 rounded-lg p-3 shadow">
-                      <div className="text-2xl mb-1">🔍</div>
-                      <div className="text-sm font-medium text-white">Quality Control</div>
-                    </div>
-                    <div className="bg-gray-800 rounded-lg p-3 shadow">
-                      <div className="text-2xl mb-1">🏢</div>
-                      <div className="text-sm font-medium text-white">Administration</div>
-                    </div>
+              <div className="flex space-x-3 w-full sm:w-auto">
+                <button
+                  onClick={() => setIsAnimating(!isAnimating)}
+                  className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-semibold transition-all shadow-sm flex items-center justify-center gap-2 ${
+                    isAnimating 
+                      ? 'bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 hover:text-slate-200' 
+                      : 'bg-emerald-500 text-slate-50 border border-emerald-400 hover:bg-emerald-600'
+                  }`}
+                >
+                  {isAnimating ? (
+                    <><span className="w-2 h-2 rounded-full bg-amber-500"></span> Pause</>
+                  ) : (
+                    <><span className="w-2 h-2 rounded-full bg-slate-50"></span> Resume</>
+                  )}
+                </button>
+                <button className="flex-1 sm:flex-none nkj-button-secondary text-sm">
+                  Reset View
+                </button>
+              </div>
+            </div>
+            
+            <div className="flex-grow bg-[#0f172a] relative flex items-center justify-center min-h-[500px]">
+              {/* Subtle grid background for the 3D viewport */}
+              <div className="absolute inset-0 opacity-20">
+                <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <pattern id="grid-3d" width="40" height="40" patternUnits="userSpaceOnUse">
+                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#334155" strokeWidth="1" />
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#grid-3d)" />
+                </svg>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-[#0f172a]"></div>
+              </div>
+              
+              <div className="text-center relative z-10 p-8">
+                <div className="text-6xl mb-6 opacity-50 grayscale">🏭</div>
+                <h4 className="text-xl font-bold text-slate-300 mb-2">3D WebGL Canvas Placeholder</h4>
+                <p className="text-sm text-slate-500 mb-8 max-w-md mx-auto">The Three.js canvas will render here, displaying real-time facility telemetry and supply chain workflows.</p>
+                
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
+                  <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-800 rounded-lg p-4 shadow-sm hover:border-slate-700 transition-colors cursor-pointer">
+                    <div className="text-2xl mb-2 opacity-80">⚙️</div>
+                    <div className="text-xs font-semibold text-slate-300 tracking-wide uppercase">Production</div>
+                  </div>
+                  <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-800 rounded-lg p-4 shadow-sm hover:border-slate-700 transition-colors cursor-pointer">
+                    <div className="text-2xl mb-2 opacity-80">📦</div>
+                    <div className="text-xs font-semibold text-slate-300 tracking-wide uppercase">Warehouses</div>
+                  </div>
+                  <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-800 rounded-lg p-4 shadow-sm hover:border-slate-700 transition-colors cursor-pointer">
+                    <div className="text-2xl mb-2 opacity-80">🔍</div>
+                    <div className="text-xs font-semibold text-slate-300 tracking-wide uppercase">Quality</div>
+                  </div>
+                  <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-800 rounded-lg p-4 shadow-sm hover:border-slate-700 transition-colors cursor-pointer">
+                    <div className="text-2xl mb-2 opacity-80">🏢</div>
+                    <div className="text-xs font-semibold text-slate-300 tracking-wide uppercase">Admin</div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Facility Information Panel */}
-          <div className="space-y-6">
-            <div className="nkj-card p-6">
-              <h4 className="text-lg font-semibold text-white mb-4">
-                Facility Status
-              </h4>
-              <div className="space-y-4">
-                {mockFacilityLayouts.slice(0, 4).map((facility) => (
-                  <motion.div
-                    key={facility.id}
-                    className="p-3 rounded-lg border border-gray-600 cursor-pointer hover:bg-gray-700"
-                    whileHover={{ scale: 1.02 }}
-                    onClick={() => console.log('Selected facility:', facility.name)}
-                  >
-                    <div className="flex justify-between items-start mb-2">
-                      <h5 className="font-medium text-white text-sm">
-                        {facility.name}
-                      </h5>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(facility.status)}`}>
-                        {facility.status.toUpperCase()}
-                      </span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-300">Utilization:</span>
-                      <span className="font-medium text-white">{facility.utilization}%</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                      <div
-                        className="bg-primary-500 h-2 rounded-full transition-all duration-300"
-                        style={{ width: `${facility.utilization}%` }}
-                      />
-                    </div>
-                  </motion.div>
-                ))}
+              
+              {/* Overlaid Controls overlay */}
+              <div className="absolute bottom-6 right-6 flex flex-col gap-2">
+                <button className="w-10 h-10 bg-slate-900/80 backdrop-blur-sm border border-slate-700 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-200 hover:border-slate-600 shadow-sm transition-colors">+</button>
+                <button className="w-10 h-10 bg-slate-900/80 backdrop-blur-sm border border-slate-700 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-200 hover:border-slate-600 shadow-sm transition-colors">−</button>
               </div>
             </div>
+          </div>
+        </div>
 
-            <div className="nkj-card p-6">
-              <h4 className="text-lg font-semibold text-white mb-4">
+        {/* Facility Information Panel */}
+        <div className="space-y-6">
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-sm h-full flex flex-col">
+            <h4 className="text-sm font-bold text-slate-50 uppercase tracking-wider mb-5 flex items-center justify-between">
+              Facility Telemetry
+              <span className="px-2 py-0.5 bg-slate-800 text-[10px] text-slate-400 rounded border border-slate-700">LIVE</span>
+            </h4>
+            
+            <div className="space-y-4 flex-grow overflow-y-auto pr-2 custom-scrollbar">
+              {mockFacilityLayouts.slice(0, 4).map((facility) => (
+                <motion.div
+                  key={facility.id}
+                  className="p-4 rounded-lg border border-slate-800 bg-slate-950/50 cursor-pointer hover:bg-slate-800 hover:border-slate-700 transition-colors group"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <div className="flex justify-between items-start mb-3">
+                    <h5 className="font-semibold text-slate-200 text-sm tracking-tight group-hover:text-emerald-400 transition-colors w-2/3 truncate">
+                      {facility.name}
+                    </h5>
+                    <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${getStatusColor(facility.status)}`}>
+                      {facility.status}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-xs mb-2">
+                    <span className="font-medium text-slate-500">Utilization</span>
+                    <span className="font-bold text-slate-300">{facility.utilization}%</span>
+                  </div>
+                  <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all duration-500 ${
+                        facility.utilization > 90 ? 'bg-emerald-500' :
+                        facility.utilization > 70 ? 'bg-sky-500' :
+                        facility.utilization > 50 ? 'bg-amber-500' : 'bg-slate-500'
+                      }`}
+                      style={{ width: `${facility.utilization}%` }}
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+            
+            <div className="mt-6 pt-5 border-t border-slate-800">
+              <h4 className="text-sm font-bold text-slate-50 uppercase tracking-wider mb-4">
                 Active Workflows
               </h4>
               <div className="space-y-3">
-                {mockWorkflowSteps.map((step) => (
-                  <div key={step.id} className="p-3 rounded-lg bg-gray-800">
-                    <div className="text-sm font-medium text-white mb-1">
+                {mockWorkflowSteps.slice(0,2).map((step) => (
+                  <div key={step.id} className="p-3 rounded-lg border border-slate-800 bg-slate-950/30">
+                    <div className="text-xs font-semibold text-slate-300 mb-1 truncate">
                       {step.name}
                     </div>
-                    <div className="text-xs text-gray-300 mb-2">
-                      {step.duration} min duration
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider">
+                        {step.duration} min est.
+                      </span>
+                      <span className="text-[10px] font-bold text-sky-400">{step.progress}%</span>
                     </div>
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className="text-gray-300">Progress:</span>
-                      <span className="font-medium text-white">{step.progress}%</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-1">
+                    <div className="w-full bg-slate-800 rounded-full h-1 overflow-hidden">
                       <div
-                        className={`h-1 rounded-full transition-all duration-300 ${
-                          step.status === 'active' ? 'bg-blue-500' :
-                          step.status === 'completed' ? 'bg-green-500' : 'bg-gray-400'
+                        className={`h-full rounded-full transition-all duration-500 ${
+                          step.status === 'active' ? 'bg-sky-500' :
+                          step.status === 'completed' ? 'bg-emerald-500' : 'bg-slate-500'
                         }`}
                         style={{ width: `${step.progress}%` }}
                       />
@@ -301,19 +320,9 @@ export default function FacilityVisualization() {
                 ))}
               </div>
             </div>
-
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 text-center">
-              <div className="text-3xl mb-2">🎮</div>
-              <h4 className="font-semibold text-automotive-carbon mb-2">
-                Interactive Controls
-              </h4>
-              <p className="text-sm text-automotive-steel">
-                Click and drag to rotate • Scroll to zoom • Click facilities for details
-              </p>
-            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

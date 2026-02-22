@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
+// ... (rest of the file content needs to be read first, I will keep the interfaces and mock data)
 interface QualityMetric {
   id: string;
   name: string;
@@ -167,302 +168,315 @@ const mockInspectionResults: InspectionResult[] = [
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case 'excellent': return 'bg-green-100 text-green-800 border-green-200';
-    case 'good': return 'bg-blue-100 text-blue-800 border-blue-200';
-    case 'warning': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-    case 'critical': return 'bg-red-100 text-red-800 border-red-200';
-    default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    case 'excellent': return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+    case 'good': return 'bg-sky-500/10 text-sky-400 border border-sky-500/20';
+    case 'warning': return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
+    case 'critical': return 'bg-red-500/10 text-red-400 border border-red-500/20';
+    default: return 'bg-slate-800 text-slate-400 border border-slate-700';
   }
 };
 
 const getSeverityColor = (severity: string) => {
   switch (severity) {
-    case 'low': return 'bg-green-100 text-green-800 border-green-200';
-    case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-    case 'high': return 'bg-orange-100 text-orange-800 border-orange-200';
-    case 'critical': return 'bg-red-100 text-red-800 border-red-200';
-    default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    case 'low': return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+    case 'medium': return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
+    case 'high': return 'bg-orange-500/10 text-orange-400 border border-orange-500/20';
+    case 'critical': return 'bg-red-500/10 text-red-400 border border-red-500/20';
+    default: return 'bg-slate-800 text-slate-400 border border-slate-700';
   }
 };
 
 const getResultColor = (result: string) => {
   switch (result) {
-    case 'pass': return 'bg-green-100 text-green-800 border-green-200';
-    case 'conditional': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-    case 'fail': return 'bg-red-100 text-red-800 border-red-200';
-    default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    case 'pass': return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+    case 'conditional': return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
+    case 'fail': return 'bg-red-500/10 text-red-400 border border-red-500/20';
+    default: return 'bg-slate-800 text-slate-400 border border-slate-700';
   }
 };
 
 const getTrendIcon = (trend: string) => {
   switch (trend) {
-    case 'up': return '📈';
-    case 'down': return '📉';
-    case 'stable': return '➡️';
-    default: return '➡️';
+    case 'up': return '↗';
+    case 'down': return '↘';
+    case 'stable': return '→';
+    default: return '→';
   }
 };
 
 export default function QualityControl() {
   const [selectedTab, setSelectedTab] = useState<'metrics' | 'incidents' | 'inspections'>('metrics');
 
+  const tabs = [
+    { id: 'metrics', label: 'Quality Metrics', icon: '📊' },
+    { id: 'incidents', label: 'Quality Incidents', icon: '⚠️' },
+    { id: 'inspections', label: 'Inspection Results', icon: '🔍' }
+  ];
+
   return (
-    <section className="py-16 bg-gradient-to-br from-green-50 to-blue-50">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl font-bold text-automotive-carbon mb-4">
-            Quality Control Dashboard
-          </h2>
-          <p className="text-xl text-automotive-steel max-w-3xl mx-auto">
-            Comprehensive automotive quality management with real-time metrics, incident tracking, and ISO compliance monitoring
-          </p>
-        </motion.div>
-
-        {/* Tab Navigation */}
-        <div className="flex justify-center mb-8">
-          <div className="bg-white rounded-lg p-1 shadow-lg">
-            {[
-              { id: 'metrics', label: 'Quality Metrics', icon: '📊' },
-              { id: 'incidents', label: 'Quality Incidents', icon: '⚠️' },
-              { id: 'inspections', label: 'Inspection Results', icon: '🔍' }
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setSelectedTab(tab.id as 'metrics' | 'incidents' | 'inspections')}
-                className={`px-6 py-3 rounded-md font-medium transition-all duration-300 ${
-                  selectedTab === tab.id
-                    ? 'bg-primary-500 text-white shadow-md'
-                    : 'text-automotive-steel hover:bg-gray-50'
-                }`}
-              >
-                <span className="mr-2">{tab.icon}</span>
-                {tab.label}
-              </button>
-            ))}
-          </div>
+    <div className="w-full">
+      {/* Tab Navigation */}
+      <div className="mb-8 overflow-x-auto pb-4 scrollbar-hide">
+        <div className="flex flex-nowrap md:flex-wrap justify-start gap-2 min-w-max md:min-w-0">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setSelectedTab(tab.id as 'metrics' | 'incidents' | 'inspections')}
+              className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 flex items-center whitespace-nowrap ${
+                selectedTab === tab.id
+                  ? 'bg-emerald-500 text-slate-50 shadow-sm border border-emerald-400'
+                  : 'bg-slate-900 text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-slate-800'
+              }`}
+            >
+              <span className="mr-2 opacity-80">{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
         </div>
+      </div>
 
-        {/* Content Panels */}
-        <motion.div
-          key={selectedTab}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4 }}
-          className="bg-white rounded-xl shadow-xl p-8"
-        >
-          {selectedTab === 'metrics' && (
-            <div>
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-semibold text-automotive-carbon">Quality Metrics Overview</h3>
-                <button className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors">
-                  Export Report
-                </button>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                {mockQualityMetrics.map((metric) => (
-                  <motion.div
-                    key={metric.id}
-                    className="bg-gradient-to-r from-white to-gray-50 rounded-lg p-6 border border-gray-200"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <h4 className="text-lg font-semibold text-automotive-carbon">{metric.name}</h4>
-                      <span className="text-xl">{getTrendIcon(metric.trend)}</span>
-                    </div>
-                    
-                    <div className="space-y-3">
-                      <div className="flex items-baseline justify-between">
-                        <span className="text-3xl font-bold text-automotive-carbon">
+      {/* Content Panels */}
+      <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-sm">
+        {selectedTab === 'metrics' && (
+          <div className="p-8">
+            <div className="flex justify-between items-center mb-8">
+              <h3 className="text-lg font-bold text-slate-50 tracking-tight">Quality Metrics Overview</h3>
+              <button className="nkj-button-secondary text-sm">
+                Export Report
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+              {mockQualityMetrics.map((metric, index) => (
+                <motion.div
+                  key={metric.id}
+                  className="bg-slate-950 rounded-lg p-6 border border-slate-800 hover:border-slate-700 transition-colors group cursor-pointer"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <h4 className="text-sm font-semibold text-slate-300 group-hover:text-emerald-400 transition-colors">{metric.name}</h4>
+                    <span className={`text-lg ${
+                      metric.trend === 'up' ? 'text-emerald-500' : 
+                      metric.trend === 'down' ? 'text-red-500' : 'text-slate-500'
+                    }`}>{getTrendIcon(metric.trend)}</span>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-baseline justify-between">
+                      <div className="flex items-baseline">
+                        <span className="text-3xl font-bold text-slate-50 tracking-tight">
                           {metric.value}
                         </span>
-                        <span className="text-lg text-automotive-steel">{metric.unit}</span>
+                        <span className="text-sm font-medium text-slate-500 ml-1">{metric.unit}</span>
                       </div>
-                      
-                      <div className="flex justify-between text-sm">
-                        <span className="text-automotive-steel">Target: {metric.target}{metric.unit}</span>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(metric.status)}`}>
-                          {metric.status.toUpperCase()}
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${getStatusColor(metric.status)}`}>
+                        {metric.status}
+                      </span>
+                    </div>
+                    
+                    <div className="flex justify-between text-xs font-medium">
+                      <span className="text-slate-500">Target: {metric.target}{metric.unit}</span>
+                      <span className="text-slate-500">
+                        {new Date(metric.lastUpdated).toLocaleDateString()}
+                      </span>
+                    </div>
+                    
+                    <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all duration-500 ${
+                          metric.status === 'excellent' ? 'bg-emerald-500' :
+                          metric.status === 'good' ? 'bg-sky-500' :
+                          metric.status === 'warning' ? 'bg-amber-500' : 'bg-red-500'
+                        }`}
+                        style={{ 
+                          width: `${Math.min((metric.value / metric.target) * 100, 100)}%` 
+                        }}
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Quality Trends Chart Placeholder */}
+            <div className="bg-slate-950 border border-slate-800 rounded-xl p-8 text-center border-dashed">
+              <div className="text-4xl mb-4 opacity-50 grayscale">📈</div>
+              <h4 className="text-base font-semibold text-slate-300 mb-2 tracking-tight">
+                Quality Trends Analysis
+              </h4>
+              <p className="text-sm text-slate-500 max-w-sm mx-auto">
+                Interactive charts showing quality metrics over time with predictive analytics are available in the full platform.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {selectedTab === 'incidents' && (
+          <div className="p-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-50 tracking-tight">Quality Incidents</h3>
+                <p className="text-sm text-slate-400 mt-1">Track and manage non-conformance reports</p>
+              </div>
+              <button className="nkj-button-primary text-sm whitespace-nowrap">
+                Report Incident
+              </button>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-800 bg-slate-950/50">
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">ID</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Part Number</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Defect Type</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Severity</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Status</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Assigned To</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/50">
+                  {mockQualityIncidents.map((incident) => (
+                    <motion.tr 
+                      key={incident.id} 
+                      className="hover:bg-slate-800/30 transition-colors group cursor-pointer"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                    >
+                      <td className="py-4 px-4 font-mono text-sm text-slate-300">{incident.id}</td>
+                      <td className="py-4 px-4 text-sm font-medium text-slate-200">{incident.partNumber}</td>
+                      <td className="py-4 px-4 text-sm text-slate-400">{incident.defectType}</td>
+                      <td className="py-4 px-4">
+                        <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${getSeverityColor(incident.severity)}`}>
+                          {incident.severity}
                         </span>
-                      </div>
-                      
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div
-                          className={`h-2 rounded-full transition-all duration-300 ${
-                            metric.status === 'excellent' ? 'bg-green-500' :
-                            metric.status === 'good' ? 'bg-blue-500' :
-                            metric.status === 'warning' ? 'bg-yellow-500' : 'bg-red-500'
-                          }`}
-                          style={{ 
-                            width: `${Math.min((metric.value / metric.target) * 100, 100)}%` 
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Quality Trends Chart Placeholder */}
-              <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-8 text-center">
-                <div className="text-6xl mb-4">📈</div>
-                <h4 className="text-xl font-semibold text-automotive-carbon mb-2">
-                  Quality Trends Analysis
-                </h4>
-                <p className="text-automotive-steel mb-4">
-                  Interactive charts showing quality metrics over time with predictive analytics
-                </p>
-              </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${getStatusColor(incident.status === 'resolved' ? 'good' : 'warning')}`}>
+                          {incident.status}
+                        </span>
+                      </td>
+                      <td className="py-4 px-4 text-sm text-slate-400">{incident.assignedTo}</td>
+                      <td className="py-4 px-4 text-right">
+                        <button className="text-emerald-500 hover:text-emerald-400 text-sm font-medium transition-colors opacity-0 group-hover:opacity-100">
+                          View Details
+                        </button>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          )}
+          </div>
+        )}
 
-          {selectedTab === 'incidents' && (
-            <div>
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-semibold text-automotive-carbon">Quality Incidents</h3>
-                <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
-                  + Report Incident
-                </button>
+        {selectedTab === 'inspections' && (
+          <div className="p-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-50 tracking-tight">Recent Inspection Results</h3>
+                <p className="text-sm text-slate-400 mt-1">Review batch inspection records and defect logs</p>
               </div>
-              
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Incident ID</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Part Number</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Defect Type</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Severity</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Detected At</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Status</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Assigned To</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {mockQualityIncidents.map((incident) => (
-                      <tr key={incident.id} className="border-b border-gray-100 hover:bg-gray-50">
-                        <td className="py-4 px-4 font-medium text-automotive-carbon">{incident.id}</td>
-                        <td className="py-4 px-4 text-automotive-steel">{incident.partNumber}</td>
-                        <td className="py-4 px-4 text-automotive-steel">{incident.defectType}</td>
-                        <td className="py-4 px-4">
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getSeverityColor(incident.severity)}`}>
-                            {incident.severity.toUpperCase()}
-                          </span>
-                        </td>
-                        <td className="py-4 px-4 text-automotive-steel">{incident.detectedAt}</td>
-                        <td className="py-4 px-4">
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(incident.status === 'resolved' ? 'good' : 'warning')}`}>
-                            {incident.status.toUpperCase()}
-                          </span>
-                        </td>
-                        <td className="py-4 px-4 text-automotive-steel">{incident.assignedTo}</td>
-                        <td className="py-4 px-4">
-                          <button className="text-primary-500 hover:text-primary-600 font-medium">
-                            View Details
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <button className="nkj-button-secondary text-sm whitespace-nowrap">
+                Schedule Inspection
+              </button>
             </div>
-          )}
-
-          {selectedTab === 'inspections' && (
-            <div>
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-semibold text-automotive-carbon">Recent Inspection Results</h3>
-                <button className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors">
-                  Schedule Inspection
-                </button>
-              </div>
-              
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-6">
-                  <h4 className="text-lg font-semibold text-automotive-carbon mb-4">Inspection Summary</h4>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-green-500">85%</div>
-                      <div className="text-sm text-automotive-steel">Pass Rate</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-yellow-500">12%</div>
-                      <div className="text-sm text-automotive-steel">Conditional</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-red-500">3%</div>
-                      <div className="text-sm text-automotive-steel">Fail Rate</div>
-                    </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+              <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-amber-500"></div>
+                <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-6">Inspection Summary</h4>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="text-center p-3 bg-slate-900 rounded-lg border border-slate-800">
+                    <div className="text-2xl font-bold text-emerald-500 tracking-tight">85%</div>
+                    <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-1">Pass Rate</div>
                   </div>
-                </div>
-                
-                <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6">
-                  <h4 className="text-lg font-semibold text-automotive-carbon mb-4">Inspection Types</h4>
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-automotive-steel">Dimensional</span>
-                      <span className="font-medium text-automotive-carbon">45%</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-automotive-steel">Visual</span>
-                      <span className="font-medium text-automotive-carbon">30%</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-automotive-steel">Functional</span>
-                      <span className="font-medium text-automotive-carbon">25%</span>
-                    </div>
+                  <div className="text-center p-3 bg-slate-900 rounded-lg border border-slate-800">
+                    <div className="text-2xl font-bold text-amber-500 tracking-tight">12%</div>
+                    <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-1">Conditional</div>
+                  </div>
+                  <div className="text-center p-3 bg-slate-900 rounded-lg border border-slate-800">
+                    <div className="text-2xl font-bold text-red-500 tracking-tight">3%</div>
+                    <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-1">Fail Rate</div>
                   </div>
                 </div>
               </div>
               
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Inspection ID</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Batch ID</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Part Number</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Type</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Result</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Defects</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Inspector</th>
-                      <th className="text-left py-3 px-4 font-semibold text-automotive-carbon">Timestamp</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {mockInspectionResults.map((inspection) => (
-                      <tr key={inspection.id} className="border-b border-gray-100 hover:bg-gray-50">
-                        <td className="py-4 px-4 font-medium text-automotive-carbon">{inspection.id}</td>
-                        <td className="py-4 px-4 text-automotive-steel">{inspection.batchId}</td>
-                        <td className="py-4 px-4 text-automotive-steel">{inspection.partNumber}</td>
-                        <td className="py-4 px-4 text-automotive-steel">{inspection.inspectionType}</td>
-                        <td className="py-4 px-4">
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getResultColor(inspection.result)}`}>
-                            {inspection.result.toUpperCase()}
-                          </span>
-                        </td>
-                        <td className="py-4 px-4 text-automotive-steel">{inspection.defectsFound}</td>
-                        <td className="py-4 px-4 text-automotive-steel">{inspection.inspector}</td>
-                        <td className="py-4 px-4 text-automotive-steel">
-                          {new Date(inspection.timestamp).toLocaleString()}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-sky-500"></div>
+                <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-6">Inspection Types Breakdown</h4>
+                <div className="space-y-4">
+                  <div>
+                    <div className="flex justify-between text-sm mb-1">
+                      <span className="font-medium text-slate-400">Dimensional</span>
+                      <span className="font-bold text-slate-300">45%</span>
+                    </div>
+                    <div className="w-full bg-slate-800 rounded-full h-1.5"><div className="bg-sky-500 h-1.5 rounded-full" style={{ width: '45%' }}></div></div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-sm mb-1">
+                      <span className="font-medium text-slate-400">Visual</span>
+                      <span className="font-bold text-slate-300">30%</span>
+                    </div>
+                    <div className="w-full bg-slate-800 rounded-full h-1.5"><div className="bg-sky-400 h-1.5 rounded-full" style={{ width: '30%' }}></div></div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-sm mb-1">
+                      <span className="font-medium text-slate-400">Functional</span>
+                      <span className="font-bold text-slate-300">25%</span>
+                    </div>
+                    <div className="w-full bg-slate-800 rounded-full h-1.5"><div className="bg-sky-300 h-1.5 rounded-full" style={{ width: '25%' }}></div></div>
+                  </div>
+                </div>
               </div>
             </div>
-          )}
-        </motion.div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-800 bg-slate-950/50">
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">ID</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Batch ID</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Part Number</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Type</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Result</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Defects</th>
+                    <th className="py-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Inspector</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/50">
+                  {mockInspectionResults.map((inspection) => (
+                    <motion.tr 
+                      key={inspection.id} 
+                      className="hover:bg-slate-800/30 transition-colors group cursor-pointer"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                    >
+                      <td className="py-4 px-4 font-mono text-sm text-slate-400">{inspection.id}</td>
+                      <td className="py-4 px-4 font-mono text-sm text-slate-300">{inspection.batchId}</td>
+                      <td className="py-4 px-4 text-sm font-medium text-slate-200">{inspection.partNumber}</td>
+                      <td className="py-4 px-4 text-sm text-slate-400">{inspection.inspectionType}</td>
+                      <td className="py-4 px-4">
+                        <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${getResultColor(inspection.result)}`}>
+                          {inspection.result}
+                        </span>
+                      </td>
+                      <td className="py-4 px-4 text-sm font-medium text-slate-300">{inspection.defectsFound}</td>
+                      <td className="py-4 px-4 text-sm text-slate-400">
+                        {inspection.inspector}
+                        <div className="text-[10px] text-slate-500 mt-0.5">{new Date(inspection.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
-    </section>
+    </div>
   );
 }

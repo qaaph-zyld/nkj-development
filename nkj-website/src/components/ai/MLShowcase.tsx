@@ -104,235 +104,253 @@ export default function MLShowcase() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'ready': return 'bg-automotive-success';
-      case 'training': return 'bg-automotive-warning';
-      case 'predicting': return 'bg-automotive-electric';
-      default: return 'bg-automotive-steel';
+      case 'ready': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+      case 'training': return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+      case 'predicting': return 'bg-sky-500/10 text-sky-400 border-sky-500/20';
+      default: return 'bg-slate-800 text-slate-400 border-slate-700';
     }
   };
 
   const getTrendIcon = (trend: string) => {
     switch (trend) {
-      case 'up': return '📈';
-      case 'down': return '📉';
-      case 'stable': return '➡️';
-      default: return '📊';
+      case 'up': return '↗';
+      case 'down': return '↘';
+      case 'stable': return '→';
+      default: return '→';
     }
   };
 
   return (
-    <section className="py-16 bg-gradient-to-br from-slate-900 to-blue-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        {/* Model Selection */}
         <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          className="bg-slate-900 border border-slate-800 rounded-xl p-8 shadow-sm flex flex-col"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl font-bold text-white mb-4">
-            AI/ML Integration Framework
-          </h2>
-          <p className="text-lg text-slate-300 max-w-3xl mx-auto">
-            Advanced machine learning models powered by TensorFlow.js for real-time automotive predictions
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Model Selection */}
-          <motion.div
-            className="bg-gray-900 border border-green-500/30 rounded-lg shadow-xl p-6"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h3 className="text-xl font-semibold text-white mb-6">
+          <div className="flex items-center justify-between mb-8">
+            <h3 className="text-xl font-bold text-slate-50 tracking-tight">
               ML Models Portfolio
             </h3>
-            
-            <div className="space-y-4">
-              {mlModels.map((model) => (
-                <motion.div
-                  key={model.name}
-                  className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
-                    selectedModel.name === model.name
-                      ? 'border-green-500 bg-green-900/30'
-                      : 'border-gray-700 hover:border-green-400/50 bg-gray-800'
-                  }`}
-                  onClick={() => setSelectedModel(model)}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-white">
-                      {model.name}
-                    </h4>
-                    <div className="flex items-center space-x-2">
-                      <div className={`w-3 h-3 rounded-full ${getStatusColor(model.status)}`}></div>
-                      <span className="text-sm text-gray-300 capitalize">
-                        {model.status}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <p className="text-sm text-gray-300 mb-3">
-                    {model.description}
-                  </p>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-white">
-                      Accuracy: {model.accuracy}%
+            <span className="text-xl text-slate-600">🧠</span>
+          </div>
+          
+          <div className="space-y-4 flex-grow">
+            {mlModels.map((model) => (
+              <motion.div
+                key={model.name}
+                className={`p-5 rounded-lg border cursor-pointer transition-all duration-200 group ${
+                  selectedModel.name === model.name
+                    ? 'bg-slate-800/80 border-emerald-500 shadow-sm'
+                    : 'bg-slate-950/50 border-slate-800 hover:border-slate-700 hover:bg-slate-900'
+                }`}
+                onClick={() => setSelectedModel(model)}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="font-semibold text-slate-200 group-hover:text-emerald-400 transition-colors">
+                    {model.name}
+                  </h4>
+                  <div className="flex items-center space-x-2">
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${getStatusColor(model.status)}`}>
+                      {model.status}
                     </span>
-                    <div className="w-24 bg-gray-700 rounded-full h-2">
+                  </div>
+                </div>
+                
+                <p className="text-sm text-slate-400 mb-4">
+                  {model.description}
+                </p>
+                
+                <div className="flex justify-between items-center mt-2">
+                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    Accuracy
+                  </span>
+                  <div className="flex items-center space-x-3 w-40">
+                    <div className="flex-grow bg-slate-800 rounded-full h-1.5 overflow-hidden">
                       <div
-                        className="bg-green-400 h-2 rounded-full transition-all duration-300"
+                        className="bg-emerald-500 h-full rounded-full transition-all duration-500"
                         style={{ width: `${model.accuracy}%` }}
                       ></div>
                     </div>
+                    <span className="text-xs font-bold text-emerald-400 w-10 text-right">
+                      {model.accuracy}%
+                    </span>
                   </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
-          {/* Prediction Interface */}
-          <motion.div
-            className="bg-gray-900 border border-green-500/30 rounded-lg shadow-xl p-6"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <h3 className="text-xl font-semibold text-white mb-6">
+        {/* Prediction Interface */}
+        <motion.div
+          className="bg-slate-900 border border-slate-800 rounded-xl p-8 shadow-sm flex flex-col"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <div className="flex items-center justify-between mb-8">
+            <h3 className="text-xl font-bold text-slate-50 tracking-tight">
               Live Prediction Engine
             </h3>
-            
-            <div className="mb-6">
-              <h4 className="font-semibold text-white mb-2">
-                Selected Model: {selectedModel.name}
-              </h4>
-              <p className="text-sm text-gray-300">
-                {selectedModel.description}
-              </p>
-            </div>
+            <span className="text-xl text-slate-600">⚡</span>
+          </div>
+          
+          <div className="mb-8 p-5 bg-slate-950 rounded-lg border border-slate-800 flex-grow flex flex-col">
+            <h4 className="font-semibold text-slate-200 mb-2">
+              {selectedModel.name}
+            </h4>
+            <p className="text-sm text-slate-400 mb-6 flex-grow">
+              {selectedModel.description}
+            </p>
 
             <motion.button
-              className={`w-full py-3 px-6 rounded-lg font-semibold transition-all duration-300 ${
+              className={`w-full py-3.5 px-6 rounded-lg font-semibold transition-all duration-300 mb-4 shadow-sm flex items-center justify-center gap-2 ${
                 isLoading || !tfReady
-                  ? 'bg-gray-600 text-gray-300 cursor-not-allowed'
-                  : 'bg-green-500 hover:bg-green-600 text-black shadow-lg hover:shadow-xl'
+                  ? 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed'
+                  : 'bg-emerald-500 hover:bg-emerald-600 text-slate-50 border border-emerald-400'
               }`}
               onClick={runPrediction}
               disabled={isLoading || !tfReady}
-              whileHover={!isLoading && tfReady ? { scale: 1.02 } : {}}
-              whileTap={!isLoading && tfReady ? { scale: 0.98 } : {}}
+              whileHover={!isLoading && tfReady ? { scale: 1.01 } : {}}
+              whileTap={!isLoading && tfReady ? { scale: 0.99 } : {}}
             >
-              {!tfReady ? 'Initializing TensorFlow.js...' : 
-               isLoading ? 'Running Prediction...' : 
-               'Generate Prediction'}
+              {!tfReady ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-slate-500 border-t-transparent rounded-full animate-spin"></span>
+                  Initializing TF.js
+                </>
+              ) : isLoading ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-slate-50 border-t-transparent rounded-full animate-spin"></span>
+                  Running Inference
+                </>
+              ) : (
+                'Generate Prediction'
+              )}
             </motion.button>
 
             {/* TensorFlow Status */}
-            <div className="mt-4 p-3 bg-gray-800 border border-green-500/30 rounded-lg">
+            <div className="flex items-center justify-between px-4 py-2.5 bg-slate-900 border border-slate-800 rounded text-xs font-medium">
+              <span className="text-slate-500">TensorFlow.js Engine</span>
               <div className="flex items-center space-x-2">
-                <div className={`w-2 h-2 rounded-full ${tfReady ? 'bg-green-400' : 'bg-yellow-400'}`}></div>
-                <span className="text-sm text-gray-300">
-                  TensorFlow.js: {tfReady ? 'Ready' : 'Loading...'}
-                </span>
+                <span className="text-slate-400">{tfReady ? 'Ready' : 'Loading...'}</span>
+                <div className={`w-2 h-2 rounded-full ${tfReady ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-amber-500 animate-pulse shadow-[0_0_8px_rgba(245,158,11,0.5)]'}`}></div>
               </div>
             </div>
+          </div>
 
-            {/* Prediction Results */}
-            {prediction && (
+          {/* Prediction Results */}
+          <div className="h-[140px] flex items-end">
+            {prediction ? (
               <motion.div
-                className="mt-6 p-4 bg-gradient-to-r from-green-900/30 to-gray-800 border border-green-500/30 rounded-lg"
-                initial={{ opacity: 0, y: 20 }}
+                className="w-full p-6 bg-slate-950 border border-emerald-500/30 rounded-lg relative overflow-hidden"
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.4 }}
               >
-                <h4 className="font-semibold text-white mb-4">
-                  Prediction Results
-                </h4>
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-sky-500"></div>
+                <div className="flex justify-between items-center mb-4">
+                  <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                    Inference Output
+                  </h4>
+                  <div className="flex items-center space-x-1.5 text-xs font-medium">
+                    <span className={`text-lg ${
+                      prediction.trend === 'up' ? 'text-emerald-500' :
+                      prediction.trend === 'down' ? 'text-red-500' : 'text-slate-500'
+                    }`}>{getTrendIcon(prediction.trend)}</span>
+                    <span className="text-slate-300 capitalize">{prediction.trend} Trend</span>
+                  </div>
+                </div>
                 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-green-400">
+                  <div>
+                    <div className="text-3xl font-bold text-slate-50 tracking-tight">
                       {prediction.demand.toLocaleString()}
                     </div>
-                    <div className="text-sm text-gray-300">
+                    <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-1">
                       Units Demand
                     </div>
                   </div>
                   
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-green-400">
+                  <div className="text-right">
+                    <div className="text-3xl font-bold text-sky-400 tracking-tight">
                       {prediction.confidence}%
                     </div>
-                    <div className="text-sm text-gray-300">
-                      Confidence
+                    <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-1">
+                      Confidence Score
                     </div>
                   </div>
                 </div>
-                
-                <div className="mt-4 flex items-center justify-center space-x-2">
-                  <span className="text-2xl">{getTrendIcon(prediction.trend)}</span>
-                  <span className="text-sm font-medium text-white capitalize">
-                    {prediction.trend} Trend Detected
-                  </span>
-                </div>
               </motion.div>
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center text-center p-6 bg-slate-950/30 rounded-lg border border-slate-800 border-dashed">
+                <div className="text-3xl mb-3 opacity-50 grayscale">📊</div>
+                <p className="text-sm text-slate-500 font-medium max-w-[200px]">
+                  Run inference to view model predictions
+                </p>
+              </div>
             )}
-          </motion.div>
-        </div>
-
-        {/* Technical Specifications */}
-        <motion.div
-          className="mt-12 bg-gray-900 border border-green-500/30 rounded-lg shadow-xl p-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <h3 className="text-xl font-semibold text-white mb-6">
-            Technical Architecture
-          </h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-900/30 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🧠</span>
-              </div>
-              <h4 className="font-semibold text-white mb-2">
-                TensorFlow.js
-              </h4>
-              <p className="text-sm text-gray-300">
-                Client-side machine learning with WebGL acceleration
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-900/30 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">⚡</span>
-              </div>
-              <h4 className="font-semibold text-white mb-2">
-                Real-time Processing
-              </h4>
-              <p className="text-sm text-gray-300">
-                Instant predictions without server round-trips
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-900/30 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🔒</span>
-              </div>
-              <h4 className="font-semibold text-white mb-2">
-                Privacy First
-              </h4>
-              <p className="text-sm text-gray-300">
-                All processing happens locally in the browser
-              </p>
-            </div>
           </div>
         </motion.div>
       </div>
-    </section>
+
+      {/* Technical Specifications */}
+      <motion.div
+        className="bg-slate-900 border border-slate-800 rounded-xl p-8 shadow-sm"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+      >
+        <div className="flex items-center justify-between mb-8">
+          <h3 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">
+            Technical Architecture
+          </h3>
+          <span className="text-xs font-medium px-2 py-1 bg-slate-800 text-slate-400 rounded">Client-side Inference</span>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+            <div className="w-10 h-10 bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center mb-4">
+              <span className="text-emerald-400 text-xl">🧠</span>
+            </div>
+            <h4 className="font-semibold text-slate-200 mb-2 tracking-tight">
+              TensorFlow.js Core
+            </h4>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Client-side machine learning execution with hardware WebGL acceleration for maximum performance.
+            </p>
+          </div>
+          
+          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+            <div className="w-10 h-10 bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center mb-4">
+              <span className="text-sky-400 text-xl">⚡</span>
+            </div>
+            <h4 className="font-semibold text-slate-200 mb-2 tracking-tight">
+              Real-time Processing
+            </h4>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Zero-latency inferences calculated instantly in the browser without requiring server round-trips.
+            </p>
+          </div>
+          
+          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+            <div className="w-10 h-10 bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center mb-4">
+              <span className="text-indigo-400 text-xl">🔒</span>
+            </div>
+            <h4 className="font-semibold text-slate-200 mb-2 tracking-tight">
+              Privacy by Design
+            </h4>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              All data processing happens securely on the local device, ensuring complete GDPR compliance.
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 }

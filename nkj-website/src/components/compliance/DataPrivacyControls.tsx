@@ -153,13 +153,13 @@ export default function DataPrivacyControls() {
     switch (status) {
       case 'ready':
       case 'completed':
-        return 'bg-green-100 text-green-800 border-green-200';
+        return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
       case 'processing':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+        return 'bg-sky-500/10 text-sky-400 border border-sky-500/20';
       case 'pending':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
+        return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-slate-800 text-slate-400 border border-slate-700';
     }
   };
 
@@ -171,360 +171,359 @@ export default function DataPrivacyControls() {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-br from-slate-50 to-blue-50">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl font-bold text-automotive-carbon mb-4">
-            Data Privacy Controls
-          </h2>
-          <p className="text-xl text-automotive-steel max-w-3xl mx-auto">
-            Manage your data privacy preferences and exercise your rights under GDPR and other privacy regulations
-          </p>
-        </motion.div>
-
-        {/* Tab Navigation */}
-        <div className="flex justify-center mb-8">
-          <div className="bg-white rounded-lg p-1 shadow-lg">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as 'settings' | 'consent' | 'portability' | 'rights')}
-                className={`px-6 py-3 rounded-md font-medium transition-all duration-300 ${
-                  activeTab === tab.id
-                    ? 'bg-primary-500 text-white shadow-md'
-                    : 'text-automotive-steel hover:bg-gray-50'
-                }`}
-              >
-                <span className="mr-2">{tab.icon}</span>
-                {tab.label}
-              </button>
-            ))}
-          </div>
+    <div className="w-full">
+      {/* Tab Navigation */}
+      <div className="mb-8 overflow-x-auto pb-4 scrollbar-hide">
+        <div className="flex flex-nowrap md:flex-wrap justify-start gap-2 min-w-max md:min-w-0">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as 'settings' | 'consent' | 'portability' | 'rights')}
+              className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 flex items-center whitespace-nowrap ${
+                activeTab === tab.id
+                  ? 'bg-emerald-500 text-slate-50 shadow-sm border border-emerald-400'
+                  : 'bg-slate-900 text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-slate-800'
+              }`}
+            >
+              <span className="mr-2 opacity-80">{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
         </div>
+      </div>
 
-        <div className="bg-white rounded-xl shadow-xl overflow-hidden">
-          {/* Privacy Settings Tab */}
-          {activeTab === 'settings' && (
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-automotive-carbon mb-6">Privacy Settings</h3>
-              
-              <div className="space-y-6">
-                {privacySettings.map((setting) => (
-                  <motion.div
-                    key={setting.id}
-                    className="border border-gray-200 rounded-lg p-4"
-                    whileHover={{ backgroundColor: '#f9fafb' }}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center mb-2">
-                          <h4 className="font-medium text-automotive-carbon">{setting.name}</h4>
-                          {setting.required && (
-                            <span className="ml-2 px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">
-                              Required
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-sm text-automotive-steel mb-3">{setting.description}</p>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                          <div>
-                            <span className="text-gray-500">Data Types:</span>
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {setting.dataTypes.map((type) => (
-                                <span key={type} className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
-                                  {type}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                          {setting.retentionPeriod && (
-                            <div>
-                              <span className="text-gray-500">Retention Period:</span>
-                              <div className="font-medium">{setting.retentionPeriod}</div>
-                            </div>
-                          )}
-                        </div>
+      <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-sm">
+        {/* Privacy Settings Tab */}
+        {activeTab === 'settings' && (
+          <div className="p-8">
+            <h3 className="text-lg font-bold text-slate-50 tracking-tight mb-8">Privacy Settings</h3>
+            
+            <div className="space-y-4">
+              {privacySettings.map((setting) => (
+                <motion.div
+                  key={setting.id}
+                  className="bg-slate-950 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 pr-6">
+                      <div className="flex items-center mb-2">
+                        <h4 className="font-semibold text-slate-200">{setting.name}</h4>
+                        {setting.required && (
+                          <span className="ml-3 px-2 py-0.5 bg-slate-800 text-slate-400 border border-slate-700 rounded text-[10px] font-bold uppercase tracking-wider">
+                            Required
+                          </span>
+                        )}
                       </div>
+                      <p className="text-sm text-slate-400 mb-4">{setting.description}</p>
                       
-                      <div className="ml-4">
-                        <label className="relative inline-flex items-center cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={setting.enabled}
-                            onChange={() => togglePrivacySetting(setting.id)}
-                            disabled={setting.required}
-                            className="sr-only peer"
-                          />
-                          <div className={`w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600 ${setting.required ? 'opacity-50 cursor-not-allowed' : ''}`}></div>
-                        </label>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <span className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Data Types Processed</span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {setting.dataTypes.map((type) => (
+                              <span key={type} className="px-2 py-1 bg-slate-800 text-slate-300 rounded text-[10px] font-medium border border-slate-700/50">
+                                {type}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        {setting.retentionPeriod && (
+                          <div>
+                            <span className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Retention Period</span>
+                            <div className="text-sm font-medium text-slate-300">{setting.retentionPeriod}</div>
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </motion.div>
-                ))}
-              </div>
+                    
+                    <div className="ml-4 flex-shrink-0 pt-1">
+                      <label className="relative inline-flex items-center cursor-pointer group">
+                        <input
+                          type="checkbox"
+                          checked={setting.enabled}
+                          onChange={() => togglePrivacySetting(setting.id)}
+                          disabled={setting.required}
+                          className="sr-only peer"
+                        />
+                        <div className={`w-11 h-6 bg-slate-800 rounded-full peer peer-checked:bg-emerald-500 transition-colors border border-slate-700 peer-checked:border-emerald-400 ${setting.required ? 'opacity-50 cursor-not-allowed' : 'group-hover:border-slate-500 peer-checked:group-hover:border-emerald-300'}`}></div>
+                        <div className={`absolute left-[3px] top-[3px] w-[18px] h-[18px] bg-slate-400 rounded-full transition-all peer-checked:translate-x-full peer-checked:bg-white ${setting.required ? '' : 'group-hover:bg-slate-300 peer-checked:group-hover:bg-white'}`}></div>
+                      </label>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
 
-              <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-                <h4 className="font-medium text-automotive-carbon mb-2">💡 Privacy Tip</h4>
-                <p className="text-sm text-automotive-steel">
-                  You can change these settings at any time. Essential cookies are required for the website to function properly and cannot be disabled.
+            <div className="mt-8 p-5 bg-sky-500/10 border border-sky-500/20 rounded-lg flex gap-4">
+              <span className="text-xl">💡</span>
+              <div>
+                <h4 className="font-semibold text-sky-400 mb-1 tracking-tight">Privacy Notice</h4>
+                <p className="text-sm text-sky-500/80 leading-relaxed">
+                  You can change these settings at any time. Essential cookies are required for the platform's core security and functionality and cannot be disabled.
                 </p>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
-          {/* Consent Management Tab */}
-          {activeTab === 'consent' && (
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-automotive-carbon mb-6">Consent Management</h3>
-              
-              <div className="space-y-4">
-                {consentPreferences.map((pref) => (
-                  <motion.div
-                    key={pref.id}
-                    className="border border-gray-200 rounded-lg p-4"
-                    whileHover={{ backgroundColor: '#f9fafb' }}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center mb-2">
-                          <h4 className="font-medium text-automotive-carbon">{pref.purpose}</h4>
-                          {pref.mandatory && (
-                            <span className="ml-2 px-2 py-1 bg-orange-100 text-orange-800 rounded-full text-xs">
-                              Mandatory
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-sm text-automotive-steel mb-3">{pref.description}</p>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                          <div>
-                            <span className="text-gray-500">Last Updated:</span>
-                            <div className="font-medium">{pref.lastUpdated}</div>
-                          </div>
-                          {pref.expiryDate && (
-                            <div>
-                              <span className="text-gray-500">Expires:</span>
-                              <div className="font-medium">{pref.expiryDate}</div>
-                            </div>
-                          )}
-                          <div>
-                            <span className="text-gray-500">Status:</span>
-                            <div className={`font-medium ${pref.consented ? 'text-green-600' : 'text-red-600'}`}>
-                              {pref.consented ? 'Consented' : 'Not Consented'}
-                            </div>
-                          </div>
-                        </div>
+        {/* Consent Management Tab */}
+        {activeTab === 'consent' && (
+          <div className="p-8">
+            <h3 className="text-lg font-bold text-slate-50 tracking-tight mb-8">Consent Management</h3>
+            
+            <div className="space-y-4">
+              {consentPreferences.map((pref, index) => (
+                <motion.div
+                  key={pref.id}
+                  className="bg-slate-950 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 pr-6">
+                      <div className="flex items-center mb-2">
+                        <h4 className="font-semibold text-slate-200">{pref.purpose}</h4>
+                        {pref.mandatory && (
+                          <span className="ml-3 px-2 py-0.5 bg-slate-800 text-slate-400 border border-slate-700 rounded text-[10px] font-bold uppercase tracking-wider">
+                            Mandatory
+                          </span>
+                        )}
                       </div>
+                      <p className="text-sm text-slate-400 mb-4">{pref.description}</p>
                       
-                      <div className="ml-4">
-                        <label className="relative inline-flex items-center cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={pref.consented}
-                            onChange={() => toggleConsent(pref.id)}
-                            disabled={pref.mandatory}
-                            className="sr-only peer"
-                          />
-                          <div className={`w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600 ${pref.mandatory ? 'opacity-50 cursor-not-allowed' : ''}`}></div>
-                        </label>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-slate-800 pt-4">
+                        <div>
+                          <span className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Status</span>
+                          <div className={`text-sm font-semibold ${pref.consented ? 'text-emerald-500' : 'text-slate-500'}`}>
+                            {pref.consented ? 'Consented' : 'Not Consented'}
+                          </div>
+                        </div>
+                        <div>
+                          <span className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Last Updated</span>
+                          <div className="text-sm font-medium text-slate-300">{new Date(pref.lastUpdated).toLocaleDateString()}</div>
+                        </div>
+                        {pref.expiryDate && (
+                          <div>
+                            <span className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Expires</span>
+                            <div className="text-sm font-medium text-slate-300">{new Date(pref.expiryDate).toLocaleDateString()}</div>
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </motion.div>
-                ))}
+                    
+                    <div className="ml-4 flex-shrink-0 pt-1">
+                      <label className="relative inline-flex items-center cursor-pointer group">
+                        <input
+                          type="checkbox"
+                          checked={pref.consented}
+                          onChange={() => toggleConsent(pref.id)}
+                          disabled={pref.mandatory}
+                          className="sr-only peer"
+                        />
+                        <div className={`w-11 h-6 bg-slate-800 rounded-full peer peer-checked:bg-emerald-500 transition-colors border border-slate-700 peer-checked:border-emerald-400 ${pref.mandatory ? 'opacity-50 cursor-not-allowed' : 'group-hover:border-slate-500 peer-checked:group-hover:border-emerald-300'}`}></div>
+                        <div className={`absolute left-[3px] top-[3px] w-[18px] h-[18px] bg-slate-400 rounded-full transition-all peer-checked:translate-x-full peer-checked:bg-white ${pref.mandatory ? '' : 'group-hover:bg-slate-300 peer-checked:group-hover:bg-white'}`}></div>
+                      </label>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-slate-800 flex justify-end">
+              <button className="nkj-button-primary text-sm">
+                Save Consent Preferences
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Data Portability Tab */}
+        {activeTab === 'portability' && (
+          <div className="p-8">
+            <h3 className="text-lg font-bold text-slate-50 tracking-tight mb-8">Data Portability Center</h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+              <motion.div
+                className="bg-slate-950 border border-slate-800 rounded-xl p-6 text-center cursor-pointer group hover:border-emerald-500 transition-colors"
+                whileHover={{ y: -2 }}
+              >
+                <div className="w-12 h-12 bg-slate-900 border border-slate-700 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-400 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/30 transition-colors text-xl">
+                  📥
+                </div>
+                <h4 className="font-bold text-slate-200 tracking-tight mb-2">Export Data</h4>
+                <p className="text-xs text-slate-500 leading-relaxed">Download a machine-readable copy of your personal data</p>
+              </motion.div>
+
+              <motion.div
+                className="bg-slate-950 border border-slate-800 rounded-xl p-6 text-center cursor-pointer group hover:border-sky-500 transition-colors"
+                whileHover={{ y: -2 }}
+              >
+                <div className="w-12 h-12 bg-slate-900 border border-slate-700 rounded-full flex items-center justify-center mx-auto mb-4 text-sky-400 group-hover:bg-sky-500/10 group-hover:border-sky-500/30 transition-colors text-xl">
+                  🔄
+                </div>
+                <h4 className="font-bold text-slate-200 tracking-tight mb-2">Transfer Data</h4>
+                <p className="text-xs text-slate-500 leading-relaxed">Securely move your data to another service provider</p>
+              </motion.div>
+
+              <motion.div
+                className="bg-slate-950 border border-slate-800 rounded-xl p-6 text-center cursor-pointer group hover:border-red-500 transition-colors"
+                whileHover={{ y: -2 }}
+              >
+                <div className="w-12 h-12 bg-slate-900 border border-slate-700 rounded-full flex items-center justify-center mx-auto mb-4 text-red-400 group-hover:bg-red-500/10 group-hover:border-red-500/30 transition-colors text-xl">
+                  🗑️
+                </div>
+                <h4 className="font-bold text-slate-200 tracking-tight mb-2">Delete Data</h4>
+                <p className="text-xs text-slate-500 leading-relaxed">Submit a permanent deletion request for your data</p>
+              </motion.div>
+            </div>
+
+            <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-6">Recent Requests</h4>
+            <div className="space-y-4">
+              {mockPortabilityRequests.map((request, index) => (
+                <motion.div
+                  key={request.id}
+                  className="bg-slate-950 border border-slate-800 rounded-xl p-6"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                >
+                  <div className="flex justify-between items-start mb-6">
+                    <div>
+                      <h5 className="font-bold text-slate-200 capitalize tracking-tight mb-1">
+                        {request.requestType} Request
+                      </h5>
+                      <p className="text-xs text-slate-500">
+                        Submitted {new Date(request.requestDate).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${getStatusColor(request.status)}`}>
+                      {request.status}
+                    </span>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-slate-800/50">
+                    <div className="col-span-2">
+                      <span className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Data Categories</span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {request.dataCategories.map((category) => (
+                          <span key={category} className="px-2 py-1 bg-slate-900 border border-slate-800 text-slate-400 rounded text-[10px] font-medium">
+                            {category}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <span className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Format</span>
+                      <div className="text-sm font-mono font-medium text-slate-300 uppercase">{request.format}</div>
+                    </div>
+                    {request.size && (
+                      <div>
+                        <span className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">File Size</span>
+                        <div className="text-sm font-mono font-medium text-slate-300">{request.size}</div>
+                      </div>
+                    )}
+                  </div>
+
+                  {request.status === 'ready' && (
+                    <div className="mt-6 pt-4 border-t border-slate-800 flex justify-end">
+                      <button className="nkj-button-secondary text-sm flex items-center gap-2">
+                        <span>⬇️</span> Download Archive
+                      </button>
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Your Rights Tab */}
+        {activeTab === 'rights' && (
+          <div className="p-8">
+            <h3 className="text-lg font-bold text-slate-50 tracking-tight mb-8">Your Data Protection Rights</h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+              <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 group hover:border-slate-700 transition-colors">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-xl">🔍</span>
+                  <h4 className="font-semibold text-slate-200 tracking-tight">Right to Access</h4>
+                </div>
+                <p className="text-sm text-slate-400 mb-5 leading-relaxed">
+                  Request a comprehensive report of all personal data we currently hold about you and how it is being processed across our systems.
+                </p>
+                <button className="text-emerald-500 hover:text-emerald-400 text-xs font-bold uppercase tracking-wider transition-colors group-hover:translate-x-1 duration-200 inline-flex items-center">
+                  Submit Request <span className="ml-1">→</span>
+                </button>
               </div>
 
-              <div className="mt-8 flex justify-center">
-                <button className="bg-primary-500 text-white px-6 py-3 rounded-lg hover:bg-primary-600 transition-colors">
-                  Save Consent Preferences
+              <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 group hover:border-slate-700 transition-colors">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-xl">✏️</span>
+                  <h4 className="font-semibold text-slate-200 tracking-tight">Right to Rectification</h4>
+                </div>
+                <p className="text-sm text-slate-400 mb-5 leading-relaxed">
+                  Submit a request to correct or update any inaccurate, outdated, or incomplete personal data in our systems.
+                </p>
+                <button className="text-emerald-500 hover:text-emerald-400 text-xs font-bold uppercase tracking-wider transition-colors group-hover:translate-x-1 duration-200 inline-flex items-center">
+                  Update Information <span className="ml-1">→</span>
+                </button>
+              </div>
+
+              <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 group hover:border-slate-700 transition-colors">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-xl">🗑️</span>
+                  <h4 className="font-semibold text-slate-200 tracking-tight">Right to Erasure</h4>
+                </div>
+                <p className="text-sm text-slate-400 mb-5 leading-relaxed">
+                  Exercise your "Right to be Forgotten" and request the permanent deletion of your personal data from all our active databases.
+                </p>
+                <button className="text-red-500 hover:text-red-400 text-xs font-bold uppercase tracking-wider transition-colors group-hover:translate-x-1 duration-200 inline-flex items-center">
+                  Request Deletion <span className="ml-1">→</span>
+                </button>
+              </div>
+
+              <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 group hover:border-slate-700 transition-colors">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-xl">⏸️</span>
+                  <h4 className="font-semibold text-slate-200 tracking-tight">Right to Restrict Processing</h4>
+                </div>
+                <p className="text-sm text-slate-400 mb-5 leading-relaxed">
+                  Temporarily suspend the processing of your personal data while an investigation or dispute is being resolved.
+                </p>
+                <button className="text-emerald-500 hover:text-emerald-400 text-xs font-bold uppercase tracking-wider transition-colors group-hover:translate-x-1 duration-200 inline-flex items-center">
+                  Configure Restrictions <span className="ml-1">→</span>
                 </button>
               </div>
             </div>
-          )}
 
-          {/* Data Portability Tab */}
-          {activeTab === 'portability' && (
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-automotive-carbon mb-6">Data Portability</h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <motion.div
-                  className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-6 text-white cursor-pointer"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <div className="text-2xl mb-2">📥</div>
-                  <h4 className="font-semibold mb-2">Export Your Data</h4>
-                  <p className="text-sm text-blue-100">Download a copy of all your personal data</p>
-                </motion.div>
-
-                <motion.div
-                  className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-6 text-white cursor-pointer"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <div className="text-2xl mb-2">🔄</div>
-                  <h4 className="font-semibold mb-2">Transfer Data</h4>
-                  <p className="text-sm text-green-100">Move your data to another service provider</p>
-                </motion.div>
-
-                <motion.div
-                  className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg p-6 text-white cursor-pointer"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <div className="text-2xl mb-2">🗑️</div>
-                  <h4 className="font-semibold mb-2">Delete Data</h4>
-                  <p className="text-sm text-red-100">Request deletion of your personal data</p>
-                </motion.div>
+            <div className="p-6 bg-slate-950 rounded-xl border border-slate-800 flex flex-col sm:flex-row gap-6 items-center sm:items-start">
+              <div className="w-12 h-12 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-xl flex-shrink-0">
+                📞
               </div>
-
-              <h4 className="text-lg font-semibold text-automotive-carbon mb-4">Recent Requests</h4>
-              <div className="space-y-4">
-                {mockPortabilityRequests.map((request) => (
-                  <motion.div
-                    key={request.id}
-                    className="border border-gray-200 rounded-lg p-4"
-                    whileHover={{ backgroundColor: '#f9fafb' }}
-                  >
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <h5 className="font-medium text-automotive-carbon capitalize">
-                          {request.requestType} Request
-                        </h5>
-                        <p className="text-sm text-automotive-steel">
-                          Requested on {request.requestDate}
-                        </p>
-                      </div>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(request.status)}`}>
-                        {request.status.toUpperCase()}
-                      </span>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                      <div>
-                        <span className="text-gray-500">Data Categories:</span>
-                        <div className="flex flex-wrap gap-1 mt-1">
-                          {request.dataCategories.map((category) => (
-                            <span key={category} className="px-2 py-1 bg-gray-100 text-gray-800 rounded text-xs">
-                              {category}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                      <div>
-                        <span className="text-gray-500">Format:</span>
-                        <div className="font-medium uppercase">{request.format}</div>
-                      </div>
-                      {request.size && (
-                        <div>
-                          <span className="text-gray-500">Size:</span>
-                          <div className="font-medium">{request.size}</div>
-                        </div>
-                      )}
-                    </div>
-
-                    {request.status === 'ready' && (
-                      <div className="mt-4 pt-4 border-t border-gray-200">
-                        <button className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors">
-                          Download Data
-                        </button>
-                      </div>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Your Rights Tab */}
-          {activeTab === 'rights' && (
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-automotive-carbon mb-6">Your Data Protection Rights</h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <h4 className="font-medium text-automotive-carbon mb-2">🔍 Right to Access</h4>
-                    <p className="text-sm text-automotive-steel mb-3">
-                      You have the right to know what personal data we hold about you and how we use it.
-                    </p>
-                    <button className="text-primary-500 hover:text-primary-600 font-medium">
-                      Request Access
-                    </button>
-                  </div>
-
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <h4 className="font-medium text-automotive-carbon mb-2">✏️ Right to Rectification</h4>
-                    <p className="text-sm text-automotive-steel mb-3">
-                      You can ask us to correct any inaccurate or incomplete personal data.
-                    </p>
-                    <button className="text-primary-500 hover:text-primary-600 font-medium">
-                      Request Correction
-                    </button>
-                  </div>
-
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <h4 className="font-medium text-automotive-carbon mb-2">🗑️ Right to Erasure</h4>
-                    <p className="text-sm text-automotive-steel mb-3">
-                      You can request deletion of your personal data in certain circumstances.
-                    </p>
-                    <button className="text-primary-500 hover:text-primary-600 font-medium">
-                      Request Deletion
-                    </button>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <h4 className="font-medium text-automotive-carbon mb-2">📦 Right to Data Portability</h4>
-                    <p className="text-sm text-automotive-steel mb-3">
-                      You can request a copy of your data in a machine-readable format.
-                    </p>
-                    <button className="text-primary-500 hover:text-primary-600 font-medium">
-                      Export Data
-                    </button>
-                  </div>
-
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <h4 className="font-medium text-automotive-carbon mb-2">⏸️ Right to Restrict Processing</h4>
-                    <p className="text-sm text-automotive-steel mb-3">
-                      You can ask us to limit how we use your personal data in certain situations.
-                    </p>
-                    <button className="text-primary-500 hover:text-primary-600 font-medium">
-                      Request Restriction
-                    </button>
-                  </div>
-
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <h4 className="font-medium text-automotive-carbon mb-2">🚫 Right to Object</h4>
-                    <p className="text-sm text-automotive-steel mb-3">
-                      You can object to processing based on legitimate interests or direct marketing.
-                    </p>
-                    <button className="text-primary-500 hover:text-primary-600 font-medium">
-                      Object to Processing
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8 p-4 bg-yellow-50 rounded-lg">
-                <h4 className="font-medium text-automotive-carbon mb-2">📞 Need Help?</h4>
-                <p className="text-sm text-automotive-steel mb-2">
-                  If you have questions about your rights or need assistance with a request, contact our Data Protection Officer:
+              <div className="text-center sm:text-left">
+                <h4 className="font-bold text-slate-200 tracking-tight mb-2">Need Assistance?</h4>
+                <p className="text-sm text-slate-400 mb-4 max-w-2xl">
+                  Our Data Protection Officer (DPO) is available to assist you with exercising your rights or answering questions about our privacy practices.
                 </p>
-                <div className="text-sm">
-                  <div>Email: dpo@nkj-development.com</div>
-                  <div>Phone: +49 (0) 123 456 789</div>
-                  <div>Response time: Within 30 days</div>
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-sm">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Email</span>
+                    <a href="mailto:dpo@nkj-development.com" className="text-emerald-400 hover:text-emerald-300 font-medium">dpo@nkj-development.com</a>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">SLA</span>
+                    <span className="text-slate-300 font-medium">Response within 72 hours</span>
+                  </div>
                 </div>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-    </section>
+    </div>
   );
 }

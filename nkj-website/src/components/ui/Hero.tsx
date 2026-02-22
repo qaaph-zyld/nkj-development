@@ -4,130 +4,110 @@ import { motion } from 'framer-motion';
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-green-900 overflow-hidden">
-      {/* NKJ Network Background Pattern */}
+    <section className="relative min-h-screen flex items-center justify-center bg-slate-950 overflow-hidden">
+      {/* Enterprise Subtle Grid Background */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0" style={{
           background: `
-            radial-gradient(circle at 25% 25%, rgba(74, 222, 128, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 75% 25%, rgba(34, 197, 94, 0.2) 0%, transparent 50%),
-            radial-gradient(circle at 25% 75%, rgba(110, 231, 183, 0.2) 0%, transparent 50%),
-            radial-gradient(circle at 75% 75%, rgba(74, 222, 128, 0.1) 0%, transparent 50%)
+            radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 70%),
+            radial-gradient(circle at 100% 100%, rgba(15, 23, 42, 1) 0%, transparent 50%)
           `
         }}></div>
         
-        {/* Geometric Network Lines */}
+        {/* Subtle Grid Lines */}
         <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <pattern id="network" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-              <circle cx="50" cy="50" r="2" fill="rgba(74, 222, 128, 0.4)"/>
-              <line x1="50" y1="50" x2="100" y2="0" stroke="rgba(74, 222, 128, 0.2)" strokeWidth="1"/>
-              <line x1="50" y1="50" x2="0" y2="100" stroke="rgba(34, 197, 94, 0.2)" strokeWidth="1"/>
+            <pattern id="grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(51, 65, 85, 0.2)" strokeWidth="1"/>
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#network)"/>
+          <rect width="100%" height="100%" fill="url(#grid)"/>
         </svg>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          {/* NKJ Logo with Geometric Hexagon */}
+          {/* subtle badge */}
           <div className="flex justify-center mb-8">
-            <div className="relative">
-              <div className="w-24 h-24 bg-gradient-to-br from-green-400 to-green-600 transform rotate-45 rounded-lg shadow-2xl"></div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-black font-bold text-xl transform -rotate-45">NKJ</span>
-              </div>
+            <div className="inline-flex items-center px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-medium tracking-wide">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 mr-2 animate-pulse"></span>
+              Enterprise Supply Chain Intelligence
             </div>
           </div>
 
-          <h1 className="nkj-heading-xl text-white mb-6">
-            <span className="block nkj-text-gradient">
-              NKJ Development
-            </span>
+          <h1 className="text-5xl md:text-7xl font-bold text-slate-50 mb-6 tracking-tight">
+            Strategic Optimization for
+            <span className="block text-emerald-400 mt-2">Automotive Manufacturing</span>
           </h1>
           
           <motion.p
-            className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg md:text-xl text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Strategic Technology Consultancy • Analytical Precision • Creative Innovation
-          </motion.p>
-
-          <motion.p
-            className="text-lg text-green-300 mb-12 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            Transforming business challenges into strategic advantages through empathetic engineering and technical mastery
+            Transform complex supply chain data into actionable intelligence. 
+            Built specifically for European automotive leaders requiring GDPR compliance, 
+            real-time analytics, and ISO-certified quality control.
           </motion.p>
 
           <motion.div
-            className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-20"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <button className="nkj-button-primary text-lg px-8 py-4">
-              Explore Solutions
+            <button className="nkj-button-primary text-base px-8 py-3.5 w-full sm:w-auto">
+              Deploy Platform
             </button>
-            <button className="nkj-button-secondary text-lg px-8 py-4">
-              Schedule Consultation
+            <button className="nkj-button-secondary text-base px-8 py-3.5 w-full sm:w-auto">
+              View Architecture
             </button>
           </motion.div>
 
-          {/* Key Stats */}
+          {/* Key Stats - Modern Dashboard Style */}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
           >
-            <div className="nkj-card text-center p-8 group">
-              <div className="text-4xl md:text-5xl font-bold nkj-text-gradient mb-3">
-                150+
-              </div>
-              <div className="text-gray-300 text-lg font-medium">Projects Delivered</div>
-              <div className="text-sm text-gray-400 mt-2">Automotive Excellence</div>
+            <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-xl p-6 flex flex-col items-center">
+              <div className="text-3xl font-bold text-slate-50 mb-1 tracking-tight">99.9%</div>
+              <div className="text-sm font-medium text-emerald-400 mb-1">System Uptime</div>
+              <div className="text-xs text-slate-500">Enterprise SLA guaranteed</div>
             </div>
-            <div className="nkj-card text-center p-8 group pulse-glow">
-              <div className="text-4xl md:text-5xl font-bold nkj-text-gradient mb-3">
-                98.5%
-              </div>
-              <div className="text-gray-300 text-lg font-medium">Client Satisfaction</div>
-              <div className="text-sm text-gray-400 mt-2">Industry Leading</div>
+            
+            <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-xl p-6 flex flex-col items-center relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-emerald-400"></div>
+              <div className="text-3xl font-bold text-slate-50 mb-1 tracking-tight">150+</div>
+              <div className="text-sm font-medium text-emerald-400 mb-1">Facilities Mapped</div>
+              <div className="text-xs text-slate-500">Active EU deployments</div>
             </div>
-            <div className="nkj-card text-center p-8 group">
-              <div className="text-4xl md:text-5xl font-bold nkj-text-gradient mb-3">
-                24/7
-              </div>
-              <div className="text-gray-300 text-lg font-medium">Technical Support</div>
-              <div className="text-sm text-gray-400 mt-2">Always Available</div>
+            
+            <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-xl p-6 flex flex-col items-center">
+              <div className="text-3xl font-bold text-slate-50 mb-1 tracking-tight">ISO</div>
+              <div className="text-sm font-medium text-emerald-400 mb-1">27001 & 9001</div>
+              <div className="text-xs text-slate-500">Fully compliant architecture</div>
             </div>
           </motion.div>
         </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Modern Scroll Indicator */}
       <motion.div
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1 }}
+        transition={{ duration: 1, delay: 0.8 }}
       >
-        <div className="w-6 h-10 border-2 border-green-400 rounded-full flex justify-center">
-          <motion.div
-            className="w-1 h-3 bg-green-400 rounded-full mt-2"
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          />
+        <div className="flex flex-col items-center gap-2">
+          <span className="text-[10px] uppercase tracking-widest text-slate-500 font-medium">Scroll to explore</span>
+          <div className="w-px h-12 bg-gradient-to-b from-slate-500 to-transparent"></div>
         </div>
       </motion.div>
     </section>
