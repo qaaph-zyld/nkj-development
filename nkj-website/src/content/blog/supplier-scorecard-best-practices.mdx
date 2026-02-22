@@ -1,0 +1,60 @@
+---
+title: "Building a Supplier Scorecard That Actually Works"
+date: "2024-02-20"
+excerpt: "Most automotive OEM supplier scorecards are static Excel files updated quarterly. Here is how to build a dynamic, weighted risk model that updates with every inbound receipt."
+tags: ["Supply Chain", "Quality", "Risk Management"]
+---
+
+In the automotive supply chain, your production line is only as reliable as your weakest Tier 2 supplier. 
+
+To manage this risk, almost every manufacturing company uses a Supplier Scorecard. But after reviewing dozens of these systems, I've found a recurring theme: they are static, backward-looking, and practically useless for preventing line stoppages.
+
+If your scorecard is an Excel file updated once a quarter by the purchasing department, you don't have a risk management system—you have a historical record of failures.
+
+Here is how to build a supplier scorecard that actually works.
+
+## 1. Move from Static to Dynamic Data
+
+The biggest flaw in traditional scorecards is the data collection cycle. If a supplier starts shipping defective parts in January, but the scorecard isn't updated until April, you've absorbed three months of scrap costs and potential customer complaints.
+
+A modern scorecard must be tied directly to your ERP and QMS transactional data:
+- **Delivery:** Triggered by the ERP receiving transaction (Actual Receipt Date vs. PO Due Date).
+- **Quality:** Triggered by QMS inspection logs (Good Qty vs. Rejected Qty).
+- **Incidents:** Triggered by the creation of a Non-Conformance Report (NCR) or 8D.
+
+When these systems are integrated, a supplier's score drops the moment the receiving dock logs a late shipment.
+
+## 2. Implement Dynamic Weighting
+
+Not all suppliers are equal, and not all metrics matter equally for every part.
+
+If you are sourcing standard M8 bolts, cost and delivery might be your primary concerns. But if you are sourcing critical safety components like brake calipers, a single defect (PPM) is catastrophic, while a slight delay might be manageable with safety stock.
+
+Your scorecard needs dynamic weighting. 
+
+Instead of a flat "40% Quality, 40% Delivery, 20% Cost" formula for everyone, the system should adjust weights based on the **Part Criticality Code** in your ERP. 
+
+*Want to see how dynamic weighting changes risk profiles? Try our [Interactive Supply Chain Risk Scorer](/demo/supply-chain-risk).*
+
+## 3. The "Incident" Penalty
+
+A supplier might have a 99% On-Time Delivery rate and 50 PPM. On paper, they look like an "A-Grade" supplier. 
+
+But what if those 50 defective parts caused a 4-hour line stoppage that cost your company €20,000?
+
+Averages hide extremes. A functional scorecard must include an "Incident Penalty" that immediately downgrades a supplier if they trigger a severe disruption, regardless of their moving averages. We typically implement this as an automated multiplier: one severe NCR reduces the overall score by 15% for a rolling 30-day period.
+
+## 4. Automate the Escalation Workflow
+
+A scorecard is a tool, not an outcome. The outcome you want is improved supplier performance.
+
+When a dynamic scorecard is integrated with your ERP, you can automate escalations:
+1. **Score drops below 85%:** Automated email to the supplier's account manager requesting an explanation.
+2. **Score drops below 75%:** Automated trigger to purchasing to place the supplier on "New Business Hold" (preventing new POs).
+3. **Severe Incident:** Automated trigger to quality engineering to demand an 8D report within 48 hours.
+
+## The Architecture
+
+Building this doesn't require a massive SaaS subscription. We typically build these engines using a dedicated SQL data warehouse that aggregates data from your existing ERP (like QAD) and QMS, topped with a real-time web dashboard.
+
+By extracting the data logic from legacy systems into a modern analytics stack, you gain total visibility into your supply base, enabling your procurement team to act on risks *before* they impact the assembly line.

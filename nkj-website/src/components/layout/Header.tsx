@@ -21,6 +21,8 @@ export default function Header() {
     { name: 'Technology', href: '/#technology' },
     { name: 'Solutions', href: '/#solutions' },
     { name: 'Dashboard', href: '/#dashboard' },
+    { name: 'Case Studies', href: '/case-studies' },
+    { name: 'Blog', href: '/blog' },
     { name: 'About', href: '/about' },
     { name: 'Book', href: '/book' },
     { name: 'Contact', href: '/contact' },

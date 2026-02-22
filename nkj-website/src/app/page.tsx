@@ -1,6 +1,7 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Section from '@/components/layout/Section';
+import SectionCTA from '@/components/ui/SectionCTA';
 import ServiceGrid from '@/components/layout/ServiceGrid';
 import Hero from '@/components/ui/Hero';
 import StatisticsDisplay from '@/components/ui/StatisticsDisplay';
@@ -55,7 +56,6 @@ export default function Home() {
       {/* Hero Section */}
       <Section id="hero" variant="hero" background="network">
         <Hero />
-        <StatisticsDisplay />
       </Section>
 
       {/* Core Services Overview */}
@@ -116,7 +116,22 @@ export default function Home() {
           <ISOCompliance />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <FacilityVisualization />
+          <div className="mt-16">
+            <h3 className="text-2xl font-bold text-slate-50 mb-8 flex items-center">
+              <span className="w-8 h-8 rounded bg-emerald-500/10 text-emerald-400 flex items-center justify-center mr-3 text-sm border border-emerald-500/20">
+                01
+              </span>
+              Strategic KPI Dashboard
+            </h3>
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-8 shadow-2xl">
+              <StatisticsDisplay />
+              <SectionCTA 
+                text="See this with your real production data" 
+                buttonText="Book a demo" 
+                buttonLink="/book" 
+              />
+            </div>
+          </div>
           <WorkflowAnimator />
           <PerformanceOptimizer />
         </div>

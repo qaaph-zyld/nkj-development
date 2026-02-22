@@ -1,0 +1,60 @@
+---
+title: "Supplier Quality Triage: Halting a 15% Scrap Rate Crisis"
+client: "Global Tier 1 Automotive Supplier"
+industry: "Automotive Tier 1"
+challenge: "A critical sub-assembly was experiencing a sudden 15% scrap rate due to dimensional variances from multiple Tier 2 suppliers, threatening to stop the OEM's final assembly line."
+solution: "Rapid deployment of a focused QMS data extraction tool and an interactive SPC (Statistical Process Control) dashboard to isolate the root cause to a specific supplier's machine tool wear."
+results: [
+  "Identified root cause within 48 hours of dashboard deployment",
+  "Scrap rate reduced back to historical <0.5% baseline",
+  "Averted an OEM line stoppage and potential €50k/hour penalties"
+]
+date: "2024-01-15"
+---
+
+*Note: This case study is based on a composite scenario drawn from real manufacturing environments. Specific details have been modified to protect client confidentiality.*
+
+## The Challenge
+
+A Global Tier 1 supplier was facing an existential threat to one of their most profitable programs. A complex mechanical sub-assembly was suddenly failing end-of-line functional testing at an alarming 15% rate.
+
+The assembly comprised over 40 components sourced from 12 different Tier 2 suppliers. The symptoms were inconsistent: some batches were perfect, while others were completely unusable due to stack-up tolerances. 
+
+The quality team was drowning in Excel sheets, trying to correlate receiving inspection data, supplier lot numbers, and final test results. Meanwhile, the buffer stock was depleting rapidly. They were 72 hours away from failing to ship to the OEM final assembly line—a failure that carried a €50,000 *per hour* penalty.
+
+## The NKJ Development Approach
+
+They didn't have time to implement a new Quality Management System. They needed answers immediately from the data they already possessed.
+
+### Step 1: Rapid Data Aggregation
+
+We bypassed their standard reporting tools and built a direct SQL extraction script that joined three distinct datasets:
+1. **ERP Receiving Logs:** Which supplier provided which lot of components, and when.
+2. **MES Traceability:** Which specific component lots went into which specific finished sub-assemblies.
+3. **EOL Test Stand Data:** The exact dimensional and torque measurements from the failing assemblies.
+
+### Step 2: Interactive SPC Dashboard
+
+Within 24 hours, we spun up a custom interactive dashboard using React and D3.js. Instead of static charts, this dashboard allowed the quality engineers to filter EOL failures by component lot number dynamically.
+
+We visualized the test stand data using Statistical Process Control (SPC) charts, specifically looking at the capability indices (Cp and Cpk) of the sub-components.
+
+## The Results
+
+The interactive visualization made the invisible visible. 
+
+By filtering the EOL failures, the dashboard instantly revealed a severe bimodal distribution in a specific pivot pin supplied by "Supplier C". While the pins were technically within the absolute tolerance limits when inspected individually, the process had drifted significantly to the high side of the tolerance band. 
+
+When these "high-side" pins were mated with other components that were also running on the high side of their respective tolerances, the assembly failed. 
+
+The root cause was identified as severe machine tool wear at Supplier C's facility, which they hadn't caught because their own SPC checks were too infrequent.
+
+**Impact:**
+- Root cause isolated within 48 hours of our intervention.
+- Supplier C immediately quarantined the suspect lot and implemented a 100% sorting process.
+- The Tier 1 supplier resumed normal production, avoiding the OEM line stoppage.
+- The interactive dashboard was permanently retained as an early-warning system for tolerance stack-up issues.
+
+---
+
+*Are you struggling to find the signal in your quality noise? [Contact us today](/contact) to see how rapid data visualization can solve your most urgent manufacturing crises.*

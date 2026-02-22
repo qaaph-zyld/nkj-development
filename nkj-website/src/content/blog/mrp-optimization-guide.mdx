@@ -1,0 +1,91 @@
+---
+title: "Why Your MRP Run Takes 4 Hours (And How to Fix It)"
+date: "2024-02-21"
+excerpt: "If your Materials Requirement Planning (MRP) takes hours to process overnight, your supply chain visibility is already obsolete by 8 AM. Here's how we optimize legacy ERP queries to explode BOMs in milliseconds."
+tags: ["ERP", "QAD", "SQL"]
+---
+
+Every night at 11:00 PM, a script fires in your legacy ERP system. It begins the arduous process of exploding the Bill of Materials (BOM), calculating gross requirements, netting against on-hand inventory, offsetting by lead times, and finally generating planned orders.
+
+By 3:00 AM, the job finishes. The planners arrive at 7:30 AM, grab their coffee, and start analyzing the MRP outputs.
+
+But what happens if a major customer changes an order at 8:00 AM? Your planners are flying blind until tomorrow morning.
+
+In modern automotive manufacturing, a 4-hour MRP cycle is a competitive disadvantage. You need real-time, instantaneous visibility.
+
+Here is why your MRP is slow, and how we fix it.
+
+## The Problem with Legacy MRP Batch Processing
+
+Systems like QAD or older SAP instances were designed in an era where compute was expensive and memory was scarce. The standard approach to MRP is an iterative, row-by-row batch process:
+
+1. **Read Level 0 (Finished Goods)**: Find demand.
+2. **Read Level 1 Components**: For each Level 0 item, query the BOM table, multiply quantities, offset lead times.
+3. **Check Inventory**: Query the inventory table for each Level 1 component.
+4. **Write to Temp Tables**: Save intermediate results.
+5. **Repeat**: Loop this process for Level 2, Level 3, all the way down to raw materials.
+
+This is the classic "N+1 Queries" problem. If your BOM has 5 levels and 2,000 unique parts, the ERP might execute tens of thousands of individual SQL queries during an MRP run. The sheer volume of network round-trips between the application server and the database server kills performance.
+
+## The Solution: Set-Based Processing with CTEs
+
+Modern relational databases (SQL Server, PostgreSQL, Oracle) are incredibly fast at set-based operations. They hate row-by-row processing (cursors/loops) but love manipulating massive sets of data at once.
+
+We can bypass the slow ERP application layer by writing a highly optimized SQL query that performs the MRP explosion directly on the database using **Recursive Common Table Expressions (CTEs)**.
+
+### Step 1: The Recursive BOM Explosion
+
+Instead of querying each level sequentially, a Recursive CTE traverses the entire BOM hierarchy in a single, lightning-fast database operation.
+
+```sql
+WITH RECURSIVE BOM_Explosion AS (
+    -- Anchor member: Start with the top-level demand
+    SELECT 
+        PartNumber, 
+        RequirementQty AS GrossRequirement, 
+        0 AS BOM_Level
+    FROM 
+        DemandTable
+    WHERE 
+        CustomerOrder = 'SO-12345'
+
+    UNION ALL
+
+    -- Recursive member: Join to the BOM structure table
+    SELECT 
+        b.ComponentPart, 
+        (e.GrossRequirement * b.QuantityPer), 
+        e.BOM_Level + 1
+    FROM 
+        BOM_Structure b
+    INNER JOIN 
+        BOM_Explosion e ON b.ParentPart = e.PartNumber
+)
+SELECT * FROM BOM_Explosion;
+```
+
+This single query can explode a 10-level BOM for thousands of finished goods in milliseconds, rather than minutes.
+
+### Step 2: Netting and Offsetting in Memory
+
+Once the gross requirements are exploded into a flat, materialized set, we apply inventory netting (subtracting on-hand and on-order quantities) using fast window functions or analytical queries.
+
+Because we pull the entire inventory snapshot into memory (or a temporary table) and join it against the exploded BOM, the database performs the math in parallel across the entire dataset.
+
+### Step 3: Indexing for Read-Heavy Workloads
+
+The final piece of the puzzle is indexing. The ERP's default indexes are designed for transactional integrity (OLTP), not heavy analytical reads (OLAP). 
+
+By creating targeted, non-clustered covering indexes on the BOM, Inventory, and Demand tables—specifically including the columns used in our recursive CTEs—we eliminate slow table scans. The database engine can satisfy the entire MRP query using only the indexes.
+
+## From 4 Hours to 4 Seconds
+
+When we implement this approach for clients, we don't replace their ERP. We build a high-performance "Read Replica" or data warehouse layer that continuously syncs with the live ERP data.
+
+We then point our custom dashboards and analytics tools at this optimized layer.
+
+The result? Planners can adjust a top-level forecast at 10:00 AM and instantly see the cascaded material requirements—all the way down to the raw steel—in 4 seconds. 
+
+No more waiting for the overnight batch run. No more flying blind.
+
+*Curious how fast a recursive MRP explosion can be? Try our [Interactive MRP Explorer Demo](/demo/mrp-explorer) right now in your browser.*

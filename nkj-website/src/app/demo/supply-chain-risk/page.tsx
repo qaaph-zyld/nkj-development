@@ -1,6 +1,7 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import SupplyChainScorer from '@/components/demos/SupplyChainScorer';
+import SectionCTA from '@/components/ui/SectionCTA';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -28,7 +29,27 @@ export default function SupplyChainScorerPage() {
           </div>
 
           <div className="mb-20">
-            <SupplyChainScorer />
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-2xl">
+              <SupplyChainScorer />
+              
+              <div className="mt-8 pt-8 border-t border-slate-800">
+                <h3 className="text-xl font-bold text-slate-50 mb-4">How it works</h3>
+                <ul className="space-y-3 text-slate-400 list-disc list-inside ml-4">
+                  <li><strong className="text-slate-300">Dynamic Weighting:</strong> Move the sliders to prioritize Quality, Delivery, Financial Stability, or Geopolitical Risk based on current market conditions.</li>
+                  <li><strong className="text-slate-300">Composite Score:</strong> The overall risk score is recalculated instantly, re-ranking your suppliers from highest to lowest risk.</li>
+                  <li><strong className="text-slate-300">Risk Thresholds:</strong> Suppliers falling into the "High" risk category (red) should trigger automated mitigation workflows.</li>
+                </ul>
+                <p className="mt-6 text-sm text-slate-500 italic">
+                  Note: This is a client-side demo. In a production environment, this engine pulls live data from your ERP (receipts/late shipments) and QMS (NCRs/rejects).
+                </p>
+              </div>
+
+              <SectionCTA 
+                text="Ready to build a supplier scorecard that actually works?" 
+                buttonText="Book a Demo" 
+                buttonLink="/book" 
+              />
+            </div>
           </div>
 
           {/* Educational Content Below Demo */}

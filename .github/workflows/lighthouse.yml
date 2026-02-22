@@ -1,0 +1,45 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: nkj-website
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: nkj-website/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+        env:
+          NEXT_PUBLIC_UMAMI_WEBSITE_ID: dummy-id-for-build
+          NEXT_PUBLIC_UMAMI_URL: https://dummy-url.com/script.js
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            http://localhost:3000/
+            http://localhost:3000/about
+            http://localhost:3000/demo/oee-calculator
+          configPath: ./nkj-website/lighthouserc.js
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          runs: 3

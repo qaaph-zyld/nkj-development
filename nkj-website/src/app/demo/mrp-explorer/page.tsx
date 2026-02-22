@@ -1,11 +1,12 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import MRPExplorer from '@/components/demos/MRPExplorer';
+import SectionCTA from '@/components/ui/SectionCTA';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Interactive MRP Explorer Demo | NKJ Development',
-  description: 'Interactive Material Requirements Planning (MRP) explosion engine demonstrating real-time automotive supply chain calculations.',
+  description: 'Experience real-time Bill of Materials explosion and material requirements planning with sample manufacturing data.',
 };
 
 export default function MRPExplorerPage() {
@@ -28,7 +29,27 @@ export default function MRPExplorerPage() {
           </div>
 
           <div className="mb-20">
-            <MRPExplorer />
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-2xl">
+              <MRPExplorer />
+              
+              <div className="mt-8 pt-8 border-t border-slate-800">
+                <h3 className="text-xl font-bold text-slate-50 mb-4">How it works</h3>
+                <ul className="space-y-3 text-slate-400 list-disc list-inside ml-4">
+                  <li><strong className="text-slate-300">BOM Explosion:</strong> The system recursively traverses the product structure to calculate total required quantities for all sub-components.</li>
+                  <li><strong className="text-slate-300">Lead Time Rollup:</strong> It calculates the cumulative lead time required to build the product from raw materials to finished goods.</li>
+                  <li><strong className="text-slate-300">Scrap Factor:</strong> Try adjusting the scrap factor to see how it inflates requirements down the supply chain.</li>
+                </ul>
+                <p className="mt-6 text-sm text-slate-500 italic">
+                  Note: This is a client-side demo. In a production environment, we build custom MRP engines that tie directly into your ERP's Item Master, BOM, and Inventory tables.
+                </p>
+              </div>
+              
+              <SectionCTA 
+                text="Need a custom MRP extraction or shortage reporting tool?" 
+                buttonText="Book a Demo" 
+                buttonLink="/book" 
+              />
+            </div>
           </div>
 
           {/* Educational Content Below Demo */}

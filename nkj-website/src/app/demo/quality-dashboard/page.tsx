@@ -1,6 +1,7 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import QualityDashboardDemo from '@/components/demos/QualityDashboard';
+import SectionCTA from '@/components/ui/SectionCTA';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -28,7 +29,27 @@ export default function QualityDashboardPage() {
           </div>
 
           <div className="mb-20">
-            <QualityDashboardDemo />
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-2xl">
+              <QualityDashboardDemo />
+              
+              <div className="mt-8 pt-8 border-t border-slate-800">
+                <h3 className="text-xl font-bold text-slate-50 mb-4">How it works</h3>
+                <ul className="space-y-3 text-slate-400 list-disc list-inside ml-4">
+                  <li><strong className="text-slate-300">Pareto Analysis:</strong> Automatically categorizes and ranks defects by frequency, helping you focus engineering resources on the vital few issues.</li>
+                  <li><strong className="text-slate-300">Supplier Linkage:</strong> Correlates final assembly defects back to the specific component supplier and batch number.</li>
+                  <li><strong className="text-slate-300">Trend Monitoring:</strong> Tracks First Pass Yield (FPY) over time to ensure corrective actions are actually working.</li>
+                </ul>
+                <p className="mt-6 text-sm text-slate-500 italic">
+                  Note: This is a client-side demo. In a production environment, we connect this dashboard directly to your QMS and ERP receiving inspection databases.
+                </p>
+              </div>
+
+              <SectionCTA 
+                text="Tired of fighting fires without data? Let's build your quality dashboard." 
+                buttonText="Book a Demo" 
+                buttonLink="/book" 
+              />
+            </div>
           </div>
 
           {/* Educational Content Below Demo */}

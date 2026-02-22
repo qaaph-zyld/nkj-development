@@ -35,10 +35,10 @@ export default function CalEmbed() {
         };
     })(window, 'https://app.cal.com/embed/embed.js', 'init');
 
-    // Make sure 'nkj-development/discovery' matches your actual cal.com link!
-    (window as any).Cal('init', 'discovery', { origin: 'https://cal.com' });
+    // Make sure 'qaaph-zyld-dpnueu/30min' matches your actual cal.com link!
+    (window as any).Cal('init', '30min', { origin: 'https://cal.com' });
 
-    (window as any).Cal.ns.discovery('ui', {
+    (window as any).Cal.ns['30min']('ui', {
       styles: {
         branding: { brandColor: '#10b981' } // Emerald 500
       },
@@ -61,7 +61,7 @@ export default function CalEmbed() {
             window.Cal = window.Cal || function() { (window.Cal.q = window.Cal.q || []).push(arguments); };
             Cal('inline', {
               elementOrSelector: '#my-cal-inline',
-              calLink: 'nkj-development/discovery', // Update with your actual Cal.com link
+              calLink: 'qaaph-zyld-dpnueu/30min', // Update with your actual Cal.com link
               layout: 'month_view'
             });
           `

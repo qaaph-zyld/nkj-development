@@ -1,0 +1,63 @@
+---
+title: "From Blind to Real-Time: Production Visibility for a Mid-Size Automotive Supplier"
+client: "Mid-Size Brake Component Manufacturer"
+industry: "Automotive Tier 2"
+challenge: "Plant management relied on 24-hour delayed reports, making it impossible to identify and correct line downtime or quality issues during the active shift."
+solution: "A custom SQL-based data extraction pipeline feeding a Python ETL layer, visualized in real-time on a web dashboard directly on the shop floor."
+results: [
+  "OEE improved from 62% to 78% within 3 months",
+  "Unplanned downtime reduced by 35%",
+  "Daily production meetings shortened by 45 minutes"
+]
+date: "2024-02-19"
+---
+
+*Note: This case study is based on a composite scenario drawn from real manufacturing environments. Specific details have been modified to protect client confidentiality.*
+
+## The Challenge
+
+A 200-employee Tier 2 automotive supplier manufacturing brake components was struggling with a classic manufacturing problem: they were driving their operation looking exclusively in the rearview mirror.
+
+The plant ran a legacy instance of QAD ERP. While the system accurately tracked inventory and financials, production data entry was a manual process. Operators would write downtime codes and scrap counts on paper logs, which were then keyed into the ERP by a supervisor at the end of the shift.
+
+The next morning, the Plant Manager would review an Excel report detailing yesterday's performance. By the time they discovered that Line B had suffered four hours of micro-stops due to a faulty sensor, the damage was already done. The shift was lost, and production was behind schedule.
+
+They needed real-time visibility, but quotes for "Enterprise Manufacturing Execution Systems (MES)" were starting at €250,000—a budget impossible to justify for a plant of their size.
+
+## The NKJ Development Approach
+
+We proposed a lightweight, high-impact solution leveraging the data they already had, bypassing the need for a massive software deployment.
+
+### Step 1: Automated Data Extraction
+
+We wrote optimized SQL queries that polled the underlying Progress database of their QAD ERP. Instead of waiting for manual end-of-shift entries, we tied into the live machine state tables and material issue transactions.
+
+### Step 2: Python ETL Layer
+
+A lightweight Python script running on a local server aggregated this raw data every 60 seconds. It applied the plant's specific business logic to calculate:
+- Live OEE (Availability, Performance, Quality)
+- Current cycle time vs. Ideal cycle time
+- Scrap rate by defect type
+
+### Step 3: Real-Time Visualization
+
+We built a custom React dashboard—similar to the [Advanced Dashboard Preview](/dashboard)—and deployed it on inexpensive large-screen monitors above the production lines. 
+
+The dashboard was color-coded: green for on-target, yellow for warning, red for critical.
+
+## The Results
+
+The impact of making data visible to the people doing the work was immediate.
+
+When a line went into the "red" due to micro-stops, operators no longer waited for a supervisor; they called maintenance immediately because the scoreboard was visible to everyone. Maintenance response times dropped dramatically.
+
+Within three months of deploying the live dashboards:
+- **OEE improved from a baseline of 62% to 78%**, driven almost entirely by a reduction in undocumented micro-stops.
+- **Unplanned downtime decreased by 35%**, as chronic machine issues were highlighted and fixed rather than hidden in daily averages.
+- The morning production meeting, which previously involved 45 minutes of debating whose data was correct, became a **15-minute focused discussion** on root cause analysis.
+
+You don't need a €250,000 software suite to transform your factory floor. You just need your existing data, extracted intelligently, and visualized clearly.
+
+---
+
+*Is your production team flying blind until the end of the shift? [Schedule a free discovery call](/book) to see how we can extract live data from your existing ERP.*

@@ -1,0 +1,77 @@
+---
+title: "The 5 Most Common OEE Calculation Mistakes in Automotive Manufacturing"
+date: "2024-02-22"
+excerpt: "Overall Equipment Effectiveness is the gold standard for manufacturing productivity. But most Tier 1 suppliers are calculating it wrong. Here's how to fix your OEE data pipeline."
+tags: ["OEE", "Data Analytics", "Production"]
+---
+
+Overall Equipment Effectiveness (OEE) is the gold standard for measuring manufacturing productivity. Simply put, it identifies the percentage of manufacturing time that is truly productive. An OEE score of 100% means you are manufacturing only good parts, as fast as possible, with no stop time.
+
+In the automotive Tier 1 and Tier 2 space, where margins are razor-thin and JIT (Just-In-Time) delivery is mandatory, an accurate OEE score isn't a vanity metric—it's a survival requirement.
+
+However, after auditing dozens of manufacturing data pipelines across Europe, I've found that **more than 80% of automotive suppliers are calculating OEE incorrectly.**
+
+Here are the 5 most common mistakes and how to fix them.
+
+## 1. Excluding Changeovers from Planned Production Time
+
+**The Mistake:**
+Many plant managers argue, "Changeovers are a necessary evil. We shouldn't be penalized for them in our OEE score." So, they exclude changeover time from their Planned Production Time.
+
+**The Reality:**
+OEE is meant to highlight *all* losses. Changeover time is an Availability Loss. By excluding it, you are artificially inflating your OEE score and hiding a massive opportunity for improvement (e.g., implementing SMED - Single-Minute Exchange of Dies).
+
+**The Fix:**
+Planned Production Time should include all time the machine *could* be running. Exclude only scheduled facility shutdowns (like holidays or full-plant maintenance). Everything else, including changeovers and setups, is Availability Loss.
+
+## 2. Using "Average" Cycle Times for Performance Calculation
+
+**The Mistake:**
+When calculating the Performance metric (Ideal Cycle Time × Total Count / Operating Time), many systems use an *average* cycle time derived from historical data rather than the true *ideal* or *nameplate* capacity of the machine.
+
+**The Reality:**
+If a machine was designed to produce 60 parts per hour, but historically averages 45, using 45 as your baseline means your Performance score will look great (near 100%) even when the machine is underperforming its design capability.
+
+**The Fix:**
+Always use the Nameplate Capacity (Ideal Cycle Time) provided by the equipment manufacturer, or the theoretical maximum speed the process can run. Performance should measure how close you are to the absolute limit, not how close you are to historical mediocrity.
+
+## 3. Relying on Manual Downtime Logging
+
+**The Mistake:**
+Operators are required to manually write down the start and end times of machine faults on a piece of paper, which is later keyed into an Excel spreadsheet or legacy QMS.
+
+**The Reality:**
+Human beings are terrible at tracking micro-stops. A machine that jams for 45 seconds every 10 minutes will lose over an hour of production per shift, but no operator will log 60 individual 45-second stops. These micro-stops quietly destroy the Performance metric.
+
+**The Fix:**
+Direct PLC integration. Even older machines usually have a 24V relay that indicates "running" vs "fault." By connecting a simple edge gateway to these relays, you can automate downtime tracking down to the second. 
+
+## 4. Counting Reworked Parts as "Good" on the First Pass
+
+**The Mistake:**
+A part comes off the line with a defect. It is pulled aside, reworked, passes a secondary inspection, and is then counted in the "Good Parts" total for the shift.
+
+**The Reality:**
+OEE's Quality metric must measure **First Pass Yield (FPY)**. If a part requires rework, the time spent initially producing it was wasted, and the time spent reworking it is also wasted capacity. Counting reworked parts as "Good" artificially inflates the Quality score.
+
+**The Fix:**
+Quality = Good Parts (First Pass Only) / Total Parts Produced. Reworked parts must be tracked separately and should not contribute to the primary OEE Quality calculation.
+
+## 5. Siloing OEE Data from the ERP System
+
+**The Mistake:**
+OEE is tracked on a whiteboard next to the machine, or in an isolated SCADA system, completely disconnected from the ERP (like QAD or SAP) where production scheduling and costing occur.
+
+**The Reality:**
+If the ERP doesn't know the true OEE of a machine, it will schedule production based on flawed theoretical capacities. This leads to missed delivery dates, expedited freight costs, and chaos on the shop floor.
+
+**The Fix:**
+Build automated data pipelines that feed real-time OEE metrics back into the ERP's routing and capacity planning modules. 
+
+---
+
+## Stop Guessing, Start Measuring
+
+If your OEE is consistently sitting at 95%, you aren't world-class—your math is wrong. True OEE is harsh, unforgiving, and exactly what you need to uncover hidden capacity in your plant.
+
+*Want to see what a real-time, automated OEE dashboard looks like connected to actual production data? [Check out our interactive OEE Calculator demo](/demo/oee-calculator) or [book a discovery call](/book) to discuss your specific data challenges.*

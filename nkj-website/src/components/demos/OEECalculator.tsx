@@ -10,12 +10,27 @@ export default function OEECalculator() {
   const [quality, setQuality] = useState(95);
   const [oee, setOee] = useState(0);
   const [isUsingSampleData, setIsUsingSampleData] = useState(false);
+  const [isLiveMode, setIsLiveMode] = useState(false);
 
   useEffect(() => {
     // Calculate OEE: (A * P * Q) / 10000
     const calculatedOee = (availability * performance * quality) / 10000;
     setOee(calculatedOee);
   }, [availability, performance, quality]);
+
+  // Live Floor Simulation Effect
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isLiveMode) {
+      interval = setInterval(() => {
+        // Simulate minor fluctuations (-1.5% to +1.5%)
+        setAvailability(prev => Math.min(100, Math.max(0, prev + (Math.random() * 3 - 1.5))));
+        setPerformance(prev => Math.min(100, Math.max(0, prev + (Math.random() * 3 - 1.5))));
+        setQuality(prev => Math.min(100, Math.max(0, prev + (Math.random() * 1.5 - 0.75)))); // Quality fluctuates less
+      }, 2000);
+    }
+    return () => clearInterval(interval);
+  }, [isLiveMode]);
 
   const loadSampleData = () => {
     // Let's use the first item from sample data that has OEE
@@ -42,18 +57,41 @@ export default function OEECalculator() {
 
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-sm">
-      <div className="p-8 border-b border-slate-800 flex justify-between items-center">
+      <div className="p-8 border-b border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-slate-50 tracking-tight mb-2">Interactive OEE Calculator</h2>
-          <p className="text-sm text-slate-400">Adjust the metrics below or load sample data from our production dataset.</p>
+          <h2 className="text-2xl font-bold text-slate-50 tracking-tight mb-2 flex items-center gap-3">
+            Interactive OEE Calculator
+            {isLiveMode && (
+              <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium tracking-wide animate-pulse">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                LIVE
+              </span>
+            )}
+          </h2>
+          <p className="text-sm text-slate-400">Adjust the metrics below, load sample data, or enable live floor simulation.</p>
         </div>
-        <button
-          onClick={loadSampleData}
-          className="nkj-button-secondary text-sm px-4 py-2"
-          disabled={isUsingSampleData}
-        >
-          {isUsingSampleData ? 'Using Sample Data ✓' : 'Load Sample Data'}
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => {
+              setIsLiveMode(!isLiveMode);
+              if (!isLiveMode) setIsUsingSampleData(false);
+            }}
+            className={`text-sm px-4 py-2 rounded-lg font-medium transition-colors ${
+              isLiveMode 
+                ? 'bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700'
+                : 'bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20'
+            }`}
+          >
+            {isLiveMode ? 'Stop Live Mode' : 'Start Live Mode'}
+          </button>
+          <button
+            onClick={loadSampleData}
+            className="nkj-button-secondary text-sm px-4 py-2"
+            disabled={isUsingSampleData || isLiveMode}
+          >
+            {isUsingSampleData ? 'Using Sample Data ✓' : 'Load Sample Data'}
+          </button>
+        </div>
       </div>
 
       <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -77,7 +115,8 @@ export default function OEECalculator() {
                 setAvailability(parseFloat(e.target.value));
                 setIsUsingSampleData(false);
               }}
-              className="w-full accent-emerald-500 cursor-pointer"
+              disabled={isLiveMode}
+              className={`w-full accent-emerald-500 ${isLiveMode ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
             />
           </div>
 
@@ -99,7 +138,8 @@ export default function OEECalculator() {
                 setPerformance(parseFloat(e.target.value));
                 setIsUsingSampleData(false);
               }}
-              className="w-full accent-sky-500 cursor-pointer"
+              disabled={isLiveMode}
+              className={`w-full accent-sky-500 ${isLiveMode ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
             />
           </div>
 
@@ -121,7 +161,8 @@ export default function OEECalculator() {
                 setQuality(parseFloat(e.target.value));
                 setIsUsingSampleData(false);
               }}
-              className="w-full accent-indigo-500 cursor-pointer"
+              disabled={isLiveMode}
+              className={`w-full accent-indigo-500 ${isLiveMode ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
             />
           </div>
 
@@ -131,20 +172,30 @@ export default function OEECalculator() {
             <div className="grid grid-cols-2 gap-4">
               <button
                 onClick={() => {
-                  setAvailability(Math.min(100, availability + 5));
-                  setIsUsingSampleData(false);
+                  if (!isLiveMode) {
+                    setAvailability(Math.min(100, availability + 5));
+                    setIsUsingSampleData(false);
+                  }
                 }}
-                className="bg-slate-950 border border-slate-800 hover:border-slate-700 p-4 rounded-lg text-left transition-colors"
+                disabled={isLiveMode}
+                className={`bg-slate-950 border border-slate-800 p-4 rounded-lg text-left transition-colors ${
+                  isLiveMode ? 'opacity-50 cursor-not-allowed' : 'hover:border-slate-700'
+                }`}
               >
                 <div className="text-emerald-400 text-lg mb-1">+5%</div>
                 <div className="text-xs font-medium text-slate-300">Reduce Downtime</div>
               </button>
               <button
                 onClick={() => {
-                  setQuality(Math.min(100, quality + 2));
-                  setIsUsingSampleData(false);
+                  if (!isLiveMode) {
+                    setQuality(Math.min(100, quality + 2));
+                    setIsUsingSampleData(false);
+                  }
                 }}
-                className="bg-slate-950 border border-slate-800 hover:border-slate-700 p-4 rounded-lg text-left transition-colors"
+                disabled={isLiveMode}
+                className={`bg-slate-950 border border-slate-800 p-4 rounded-lg text-left transition-colors ${
+                  isLiveMode ? 'opacity-50 cursor-not-allowed' : 'hover:border-slate-700'
+                }`}
               >
                 <div className="text-indigo-400 text-lg mb-1">+2%</div>
                 <div className="text-xs font-medium text-slate-300">Reduce Scrap</div>
