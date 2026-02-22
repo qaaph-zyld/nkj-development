@@ -42,3 +42,18 @@ jobs:
         env:
           NEXT_PUBLIC_UMAMI_WEBSITE_ID: dummy-id-for-build
           NEXT_PUBLIC_UMAMI_URL: https://dummy-url.com/script.js
+
+      - name: Deploy to Netlify
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: 'nkj-website/out'
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-github-deployment: true
+          github-deployment-environment: "Production"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
