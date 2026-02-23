@@ -7,19 +7,24 @@
     <meta name="description" content="Enterprise-grade supply chain optimization for European retailers and manufacturers. SQL-based solutions, inventory management, and predictive analytics.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&family=Jost:wght@600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --midnight-grove: #0A1A0F;
-            --forest-deep: #1B4332;
-            --emerald-core: #2D5A3D;
-            --verdant-active: #40916C;
-            --sage-bright: #52B788;
-            --mint-accent: #74C69D;
-            --pearl-primary: #F8F9FA;
-            --charcoal-text: #212529;
+            /* Primary Brand Colors */
+            --midnight-grove: #0A0E27; /* Primary Dark */
+            --midnight-grove-rgb: 10, 14, 39;
+            --forest-deep: #0A0E27; /* Replacing forest-deep with primary dark for consistency */
+            --emerald-core: #0A0E27; 
+            --verdant-active: #00D26A; /* Accent Green */
+            --verdant-active-rgb: 0, 210, 106;
+            --sage-bright: #00D26A; /* Accent Green */
+            --mint-accent: #00D26A; /* Accent Green */
+            --pearl-primary: #FFFFFF; /* Secondary */
+            --charcoal-text: #0A0E27;
+            
+            /* Feedback Colors */
             --gold-highlight: #FFB800;
-            --success-green: #10B981;
+            --success-green: #00D26A;
             --warning-amber: #F59E0B;
         }
         
@@ -38,10 +43,18 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             line-height: 1.6;
             color: var(--pearl-primary);
-            background: linear-gradient(135deg, var(--midnight-grove) 0%, var(--forest-deep) 100%);
+            background: var(--midnight-grove);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6, .logo {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .stat-number {
+            font-family: 'Jost', sans-serif;
         }
         
         .container {
@@ -57,9 +70,9 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            background: rgba(10, 26, 15, 0.95);
+            background: rgba(var(--midnight-grove-rgb), 0.95);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.3s ease;
         }
         
@@ -130,10 +143,23 @@
             right: 0;
             bottom: 0;
             background: 
-                radial-gradient(circle at 25% 25%, rgba(64, 145, 108, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(45, 90, 61, 0.1) 0%, transparent 60%),
-                linear-gradient(135deg, rgba(27, 67, 50, 0.3) 0%, transparent 70%);
+                radial-gradient(circle at 25% 25%, rgba(var(--verdant-active-rgb), 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(var(--verdant-active-rgb), 0.05) 0%, transparent 60%);
             z-index: -1;
+        }
+        
+        /* Diamond Background Elements */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 800px;
+            height: 800px;
+            background: linear-gradient(135deg, rgba(var(--verdant-active-rgb), 0.05), transparent);
+            transform: rotate(45deg);
+            z-index: -2;
+            border-radius: 40px;
         }
         
         .hero-content {
@@ -175,16 +201,18 @@
             align-items: center;
             gap: 0.75rem;
             padding: 1.2rem 2.5rem;
-            background: linear-gradient(135deg, var(--verdant-active), var(--sage-bright));
-            color: var(--pearl-primary);
+            background: var(--verdant-active);
+            color: var(--midnight-grove);
             text-decoration: none;
-            border-radius: 60px;
-            font-weight: 600;
+            border-radius: 4px; /* Sharper geometric corners */
+            font-weight: 700;
             font-size: 1.1rem;
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(64, 145, 108, 0.3);
+            box-shadow: 0 10px 30px rgba(var(--verdant-active-rgb), 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .cta-primary::before {
@@ -199,8 +227,9 @@
         }
         
         .cta-primary:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(64, 145, 108, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(var(--verdant-active-rgb), 0.4);
+            background: #00E676; /* Slightly brighter on hover */
         }
         
         .cta-primary:hover::before {
@@ -216,16 +245,34 @@
         }
         
         .stat-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px; /* Geometric shape */
+            padding: 2.5rem 2rem;
             text-align: center;
             transition: all 0.4s ease;
             cursor: pointer;
             position: relative;
             overflow: hidden;
+        }
+        
+        /* Diamond accents on cards */
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 8px;
+            height: 8px;
+            background: var(--verdant-active);
+            transform: rotate(45deg);
+            opacity: 0.3;
+            transition: opacity 0.4s ease;
+        }
+        
+        .stat-card:hover::after {
+            opacity: 1;
         }
         
         .stat-card::before {
@@ -234,8 +281,8 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--verdant-active), var(--sage-bright));
+            height: 2px;
+            background: var(--verdant-active);
             transform: scaleX(0);
             transition: transform 0.4s ease;
         }
@@ -245,9 +292,10 @@
         }
         
         .stat-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(var(--verdant-active-rgb), 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(var(--verdant-active-rgb), 0.1);
         }
         
         .stat-number {
@@ -269,7 +317,8 @@
         /* Services */
         .services-section {
             padding: 8rem 0;
-            background: linear-gradient(180deg, transparent 0%, rgba(27, 67, 50, 0.2) 100%);
+            background: rgba(var(--midnight-grove-rgb), 0.98);
+            position: relative;
         }
         
         .section-header {
@@ -281,10 +330,7 @@
             font-size: clamp(2.2rem, 4vw, 3.2rem);
             font-weight: 700;
             margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--pearl-primary), var(--sage-bright));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--pearl-primary);
         }
         
         .section-subtitle {
@@ -302,9 +348,9 @@
         }
         
         .service-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px; /* Geometric shape */
             padding: 3rem;
             transition: all 0.4s ease;
             position: relative;
@@ -317,8 +363,8 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--verdant-active), var(--sage-bright));
+            height: 2px;
+            background: var(--verdant-active);
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 0.4s ease;
@@ -329,22 +375,62 @@
         }
         
         .service-card:hover {
-            transform: translateY(-12px);
-            background: rgba(255, 255, 255, 0.06);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(var(--verdant-active-rgb), 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(var(--verdant-active-rgb), 0.1);
+        }
+        
+        .service-card::after {
+            content: '';
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 12px;
+            height: 12px;
+            border: 2px solid var(--verdant-active);
+            transform: rotate(45deg);
+            opacity: 0.2;
+            transition: all 0.4s ease;
+        }
+        
+        .service-card:hover::after {
+            opacity: 1;
+            background: var(--verdant-active);
         }
         
         .service-icon {
             width: 70px;
             height: 70px;
-            background: linear-gradient(135deg, var(--verdant-active), var(--sage-bright));
-            border-radius: 18px;
+            background: rgba(var(--verdant-active-rgb), 0.1);
+            border: 1px solid rgba(var(--verdant-active-rgb), 0.3);
+            border-radius: 8px; /* Geometric */
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 2rem;
             font-size: 2rem;
-            box-shadow: 0 10px 25px rgba(64, 145, 108, 0.3);
+            color: var(--verdant-active);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .service-icon::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 1px solid var(--verdant-active);
+            border-radius: 10px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover .service-icon::before {
+            opacity: 0.3;
+            transform: scale(1.1);
         }
         
         .service-title {
@@ -364,7 +450,9 @@
         /* Market Section */
         .market-section {
             padding: 8rem 0;
-            background: linear-gradient(135deg, rgba(10, 26, 15, 0.8) 0%, rgba(27, 67, 50, 0.6) 100%);
+            background: linear-gradient(135deg, rgba(var(--midnight-grove-rgb), 0.9) 0%, rgba(var(--verdant-active-rgb), 0.05) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         
         .market-grid {
@@ -409,17 +497,32 @@
         }
         
         .market-visual {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px; /* Geometric */
             padding: 3rem;
             backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+        
+        /* Diamond background for market visual */
+        .market-visual::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(var(--verdant-active-rgb), 0.1), transparent);
+            transform: translate(-50%, -50%) rotate(45deg);
+            z-index: -1;
+            border-radius: 20px;
         }
         
         /* Contact Section */
         .contact-section {
             padding: 8rem 0;
-            background: linear-gradient(135deg, var(--forest-deep) 0%, var(--midnight-grove) 100%);
+            background: var(--midnight-grove);
         }
         
         .contact-grid {
@@ -442,27 +545,30 @@
             gap: 1.5rem;
             margin-bottom: 2rem;
             padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px; /* Geometric */
+            border: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.3s ease;
         }
         
         .contact-item:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
             transform: translateX(10px);
+            border-color: rgba(var(--verdant-active-rgb), 0.3);
         }
         
         .contact-icon {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, var(--verdant-active), var(--sage-bright));
-            border-radius: 12px;
+            background: rgba(var(--verdant-active-rgb), 0.1);
+            border: 1px solid rgba(var(--verdant-active-rgb), 0.3);
+            border-radius: 8px; /* Geometric */
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
             flex-shrink: 0;
+            color: var(--verdant-active);
         }
         
         .contact-details h3 {
@@ -488,11 +594,23 @@
         
         /* Contact Form */
         .contact-form {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px; /* Geometric */
             padding: 3rem;
             backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+        
+        /* Diamond accents on form */
+        .contact-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--verdant-active);
         }
         
         .contact-form h3 {
@@ -518,9 +636,9 @@
         .form-group select {
             width: 100%;
             padding: 1rem;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px; /* Sharper inputs */
             color: var(--pearl-primary);
             font-size: 1rem;
             transition: all 0.3s ease;
@@ -542,19 +660,22 @@
         .btn-submit {
             width: 100%;
             padding: 1.2rem;
-            background: linear-gradient(135deg, var(--verdant-active), var(--sage-bright));
-            color: var(--pearl-primary);
+            background: var(--verdant-active);
+            color: var(--midnight-grove);
             border: none;
-            border-radius: 12px;
+            border-radius: 4px; /* Geometric */
             font-size: 1.1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(64, 145, 108, 0.3);
+            box-shadow: 0 10px 25px rgba(var(--verdant-active-rgb), 0.3);
+            background: #00E676;
         }
         
         .form-status {
@@ -579,9 +700,9 @@
         
         /* Footer */
         .footer {
-            background: var(--midnight-grove);
+            background: #060814; /* Slightly darker than primary dark */
             padding: 4rem 0 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
         
         .footer-content {
